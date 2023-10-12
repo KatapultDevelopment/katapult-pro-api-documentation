@@ -17,10 +17,22 @@ Responses returned from the API directly will have a JSON format. This will make
     "message": "OK"
 }
 ```
+**Response to Invalid API Key**
+```json
+{
+    "error": "INVALID API KEY"
+}
+```
 **Response to Welcome Message**
 ```json
 {
     "message": "Welcome to the Katapult Pro API"
+}
+```
+** Bad response to GET Job Data**
+```json
+{
+    "error": "PERMISSION_DENIED"
 }
 ```
 ***Error Response (500)***
@@ -51,7 +63,6 @@ Similar to Connection and Node. The Section ID in the example below is --MJ93Sdt
 
 //katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/s-MJ93SdtSMBWcCWdRBFN:midpoint_section
 
-<!-- # Version Specific Documentation
-- [Katapult Pro API V1](https://github.com/KatapultMakerspace/InternWiki/blob/main/Setup_Codespaces.md).
-
-- [Katapult Pro API V2](https://github.com/KatapultMakerspace/InternWiki/blob/main/Git_branch%20and%20pull%20request%20guide.md). -->
+# Version Specific Documentation
+# * Katapult Pro API V1
+# * [Katapult Pro API V2](v2/DocumentationV2.MD)

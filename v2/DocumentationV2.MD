@@ -1,5 +1,10 @@
 # Katapult Pro V2 Documentation
 
+## API Key Generation
+The Katapult Pro API key is available for users to generate locally. To generate your own user authenticated API Key you must have permissions setup to do so by your company Admin. Your company Admin should be able to go to the /Admin page available to them in Katapult Pro and choose to grant you access. Once they have done so the user should navigate to their /Home directory in Katapult Pro by either entering the url https://katapultpro.com/home or selecting waffle menu dropdown and selecting home. If you are arriving at the home screen for the first time it is unlikely you have anything showing on the page or perhaps a message that states "It's feeling lonely" message. If this is the case go to the configuration menu and select the widget from the tray. 
+![API Widget](/img/Widget.png)
+
+
 ## Rate limit
 You may make 100 concurrent requests at any one time per API key. If you hit the concurrent requests limit two times within 5 minutes, your calls to the API will be strictly limited for 5 minutes.
 
