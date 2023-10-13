@@ -64,5 +64,5 @@ Similar to Connection and Node. The Section ID in the example below is --MJ93Sdt
 //katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/s-MJ93SdtSMBWcCWdRBFN:midpoint_section
 
 # Version Specific Documentation
-# * Katapult Pro API V1
-# * [Katapult Pro API V2](v2/DocumentationV2.MD)
+# Katapult Pro API V1
+# [Katapult Pro API V2](v2/DocumentationV2.MD)

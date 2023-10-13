@@ -15,14 +15,16 @@ If the API Key area appears blank then it is the first time that a key is to be 
 
 
 ## Rate limit
-You may make 100 concurrent requests at any one time per API key. If you hit the concurrent requests limit two times within 5 minutes, your calls to the API will be strictly limited for 5 minutes.
+The Katapult Pro API V2 incorporates a throttling mechanism which limits the users back to back calls to the API. Currently the default timeout has been set to two seconds. What this means is that after the first call to the API the user must wait two seconds before executing the next call. Currently, the time base for this setting is in seconds with a low end to be equal to one. 
 
+
+## Baseline Url
 If running on a private server, include the sub-domain of your private server before katapultpro.com.
 
-Ex: katapultpro.com/api/jobs -> .katapultpro.com/api/jobs
+Ex: katapultpro.com/api/v2/jobs -> katapultpro.com/api/v2/jobs
 
 # GET Welcome Message
-***Message:*** ***_katapultpro.com/api_***
+***Message:*** ***_katapultpro.com/api/v2_***
 
 ***Welcome to the Katapult Pro API***
 
@@ -37,7 +39,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api',
+  url: 'katapultpro.com/api/v2',
   headers: { },
   data : data
 };
@@ -55,6 +57,131 @@ axios(config)
 {
     "message": "Welcome to the Katapult Pro API V2"
 }
+```
+
+# <font color="green">GET</font> User List
+katapultpro.com/api/v2/users?api_key={{api-key}}
+A GET request to /users will return all of the users within your company.
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+
+***Example User List Request***
+```java
+var axios = require('axios');
+
+var config = {
+  method: 'get',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/users?api_key={{api-key}}',
+  headers: { }
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+```
+***Request***
+```json
+{
+    "rqtVnITNGsOZg1NPq1yv1tnICoX2": {
+        "address": {
+            "city": "",
+            "state": "",
+            "street_line_1": "",
+            "street_line_2": "",
+            "zip": ""
+        },
+        "api_access": true,
+        "creation_date": 1672929589000,
+        "email": "jsmith@company.com",
+        "last_active": 1694791391367,
+        "name": {
+            "first": "John",
+            "last": "Smith"
+        },
+        "phone_number": "",
+        "read_permission": true,
+        "roles": {
+            "photoheight": {
+                "company": "Company",
+                "company_admin": true,
+                "permissions": {
+                    "model_editor_read_access": true,
+                    "model_editor_write_access": true
+                }
+            }
+        },
+        "write_permission": true
+    }
+}
+```
+
+
+# <font color="green">GET</font> Job List
+***Message:*** ***_katapultpro.com/api/v2/jobs?orderByChild=status/name&equalTo=archived/active/job name&api_key={{api-key}}_***
+A GET request to /jobs will return a list of all jobs for your company.
+
+The orderByChild and equalTo query parameters can be used to filter the job list to only jobs that have a certain status or name.
+
+For example, by setting `orderByChild` to "status" and equalTo to "active" a list of all active jobs is returned.
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| orderByChild | status/name- Two sorting methods can be selected. Order or sort by Job Name or Job Status  |
+| equalTo | archived/active/job name - Provide a sorting criteria of achived, active, or Job name base on orderByChild setting.  |
+| api_key   | {{api-key}} Your API key with the braces removed |
+
+***Example Get Job List ***
+```java
+var axios = require('axios');
+var data = '';
+
+var config = {
+  method: 'get',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs?orderByChild=name&equalTo=Test Job&api_key={{api-key}}',
+  headers: { },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
+
+***Response***
+```java
+{
+    "-Lmz77ZC6bIjCMToOBXy": {
+        "name": "ALS test",
+        "status": "active"
+    },
+    "-MDH3uOAmjd1oJq8cTJy": {
+        "name": "JDC Test Export",
+        "status": "active"
+    },
+    "-N5H0mh0ZEG6zVt5EnyH": {
+        "name": "AED Functions Test",
+        "status": "active"
+    },
+    "-N5g7Ny29QKTVSkv2oph": {
+        "name": "TOS Test",
+        "status": "active"
+    },
+
 ```
 
 # <font color="green">GET</font> Get Job Data
