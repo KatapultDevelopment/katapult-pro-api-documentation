@@ -1,11 +1,13 @@
 # Katapult Pro V2 Documentation
 
 ## API Key Generation
-The Katapult Pro API key is available for users to generate locally. To generate your own user authenticated API Key you must have permissions setup to do so by your company Admin. Your company Admin should be able to go to the /Admin page available to them in Katapult Pro and choose to grant you access. Once they have done so the user should navigate to their /Home directory in Katapult Pro by either entering the url https://katapultpro.com/home or selecting waffle menu dropdown and selecting home. If you are arriving at the home screen for the first time it is unlikely you have anything showing on the page or perhaps a message that states "It's feeling lonely" message. If this is the case go to the configuration menu and select the widget from the tray. 
+The Katapult Pro API key is available for users to generate locally. To generate your own user authenticated API Key, you must have permissions setup to do so by your company Admin. Your company Admin should be able to go to the /Admin page available to them in Katapult Pro and choose to grant you access. Once they have done so, the user should navigate to their /Home directory in Katapult Pro by either entering the url https://katapultpro.com/home or selecting the App Tray menu and selecting Home. If you are arriving at the home screen for the first time, it is unlikely you have anything showing on the page or perhaps there’s a message that states "It's feeling lonely.” If this is the case, go to the configuration menu and select the widget from the tray.
+ 
 
 ![API Widget](https://github.com/KatapultDevelopment/katapult-pro-api-documentation/blob/main/v2/img/Widget.png)
 
-If the API Key area appears blank then it is the first time that a key is to be generated. If the Generate Key button is push a key will be generated for you. After generating your key you can either select Copy Key or highlite the key data and the paste into your application. For security reasons there is a 10 second timeout on viewing your key. Once it expires you will see a button called View API Key. Clicking this button will allow you to view your key again for another 10 second timeout. If your key has been compromised you can regenerate a new one at any time. 
+If the API Key area appears blank, then it is the first time that a key is to be generated. If the Generate Key button is pushed, a key will be generated for you. After generating your key, you can either select “Copy Key” or highlight the key data and the paste into your application. For security reasons, there is a 10 second timeout on viewing your key. Once it expires, you will see a button called “View API Key.” Clicking this button will allow you to view your key again for another 10 second timeout. If your key has been compromised, you can regenerate a new one at any time.
+
 
 ***Generation Dialog***
 ![Widget Dialog](https://github.com/KatapultDevelopment/katapult-pro-api-documentation/blob/main/v2/img/WidgetDialog.png)
@@ -15,7 +17,7 @@ If the API Key area appears blank then it is the first time that a key is to be 
 
 
 ## Rate limit
-The Katapult Pro API V2 incorporates a throttling mechanism which limits the users back to back calls to the API. Currently the default timeout has been set to two seconds. What this means is that after the first call to the API the user must wait two seconds before executing the next call. Currently, the time base for this setting is in seconds with a low end to be equal to one. 
+The Katapult Pro API V2 incorporates a throttling mechanism which limits the user’s back-to-back calls to the API. Currently, the default timeout has been set to two seconds. What this means is that after the first call to the API, the user must wait two seconds before executing the next call. Currently, the time base for this setting is in seconds with a low end to be equal to one. 
 
 
 ## Baseline Url
@@ -131,13 +133,13 @@ A GET request to /jobs will return a list of all jobs for your company.
 
 The orderByChild and equalTo query parameters can be used to filter the job list to only jobs that have a certain status or name.
 
-For example, by setting `orderByChild` to "status" and equalTo to "active" a list of all active jobs is returned.
+For example, by setting `orderByChild` to "status" and `equalTo` to "active," a list of all active jobs is returned.
 
 ***Query Params***
 | Parameter | Description |
 | --------- | ----------- |
 | orderByChild | status/name- Two sorting methods can be selected. Order or sort by Job Name or Job Status  |
-| equalTo | archived/active/job name - Provide a sorting criteria of achived, active, or Job name base on orderByChild setting.  |
+| equalTo | archived/active/job name - Provide a sorting criteria of archived, active, or Job name based on orderByChild setting.  |
 | api_key   | {{api-key}} Your API key with the braces removed |
 
 ***Example Get Job List ***
@@ -184,14 +186,14 @@ axios(config)
 
 ```
 
-# <font color="green">GET</font> Get Job Data
+# <font color="green">GET</font> Job Data
  ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId?api_key={{api-key}}_***
 
-A GET request to a job will return the data for that job. Currently, the layer data has been omitted from the JSON data returned in the API response. The layer data can be to large for the response body. 
+A GET request to a job will return the data for that job. Currently, the layer data has been omitted from the JSON data returned in the API response. The layer data can be too large for the response body.
 
 Visit this link to see the structure for job data: https://katapultpro.com/schema/job.json The data received in the API response body will contain all or some of the data as outlined in the link. This will be dependent on that data contained in each node, connection, etc.. in the job ID requested.
 
-You can optionally include the _include_proposed_midspan_heights_ query parameter with a value of true to include calculated proposed heights for midspan wire objects in the output. 
+You can optionally include the _include_proposed_midspan_heights_ query parameter with a value of “true” to include calculated proposed heights for midspan wire objects in the output.
 
 The  _api_proposed_height_  key will be added to midspan wire objects in either of these cases:
 
@@ -199,6 +201,7 @@ The  _api_proposed_height_  key will be added to midspan wire objects in either 
 * The midspan wire is moved - either by a make ready move on the wire itself or by a move on a pole at either end of the connection.
 
 The value for  _api_proposed_height_  is the calculated proposed height for the midspan wire in inches.
+
 
 ***Query Params***
 | Parameter | Description |
@@ -271,7 +274,7 @@ axios.request(config)
 }
 ```
 
-# <font color="green">GET</font> Get Partial Job Data
+# <font color="green">GET</font> Partial Job Data
 katapultpro.com/api/jobs/:jobId/:paths?api_key={{api-key}}
 
 A GET request to a job with a list of paths included after the job ID will return the data at the specified paths for that job. You can include one path, or up to 10 paths separated by commas. Each path can have multiple path components, each separated with a forward slash.
