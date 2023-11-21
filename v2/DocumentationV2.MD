@@ -138,14 +138,15 @@ A GET request to /jobs will return a list of all jobs for your company.
 
 The orderByChild and equalTo query parameters can be used to filter the job list to only jobs that have a certain status or name.
 
-For example, by setting `orderByChild` to "status" and `equalTo` to "active," a list of all active jobs is returned.
+For example, by setting `orderByChild` to "status" and `equalTo` to "active," a list of all jobs with a status of "active" are returned.
+Another example is setting `orderByChild` to "name" and `equalTo` to "Test Job". In this case, the job with the name "Test Job" is returned.
 
 ***Query Params***
 | Parameter | Description |
 | --------- | ----------- |
-| orderByChild | status/name- Two sorting methods can be selected. Order or sort by Job Name or Job Status  |
-| equalTo | archived/active/job name - Provide a sorting criteria of archived, active, or Job name based on orderByChild setting.  |
-| api_key   | {{api-key}} Your API key with the braces removed |
+| orderByChild | status/name - Two sorting methods can be selected. Order or sort by Job Name or Job Status |
+| equalTo | Return items equal to the specified key or value, depending on the order-by method chosen (either status or name) |
+| api_key | {{api-key}} Your API key with the braces removed |
 
 ***Example Get Job List***
 ```java
