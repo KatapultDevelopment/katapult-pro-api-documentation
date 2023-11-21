@@ -30,7 +30,12 @@ Ex: katapultpro.com/api/v2/jobs -> katapultpro.com/api/v2/jobs
 
 ***Welcome to the Katapult Pro API***
 
-A simple API GET request is provided to allow the user to test basic API access. This request can be used to test your basic starter application with or without API Key to ensure the subscription is active and your "Welcome Message" API request is working before moving on to more complex requests.
+A simple API GET request is provided to allow the user to test basic API access. This request can be used to test your basic starter application to ensure the subscription is active and your "Welcome Message" API request is working before moving on to more complex requests.
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
 
 ***Example Welcome Message Request***
 
@@ -41,7 +46,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2',
+  url: 'katapultpro.com/api/v2?api_key={{api-key}}',
   headers: { },
   data : data
 };
