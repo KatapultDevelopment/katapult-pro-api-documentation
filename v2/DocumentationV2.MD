@@ -25,7 +25,7 @@ If running on a private server, include the sub-domain of your private server be
 
 Ex: katapultpro.com/api/v2/jobs -> katapultpro.com/api/v2/jobs
 
-# GET Welcome Message
+# <span style="color: green;">GET</span> Welcome Message
 ***Message:*** ***_katapultpro.com/api/v2?api_key={{api-key}}_***
 
 ***Welcome to the Katapult Pro API***
