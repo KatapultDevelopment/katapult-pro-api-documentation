@@ -147,7 +147,7 @@ For example, by setting `orderByChild` to "status" and `equalTo` to "active," a 
 | equalTo | archived/active/job name - Provide a sorting criteria of archived, active, or Job name based on orderByChild setting.  |
 | api_key   | {{api-key}} Your API key with the braces removed |
 
-***Example Get Job List ***
+***Example Get Job List***
 ```java
 var axios = require('axios');
 var data = '';
