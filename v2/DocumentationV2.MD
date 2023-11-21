@@ -202,12 +202,12 @@ The value for  _api_proposed_height_  is the calculated proposed height for the 
 | Parameter | Description |
 | --------- | ----------- |
 | api_key   | {{api-key}} Your API key with the braces removed |
-| include_proposed_midspan_heights | true Include this define based on if proposed midspan hieghts are required. |
+| include_proposed_midspan_heights | true Include this if proposed midspan heights are required. |
 
 ***Path Variables***
 | Variable | Description |
 | --------- | ----------- |
-| jobId | Your valid JobID |
+| jobId | Your valid Job ID |
 
 ***Example Get Job Data: Basic Request***
 
