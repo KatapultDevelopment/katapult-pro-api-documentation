@@ -284,7 +284,7 @@ Visit this link to see the structure for job data: https://katapultpro.com/schem
 | Parameter | Description |
 | --------- | ----------- |
 | api_key   | {{api-key}} Your API key with the braces removed |
-| jobId | Your valid JobID |
+| jobId | Your valid Job ID |
 | paths | A comma separated list of paths that should be fetched from the job |
 
 ***Example Get Partial Job Data: Nodes***
