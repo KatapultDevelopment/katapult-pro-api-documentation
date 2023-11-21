@@ -186,7 +186,7 @@ axios(config)
 
 A GET request to a job will return the data for that job. Currently, the layer data has been omitted from the JSON data returned in the API response. The layer data can be too large for the response body.
 
-Visit this link to see the structure for job data: https://katapultpro.com/schema/job.json The data received in the API response body will contain all or some of the data as outlined in the link. This will be dependent on that data contained in each node, connection, etc.. in the job ID requested.
+Visit this link to see the structure for job data: https://katapultpro.com/schema/job.json The data received in the API response body will contain all or some of the data as outlined in the link. This will be dependent on that data contained in each node, connection, etc. in the job ID requested.
 
 You can optionally include the _include_proposed_midspan_heights_ query parameter with a value of “true” to include calculated proposed heights for midspan wire objects in the output.
 
@@ -274,7 +274,7 @@ axios.request(config)
 
 A GET request to a job with a list of paths included after the job ID will return the data at the specified paths for that job. You can include one path, or up to 10 paths separated by commas. Each path can have multiple path components, each separated with a forward slash.
 
-For example, to fetch all nodes in a job, your path after the job ID should be nodes. To fetch data for a specific node, your path should be nodes/{node_id}. To fetch data for a specific node and the job name, your path list should be node/{node_id},name.
+For example, to fetch all nodes in a job your path after the job ID should be "nodes". To fetch data for a specific node, your path should be "nodes/{node_id}". To fetch data for a specific node and the job name, your path list should be "node/{node_id},name".
 
 If you only include one path, only the data at that path will be returned. If you include multiple paths, a JSON object will be returned. The keys of the returned object will be the paths you requested, regardless if there is data in the job at those paths or not. The values for those keys will be the data at those paths. If there is no data at a path requested, the value will be null.
 
@@ -287,7 +287,7 @@ Visit this link to see the structure for job data: https://katapultpro.com/schem
 | jobId | Your valid JobID |
 | paths | A comma separated list of paths that should be fetched from the job |
 
-***Example Get Partial Job Data: Bodes***
+***Example Get Partial Job Data: Nodes***
 
 ```java
 var axios = require('axios');
