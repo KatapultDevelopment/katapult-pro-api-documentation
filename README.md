@@ -2,7 +2,7 @@
 ***Welcome to the Katapult Pro API!***
 
 ## Introduction
-“What is an API?” API is the acronym for application programming interface — a software intermediary that allows a user to programmatically access the backend of a PC/Web-based application without using the frontend user interface. Typically, applications have a backend engine that allows for easy storage, search, and manipulation of data of which a frontend application is added to provide a user-friendly interface for day-to-day data entry. In our case, Katapult has provided an API that allows users to access their company firebase data without the use of the Katapult Pro frontend.
+“What is an API?” API is an acronym for application programming interface — a software intermediary that allows a user to programmatically access the backend of a PC/Web-based application without using the frontend user interface. Typically, applications have a backend engine that allows for easy storage, search, and manipulation of data of which a frontend application is added to provide a user-friendly interface for day-to-day data entry. In our case, Katapult has provided an API that allows users to access their company firebase data without the use of the Katapult Pro frontend.
 
 ## Usage
 Customers use the API in order to facilitate operations required to programmatically manipulate their company firebase database in many ways. Here are some examples to note that make this powerful for our users. 
@@ -44,7 +44,7 @@ Responses returned from the API directly will have a JSON format. This will make
 Server error codes, like 500, that do not have an associated JSON response indicates that your request has not made it to the API interface. This error has not been returned by the API and is likely an error in handling the transmission of the API call.
 
 ## Job ID
-Theuser can open a Katapult Pro job and look to the url to obtain the actual JobId. In the example below, the JobId is “-MWjCEDgYy9qzw2zZ2dc,” which is the ID after the ‘#’ sign in the url.
+The user can open a Katapult Pro job and look to the url to obtain the actual Job ID. In the example below, the Job ID is “-MWjCEDgYy9qzw2zZ2dc,” which is the ID after the ‘#’ sign in the url.
 
 //katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc
 
@@ -54,7 +54,7 @@ The Node ID can be derived by using the same method above. The Node ID in the ex
 //katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/n-MTLZaZZiv_iMOEKc70T
 
 ## Connection ID
-The Connect ID is similar to Node ID. The Connection ID in the example below is “-MJ93SdtSMBWcCWdRBFN,” which is the ID after the ‘c’ in the url.
+The Connection ID is similar to Node ID. The Connection ID in the example below is “-MJ93SdtSMBWcCWdRBFN,” which is the ID after the ‘c’ in the url.
 
 //katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/c-MJ93SdtSMBWcCWdRBFN
 
@@ -64,6 +64,6 @@ Similar to Connection and Node, the Section ID in the example below is “-MJ93S
 //katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/s-MJ93SdtSMBWcCWdRBFN:midpoint_section
 
 # Version Specific Documentation
-# Katapult Pro API V1
+# [Katapult Pro API V1](https://documenter.getpostman.com/view/9081167/SVtVV93W)
 # [Katapult Pro API V2](v2/DocumentationV2.MD)
 
