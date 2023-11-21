@@ -25,7 +25,7 @@ If running on a private server, include the sub-domain of your private server be
 
 Ex: katapultpro.com/api/v2/jobs -> katapultpro.com/api/v2/jobs
 
-# <span style="color: green;">GET</span> Welcome Message
+# GET Welcome Message
 ***Message:*** ***_katapultpro.com/api/v2?api_key={{api-key}}_***
 
 ***Welcome to the Katapult Pro API***
@@ -66,7 +66,7 @@ axios(config)
 }
 ```
 
-# <font color="green">GET</font> User List
+#GET User List
 ***Message:*** ***_katapultpro.com/api/v2/users?api_key={{api-key}}_***
 A GET request to /users will return all of the users within your company.
 
@@ -132,7 +132,7 @@ axios(config)
 ```
 
 
-# <font color="green">GET</font> Job List
+#GET Job List
 ***Message:*** ***_katapultpro.com/api/v2/jobs?orderByChild=status/name&equalTo=archived/active/job name&api_key={{api-key}}_***
 A GET request to /jobs will return a list of all jobs for your company.
 
@@ -191,7 +191,7 @@ axios(config)
 
 ```
 
-# <font color="green">GET</font> Job Data
+#GET Job Data
  ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId?api_key={{api-key}}_***
 
 A GET request to a job will return the data for that job. Currently, the layer data has been omitted from the JSON data returned in the API response. The layer data can be too large for the response body.
@@ -279,7 +279,7 @@ axios.request(config)
 }
 ```
 
-# <font color="green">GET</font> Partial Job Data
+#GET Partial Job Data
 ***Message:*** ***_katapultpro.com/api/jobs/:jobId/:paths?api_key={{api-key}}_***
 
 A GET request to a job with a list of paths included after the job ID will return the data at the specified paths for that job. You can include one path, or up to 10 paths separated by commas. Each path can have multiple path components, each separated with a forward slash.
