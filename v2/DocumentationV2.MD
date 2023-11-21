@@ -173,21 +173,10 @@ axios(config)
 ```java
 {
     "-Lmz77ZC6bIjCMToOBXy": {
-        "name": "ALS test",
+        "name": "Test Job",
         "status": "active"
-    },
-    "-MDH3uOAmjd1oJq8cTJy": {
-        "name": "JDC Test Export",
-        "status": "active"
-    },
-    "-N5H0mh0ZEG6zVt5EnyH": {
-        "name": "AED Functions Test",
-        "status": "active"
-    },
-    "-N5g7Ny29QKTVSkv2oph": {
-        "name": "TOS Test",
-        "status": "active"
-    },
+    }
+}
 
 ```
 
