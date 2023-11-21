@@ -29,7 +29,7 @@ Responses returned from the API directly will have a JSON format. This will make
     "message": "Welcome to the Katapult Pro API"
 }
 ```
-** Bad response to GET Job Data**
+**Bad response to GET Job Data**
 ```json
 {
     "error": "PERMISSION_DENIED"
