@@ -182,7 +182,7 @@ axios(config)
 ```
 
 # GET Updated Job List
-***Message:*** ***_katapultpro.com/api/v2/updatedjobslist?fromDate=fromDate&toDate=toDate&useToday=true/false&page=Number of page/default 0&api_key={{api-key}}_***
+***Message:*** ***_katapultpro.com/api/v2/updatedjobslist?fromDate=fromDate&toDate=toDate&useToday=true/false&api_key={{api-key}}_***
 
 A GET request using the start/end or to/from Date to get a list of Job ids and date stamp for jobs that have been updated during the entered timeframe. This get will return an object containing a list of job ID's and their timestamp. 
 
