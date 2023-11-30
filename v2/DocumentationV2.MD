@@ -181,6 +181,65 @@ axios(config)
 
 ```
 
+# GET Updated Job List
+***Message:*** ***_katapultpro.com/api/v2/updatedjobslist?fromDate=fromDate&toDate=toDate&useToday=true/false&page=Number of page/default 0&api_key={{api-key}}_***
+
+A GET request using the start/end or to/from Date to get a list of Job ids and date stamp for jobs that have been updated during the entered timeframe. This get will return an object containing a list of job ID's and their timestamp. 
+
+**** **Important Note** ****
+It is important that the length of the array that is returned from this request is monitored by your calling code routine. If the size of the array is 200(Which is the limit of the query) then the user should expect that there are more than 200 total updated jobs in the query. If this is the case you can simple use the last date in the array as the next {{fromDate}} to get the remaining Updated Jobs List. Please continue this method repeatedly until there is a zero length array received. We do not return the entire length of the queried time period initially entered.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| fromDate | 1/1/23 etc - Start or From Date |
+| toDate | 2/1/23 - End or To Date |
+| useToday | true/false - Use todays date if marked true |
+| api_key | {{api-key}} Your API key with the braces removed |
+
+***Example GET Updated Job List***
+```java
+var axios = require('axios');
+var data = '';
+
+var config = {
+  method: 'get',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/updatedjobslist?fromDate=0&toDate=11/28/23&useToday=true&page=0&api_key={{api-key}}',
+  headers: { },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+```
+
+***Response***
+```java
+[  
+    {  
+        "jobId": "-N_4KXQ5CpSO9Tnmy6vX",  
+        "last_updated": "2023-07-28T14:35:02.259Z"  
+    },  
+    {  
+        "jobId": "-NaNYiarOSF8_laR297a",  
+        "last_updated": "2023-07-27T18:47:08.482Z"  
+    },  
+    {  
+        "jobId": "-NaNGnTKmclbtlmmq84u",  
+        "last_updated": "2023-07-27T18:25:13.038Z"  
+    }  
+]
+
+```
+
 # GET Job Data
  ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId?api_key={{api-key}}_***
 
