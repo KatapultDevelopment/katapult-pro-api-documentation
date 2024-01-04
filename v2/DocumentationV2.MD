@@ -367,3 +367,205 @@ axios(config)
 });
 
 ```
+
+# POST Create Node
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/nodes?api_key={{api-key}}_***
+
+A POST request to /nodes which allows you to create a new node within a job. The job must be existing and it's Job ID needs to be passed along as a path variable. The payload body needs a latitude/longitude at a minimum, but can take an array of objects, denoting attributes to include on the newly created node. Please note that the request can add a single node or multiple nodes. The body is setup for an array of objects. If a total of more than 100 nodes are passed in the body the request will be rejected. If this occurs you can repeat the request multiple times to complete a larger node count. An example body is as follows.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+| jobId | Your valid Job ID |
+|  | |
+
+
+***Example Body***
+```json
+{
+    "nodes":[
+        {
+            "latitude": 40.1054820,
+            "longitude": -77.0231781,
+            "attributes": [
+                {"attribute": "node_type", "value": "pole"}
+            ]
+        },
+        {
+            "latitude": 40.1054289,
+            "longitude": -77.0229224,
+            "attributes": [
+                {"attribute": "node_type", "value": "pole"}
+            ]
+        }
+    ]
+}
+```
+
+***Example POST Create Node on Job***
+```java
+var axios = require('axios');
+var data = JSON.stringify({
+    "nodes":[
+        {
+            "latitude": 40.1054820,
+            "longitude": -77.0231781,
+            "attributes": [
+                {"attribute": "node_type", "value": "pole"}
+            ]
+        },
+        {
+            "latitude": 40.1054289,
+            "longitude": -77.0229224,
+            "attributes": [
+                {"attribute": "node_type", "value": "pole"}
+            ]
+        }
+    ]
+});
+
+var config = {
+  method: 'post',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes?api_key={{api-key}}',
+  headers: { 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
+***Response POST Create Node on Job***
+Note: The return payload from this request will provide a list of push ID's for your newly created nodes. You can use this information to PATCH in any new attributes or add attributes and settings to the node. 
+
+```json
+{
+    "jobId": "-N_9o3H3_PmKWs88JDfz",
+    "NodesCreated": [
+        {
+            "key": "-NnKcywg4nOcroLJwIf-",
+            "data": {
+                "latitude": 40.105482,
+                "longitude": -77.0231781,
+                "_created": {
+                    "uid": "unknown",
+                    "timestamp": 1704391339820,
+                    "method": "api"
+                },
+                "attributes": {
+                    "node_type": {
+                        "-NnKcywg4nOcroLJwIf0": "pole"
+                    }
+                }
+            }
+        },
+        {
+            "key": "-NnKcywngKFqiLEU5-Hs",
+            "data": {
+                "latitude": 40.1054289,
+                "longitude": -77.0229224,
+                "_created": {
+                    "uid": "unknown",
+                    "timestamp": 1704391339827,
+                    "method": "api"
+                },
+                "attributes": {
+                    "node_type": {
+                        "-NnKcywngKFqiLEU5-Ht": "pole"
+                    }
+                }
+            }
+        }
+    ]
+}
+```
+
+# PATCH Update Node on Job
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/nodes/:nodeid?api_key={{api-key}}_***
+
+A PATCH request to /nodes/:nodeId allows you to update an existing node within a job. The request requires a vaild Job ID and Node ID. The payload body can have a latitude/longitude and an array of objects, denoting which attributes to update.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+| jobId | Your valid Job ID |
+| nodeId | ID of Node to Update|
+
+***Example Body***
+```json
+{
+    "attributes": [
+        {"attribute": "company", "value": "Unknown"}
+    ]
+}
+```
+
+***Example PATCH Update Node on Job***
+```java
+var axios = require('axios');
+var data = JSON.stringify({
+  "latitude": "latitude of the node",
+  "longitude": "longitude of the node",
+  "attributes": [
+    {
+      "attribute": "node_type",
+      "value": "pole"
+    }
+  ]
+});
+
+
+var config = {
+  method: 'patch',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes/-NEa1Q0IXKB2N5x_UZvL?api_key={{api-key}}',
+  headers: { 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
+***Response PATCH Update Node on Job***
+Note: The return payload from this request will provide a confirmation of the changes. 
+
+```json
+{
+    "key": "-NnFmrvT80tBTpshdg4G",
+    "data": {
+        "_created": {
+            "method": "api",
+            "timestamp": 1704310046430,
+            "uid": "unknown"
+        },
+        "attributes": {
+            "node_type": {
+                "-NnFqXoaZc8J5mOKQlkG": "pole"
+            },
+            "company": {
+                "-NnFr9Kpe5QFQi7oBGmk": "Unknown"
+            }
+        },
+        "latitude": 40.105482,
+        "longitude": -77.0231781
+    }
+}
+```
