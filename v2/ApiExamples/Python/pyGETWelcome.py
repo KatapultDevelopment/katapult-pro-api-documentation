@@ -4,7 +4,7 @@
 #*             errors or omissions in the content of this Katapult API Example. The 
 #*             information contained in this software example is provided on an "as is" 
 #*             basis with no guarantees of completeness, accuracy, usefulness or timeliness..
-#*             Python Version - To run python pythonGETWelcome.py
+#*             Python Version - To run python pyGETWelcome.py
 #*********************************************************************************************/
 import http.client
 
@@ -13,7 +13,7 @@ payload = ''
 headers = {}
 
 URL_PATH = 'https://katapultpro.com/api/v2'
-API_Key = "?api_key=qAgRiXGKu7wrvsgoUIaZFAfXMDmdtN3F05EPVt6if1Ol84oUiUiSgC9JNL_FhlSHLte5MH-ymaKaQ3ctye687DmE0JqPZw2xMLoH2wlGyKlqMVmhjxoqdzRYBJMHw7CYwsLQ63_2W57ksY3PZQ4IVclnk4lP6Kug6s-0o5xDStrtpBdAmysnejSKEhZkHTdkg5oOYrcQ6EItF95dkCdOVms8acN_xl6i4C-nqzXU5LDSHIcVv6soOJGMpvCWQ7swIJabsJRNnHgt-cBy1WdMUlAp0s9HSOhVHdIBJWGKPPkk9DMWHuvfOEszVdepnC-7OdwwLUMybY3a21HkfPHv5g"
+API_Key = "?api_key=<<API_KEY>>"
 # Send request with payload
 conn.request("GET", URL_PATH + API_Key , payload, headers)
 
