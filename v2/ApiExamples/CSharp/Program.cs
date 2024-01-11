@@ -27,12 +27,14 @@ namespace KatapultApi
         public static string my_api_key = "?api_key={{API_KEY}}";
         public static string base_url = "https://katapultpro.com/api/v2";
         public static string base_url_users = "https://katapultpro.com/api/v2/users";
+        public static string base_url_jobs = "https://katapultpro.com/api/v2/jobs";
 
         public static async Task Main(string[] args)
         {   
             // dynamic response = await Program.getWelcome();
             // Console.WriteLine(response); 
-            dynamic response = await Program.getUsersList();
+            //dynamic response = await Program.getUsersList();
+            dynamic response = await Program.getJobsList();
             Console.WriteLine(response);       
         }
 
@@ -56,7 +58,17 @@ namespace KatapultApi
             dynamic json = JsonConvert.DeserializeObject(result);
 
             return json;
-        }        
+        }   
+
+        public static async Task<dynamic> getJobsList() 
+        {
+            using var client = new HttpClient();
+
+            var result = await client.GetStringAsync(base_url_users+my_api_key);
+            dynamic json = JsonConvert.DeserializeObject(result);
+
+            return json;
+        }             
 
     }
 }
