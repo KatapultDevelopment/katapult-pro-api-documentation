@@ -2,7 +2,7 @@
 //* Name: Program GET Welcome CSharp                                                                                                    
 //* Author: T2 
 //* Created: 12/19/2023
-//* Description: Simple API V2 call to GET Welcome message.
+//* Description: Simple API V2 calls.
 //* Disclaimer: Katapult Engineering assumes no responsibility or liability for any 
 //*             errors or omissions in the content of this Katapult API Example. The 
 //*             information contained in this software example is provided on an "as is" 
@@ -28,13 +28,15 @@ namespace KatapultApi
         public static string base_url = "https://katapultpro.com/api/v2";
         public static string base_url_users = "https://katapultpro.com/api/v2/users";
         public static string base_url_jobs = "https://katapultpro.com/api/v2/jobs";
+        public static string base_url_jobs = "/-Nml3-QC7iem777EbKNt";
 
         public static async Task Main(string[] args)
         {   
             // dynamic response = await Program.getWelcome();
             // Console.WriteLine(response); 
             //dynamic response = await Program.getUsersList();
-            dynamic response = await Program.getJobsList();
+            // dynamic response = await Program.getJobsList();
+            dynamic response = await Program.getJobData();
             Console.WriteLine(response);       
         }
 
@@ -68,7 +70,17 @@ namespace KatapultApi
             dynamic json = JsonConvert.DeserializeObject(result);
 
             return json;
-        }             
+        }   
+
+        public static async Task<dynamic> getJobData() 
+        {
+            using var client = new HttpClient();
+
+            var result = await client.GetStringAsync(base_url_users+my_api_key);
+            dynamic json = JsonConvert.DeserializeObject(result);
+
+            return json;
+        }                       
 
     }
 }
