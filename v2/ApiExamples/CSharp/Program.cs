@@ -24,11 +24,11 @@ namespace KatapultApi
 {
     class Program
     {
-        public static string my_api_key = "?api_key={{API_KEY}}";
+        public static string my_api_key = "?{{API_KEY}}";
         public static string base_url = "https://katapultpro.com/api/v2";
         public static string base_url_users = "https://katapultpro.com/api/v2/users";
         public static string base_url_jobs = "https://katapultpro.com/api/v2/jobs";
-        public static string base_url_jobs = "/-Nml3-QC7iem777EbKNt";
+        public static string job_id = "/-Nml3-QC7iem777EbKNt";
 
         public static async Task Main(string[] args)
         {   
@@ -76,7 +76,7 @@ namespace KatapultApi
         {
             using var client = new HttpClient();
 
-            var result = await client.GetStringAsync(base_url_users+my_api_key);
+            var result = await client.GetStringAsync(base_url_jobs+job_id+my_api_key);
             dynamic json = JsonConvert.DeserializeObject(result);
 
             return json;
