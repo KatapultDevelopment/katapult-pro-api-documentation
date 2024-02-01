@@ -24,21 +24,27 @@ namespace KatapultApi
 {
     class Program
     {
-        public static string my_api_key = "?qAgRiXGKu7wrvsgoUIaZFAfXMDmdtN3F05EPVt6if1Ol84oUiUiSgC9JNL_FhlSHLte5MH-ymaKaQ3ctye687DmE0JqPZw2xMLoH2wlGyKlqMVmhjxoqdzRYBJMHw7CYwsLQ63_2W57ksY3PZQ4IVclnk4lP6Kug6s-0o5xDStrtpBdAmysnejSKEhZkHTdkg5oOYrcQ6EItF95dkCdOVms8acN_xl6i4C-nqzXU5LDSHIcVv6soOJGMpvCWQ7swIJabsJRNnHgt-cBy1WdMUlAp0s9HSOhVHdIBJWGKPPkk9DMWHuvfOEszVdepnC-7OdwwLUMybY3a21HkfPHv5g";
+        public static string my_api_key = "api_key={{API_KEY}}";
         public static string base_url = "https://katapultpro.com/api/v2";
         public static string base_url_users = "https://katapultpro.com/api/v2/users";
         public static string base_url_jobs = "https://katapultpro.com/api/v2/jobs";
+        public static string base_url_updatedjobslist = "https://katapultpro.com/api/v2/updatedJobsList";
         public static string job_id = "/-Nml3-QC7iem777EbKNt";
         public static string path_list = "/nodes";
+        public static string from_date = "?fromDate=2023-11-28T18:09:07.282Z";
+        public static string to_date = "&toDate=11/29/23";
+        public static string use_today = "&useToday=true";
+        public static string page_num = "&page=1";
+
 
         public static async Task Main(string[] args)
         {   
-            //dynamic response = await Program.getWelcome();
-            // Console.WriteLine(response); 
-            //dynamic response = await Program.getUsersList();
+            // dynamic response = await Program.getWelcome();
+            // dynamic response = await Program.getUsersList();
             // dynamic response = await Program.getJobsList();
             // dynamic response = await Program.getJobData();
-            dynamic response = await Program.getPartialJobData();
+            // dynamic response = await Program.getPartialJobData();
+            dynamic response = await Program.getupdatedJobsList();
             Console.WriteLine(response);       
         }
 
@@ -46,8 +52,7 @@ namespace KatapultApi
         public static async Task<dynamic> getWelcome() 
         {
             using var client = new HttpClient();
-
-            var result = await client.GetStringAsync(base_url+my_api_key);
+            var result = await client.GetStringAsync(base_url + "?" + my_api_key);
             dynamic json = JsonConvert.DeserializeObject(result);
 
             return json;
@@ -58,7 +63,7 @@ namespace KatapultApi
         {
             using var client = new HttpClient();
 
-            var result = await client.GetStringAsync(base_url_users+my_api_key);
+            var result = await client.GetStringAsync(base_url_users + "?" + my_api_key);
             dynamic json = JsonConvert.DeserializeObject(result);
 
             return json;
@@ -68,7 +73,17 @@ namespace KatapultApi
         {
             using var client = new HttpClient();
 
-            var result = await client.GetStringAsync(base_url_users+my_api_key);
+            var result = await client.GetStringAsync(base_url_jobs+"?"+my_api_key);
+            dynamic json = JsonConvert.DeserializeObject(result);
+
+            return json;
+        }   
+
+        public static async Task<dynamic> getupdatedJobsList() 
+        {
+            using var client = new HttpClient();
+
+            var result = await client.GetStringAsync(base_url_users+"?"+my_api_key);
             dynamic json = JsonConvert.DeserializeObject(result);
 
             return json;
@@ -78,7 +93,7 @@ namespace KatapultApi
         {
             using var client = new HttpClient();
 
-            var result = await client.GetStringAsync(base_url_jobs+job_id+my_api_key);
+            var result = await client.GetStringAsync(base_url_jobs+job_id+"?"+my_api_key);
             dynamic json = JsonConvert.DeserializeObject(result);
 
             return json;
@@ -88,7 +103,7 @@ namespace KatapultApi
         {
             using var client = new HttpClient();
 
-            var result = await client.GetStringAsync(base_url_jobs+job_id+path_list+my_api_key);
+            var result = await client.GetStringAsync(base_url_updatedjobslist+to_date+from_date+use_today+page_num+"&"+my_api_key);
             dynamic json = JsonConvert.DeserializeObject(result);
 
             return json;
