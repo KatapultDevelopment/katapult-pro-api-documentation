@@ -276,7 +276,7 @@ const axios = require('axios');
 let config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/jobs/-N9lrzHqQm7pvCJoj5w6?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6?api_key={{api-key}}',
   headers: { }
 };
 
@@ -329,7 +329,7 @@ axios.request(config)
 ```
 
 # GET Partial Job Data
-***Message:*** ***_katapultpro.com/api/jobs/:jobId/:paths?api_key={{api-key}}_***
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/:paths?api_key={{api-key}}_***
 
 A GET request to a job with a list of paths included after the job ID will return the data at the specified paths for that job. You can include one path, or up to 10 paths separated by commas. Each path can have multiple path components, each separated with a forward slash.
 
