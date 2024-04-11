@@ -262,6 +262,8 @@ The value for  _api_proposed_height_  is the calculated proposed height for the 
 | --------- | ----------- |
 | api_key   | {{api-key}} Your API key with the braces removed |
 | include_proposed_midspan_heights | true Include this if proposed midspan heights are required. |
+| include_proposed_existing_and_markers | true Include this if proposed and existing heights are needed for all markers. |
+| height_marker_type (not yet implemented) | node/midspan/both Optional addition for include_proposed_existing_and_markers. Set which height photos should include the height data. |
 
 ***Path Variables***
 | Variable | Description |
@@ -323,9 +325,49 @@ axios.request(config)
             "node_id_2": "-NSGzkSK3-7ce4VJo9fX"
         },
 
-        ........ Rest of Data Omitted due to length *********
+        ........ Rest of Data Omitted Due to Length *********
 
+    }
 }
+```
+***Response with include_proposed_existing_and_markers***
+```json
+{
+
+    ........ Beginning Data Omitted Due to Length *********
+
+    "nodes": {
+            "-M2YUhu9X9vNaY5wFU3T": {
+
+                ........ Additional Data Omitted Due to Length *********
+
+                "_proposed_existing_and_label_data": [
+                    {
+                        "existing_height": 457.31,
+                        "proposed_height": 457.31,
+                        "marker_label": "Pole Top"
+                    },
+                    {
+                        "existing_height": 448.91,
+                        "proposed_height": 448.91,
+                        "marker_label": "MET-ED Primary"
+                    },
+                    {
+                        "existing_height": 412.02,
+                        "proposed_height": 412.02,
+                        "marker_label": "MET-ED Cutout Arrestor"
+                    },
+                    {
+                        "existing_height": 387.58,
+                        "proposed_height": 387.58,
+                        "marker_label": "MET-ED Termination Bracket"
+                    },
+
+                    ........ Rest of Data Omitted Due to Length *********
+                ]
+            }
+    }
+}    
 ```
 
 # GET Partial Job Data
