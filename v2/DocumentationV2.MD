@@ -263,7 +263,9 @@ The value for  _api_proposed_height_  is the calculated proposed height for the 
 | api_key   | {{api-key}} Your API key with the braces removed |
 | include_proposed_midspan_heights | true Include this if proposed midspan heights are required. |
 | include_proposed_existing_and_markers | true Include this if proposed and existing heights are needed for all markers. |
-| height_marker_type (not yet implemented) | node/midspan/both Optional addition for include_proposed_existing_and_markers. Set which height photos should include the height data. |
+| height_marker_type | node/midspan/both Optional addition for include_proposed_existing_and_markers. Set which height photos should include the height data. |
+| include_pixel_selection | true Include this if pixel selection coordinates are needed for all markers. |
+| include_anchor_calibrations | true Include this if anchor calibration markers are required. |
 
 ***Path Variables***
 | Variable | Description |
@@ -367,8 +369,60 @@ axios.request(config)
                 ]
             }
     }
-}    
+}
 ```
+***Response with include_pixel_selection and include_anchor_calibrations***
+```json
+{
+
+    ........ Beginning Data Omitted Due to Length *********
+
+    "nodes": {
+            "-M2YUhu9X9vNaY5wFU3T": {
+                "_proposed_existing_and_label_data": [
+
+                ........ Additional Data Omitted Due to Length *********
+
+                    {
+                        "existing_height": 252.53,
+                        "proposed_height": 252.53,
+                        "marker_label": "Comcast - Williamsport CATV Com",
+                        "pixel_selection": [
+                            {
+                                "percentX": 47.65352323643377,
+                                "percentY": 39.65934446031943
+                            }
+                        ]
+                  },
+                  {
+                      "existing_height": 212.41,
+                      "proposed_height": 212.41,
+                      "marker_label": "CTSI, LLC, Dba Frontier Communications Telco Com",
+                      "pixel_selection": [
+                          {
+                              "percentX": 50.391601764197546,
+                              "percentY": 47.767067465788564
+                          }
+                      ]
+                  },
+                  {
+                      "existing_height": 16.5,
+                      "proposed_height": 16.5,
+                      "marker_label": "Anchor Calibration",
+                      "pixel_selection": [
+                          {
+                              "percentX": 49.85583863910207,
+                              "percentY": 50.74869937852991
+                          }
+                      ]
+                  },
+
+                    ........ Rest of Data Omitted Due to Length *********
+                ]
+            }
+    }
+}
+```    
 
 # GET Partial Job Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/:paths?api_key={{api-key}}_***
