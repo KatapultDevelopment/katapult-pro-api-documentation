@@ -181,13 +181,13 @@ axios(config)
 
 ```
 
-# GET Updated Job List
+# GET Updated Jobs List
 ***Message:*** ***_katapultpro.com/api/v2/updatedjobslist?fromDate=fromDate&toDate=toDate&useToday=true/false&api_key={{api-key}}_***
 
 A GET request using the start/end or to/from Date to get a list of Job ids and date stamp for jobs that have been updated during the entered timeframe. This get will return an object containing a list of job ID's and their timestamp. 
 
 **** **Important Note** ****
-It is important that the length of the array that is returned from this request is monitored by your calling code routine. If the size of the array is 200(Which is the limit of the query) then the user should expect that there are more than 200 total updated jobs in the query. If this is the case you can simple use the last date in the array as the next {{fromDate}} to get the remaining Updated Jobs List. Please continue this method repeatedly until there is a zero length array received. We do not return the entire length of the queried time period initially entered.
+It is important that the length of the array that is returned from this request is monitored by your calling code routine. If the size of the array is 200(Which is the limit of the query) then the user should expect that there are more than 200 total updated jobs in the query. If this is the case you can simply use the last date in the array as the next {{fromDate}} to get the remaining Updated Jobs List. Please continue this method repeatedly until there is a zero length array received. We do not return the entire length of the queried time period initially entered.
 
 
 ***Query Params***
@@ -198,7 +198,7 @@ It is important that the length of the array that is returned from this request 
 | useToday | true/false - Use todays date if marked true |
 | api_key | {{api-key}} Your API key with the braces removed |
 
-***Example GET Updated Job List***
+***Example GET Updated Jobs List***
 ```java
 var axios = require('axios');
 var data = '';
@@ -235,6 +235,84 @@ axios(config)
     {  
         "jobId": "-NaNGnTKmclbtlmmq84u",  
         "last_updated": "2023-07-27T18:25:13.038Z"  
+    }  
+]
+
+```
+
+# GET Updated Nodes List
+***Message:*** ***_katapultpro.com/api/v2/updatednodeslist?fromDate=fromDate&toDate=toDate&useToday=true/false&jobId={{jobId}}&attribute=attribute&changed=true/false&api_key={{api-key}}_***
+
+A GET request using the start/end or to/from Date and a Job id to get a list of nodes that have been changed in that job. Each node listed includes the Node id and the date stamp for when the attribute changed. This get will return an object containing the data. 
+
+**** **Important Note** ****
+It is important that the length of the array that is returned from this request is monitored by your calling code routine. If the size of the array is 200(Which is the limit of the query) then the user should expect that there are more than 200 total updated nodes in the query. If this is the case you can simply use the last date in the array as the next {{fromDate}} to get the remaining Updated Nodes List. Please continue this method repeatedly until there is a zero length array received. We do not return the entire length of the queried time period initially entered.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| fromDate | 1/1/23 etc - Start or From Date |
+| toDate | 2/1/23 - End or To Date |
+| useToday | true/false - Use todays date if marked true |
+| jobId | {{jobId}} Valid Job ID with braces removed |
+| attribute | "field_completed" - Filter nodes by whether or not a specific attribute has been changed in the given timeframe (optional) |
+| changed | true/false - List the nodes that were changed or the nodes that were NOT changed |
+| api_key | {{api-key}} Your API key with the braces removed |
+
+***Example GET Updated Nodes List***
+```java
+var axios = require('axios');
+var data = '';
+
+var config = {
+  method: 'get',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/updatedjobslist?fromDate=0&toDate=11/28/23&useToday=true&jobId={{jobId}}&attribute=field_completed&changed=true&api_key={{api-key}}',
+  headers: { },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+```
+
+***Response with changed***
+```java
+[  
+    {  
+        "nodeId": "-N_4KXQ5CpSO9Tnmy6vX",  
+        "set_as": "2023-07-28T14:35:02.259Z"  
+    },  
+    {  
+        "nodeId": "-NaNYiarOSF8_laR297a",  
+        "set_as": "2023-07-27T18:47:08.482Z"  
+    },  
+    {  
+        "nodeId": "-NaNGnTKmclbtlmmq84u",  
+        "set_as": "2023-07-27T18:25:13.038Z"  
+    }  
+]
+
+```
+
+***Response with unchanged***
+```java
+[  
+    {  
+        "nodeId": "-N_4KXQ5CpSO9Tnmy6vX"
+    },  
+    {  
+        "nodeId": "-NaNYiarOSF8_laR297a"
+    },  
+    {  
+        "nodeId": "-NaNGnTKmclbtlmmq84u"
     }  
 ]
 
