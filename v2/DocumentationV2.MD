@@ -268,7 +268,7 @@ var data = '';
 var config = {
   method: 'get',
 maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/updatedjobslist?fromDate=0&toDate=11/28/23&useToday=true&jobId={{jobId}}&attribute=field_completed&changed=true&api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/updatednodeslist?fromDate=0&toDate=11/28/23&useToday=true&jobId={{jobId}}&attribute=field_completed&changed=true&api_key={{api-key}}',
   headers: { },
   data : data
 };
