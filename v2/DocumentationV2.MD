@@ -662,6 +662,65 @@ Note: The return payload from this request will provide a list of push ID's for 
     ]
 }
 ```
+# POST Create Job
+***Message:*** ***_katapultpro.com/api/v2/jobs?api_key={{api-key}}_***
+
+A POST request to /jobs which allows you to create a new job. The payload body needs a job name, the map styles and model name. Please note that the request can add a single job or multiple jobs. The body is setup for an array of objects. If a total of more than 100 jobs are passed in the body the request will be rejected. If this occurs you can repeat the request multiple times to complete a larger jobs count. An example body is as follows.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+|  | |
+
+
+***Example Body***
+```json
+{
+        "name" : "API Test",
+        "mapStyles" : "default",
+        "model" : "Katapult"
+}
+```
+
+***Example POST Create  Job***
+```java
+const axios = require('axios');
+
+
+var data = JSON.stringify({
+    "name" : "API Test",
+    "mapStyles" : "default",
+    "model" : "Katapult"
+});
+var config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: `${URL_PATH}?api_key=${API_KEY}`,
+    headers: { 
+          'Content-Type': 'application/json'
+    },
+    data : data
+    };
+axios(config)
+    .then(function (response) {
+    console.log(JSON.stringify(response.data));
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
+
+
+```
+***Response POST Create Job***
+Note: The return payload from this request will provide the Job Id for the newly created jojb. You can use this information to PATCH in any new attributes or add attributes and settings to the job. 
+
+```json
+{
+    "jobId": "-N_9o3H3_PmKWs88JDfz"
+}
+```
 
 # PATCH Update Node on Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/nodes/:nodeid?api_key={{api-key}}_***
