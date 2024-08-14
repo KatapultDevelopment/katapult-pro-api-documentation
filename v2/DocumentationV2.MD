@@ -526,7 +526,7 @@ var axios = require('axios');
 var config = {
   method: 'get',
 maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NgVTYY_sWEyFzpLHXWT/photoURL/015eb1ba-e8c9-4824-a721-9047?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs/-NgVTYY_sWEyFzpLHXWT/photoURL/015eb1ba-e8c9-4824-a721-9047?api_key={{api-key}}&filesize=full',
   headers: { }
 };
 
