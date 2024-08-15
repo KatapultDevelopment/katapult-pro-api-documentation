@@ -808,3 +808,96 @@ Note: The return payload from this request will provide a confirmation of the ch
     }
 }
 ```
+# PUT Upload Photo To Node
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/nodes/:nodeid/photos?api_key={{api-key}}_***
+
+A PUT request to /nodes/:nodeId/photos allows you to put a photo on a specific node. The request requires a vaild Job ID and Node ID. The payload body be the image that will be added to the node.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+| jobId | Your valid Job ID |
+| nodeId | ID of Node to Update|
+
+***Example Body***
+```json
+
+var data = 'image.jpg'
+
+```
+
+***Example PUT Upload Photo To Node***
+```java
+var config = {
+        method: 'put',
+        maxBodyLength: Infinity,
+        url: `${URL_PATH}${JOB_ID}/nodes${NODE_ID}/photos?api_key=${API_KEY}`,
+        headers: { 
+          'Content-Type': 'image/jpeg'
+        },
+        data : data
+      };
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+```
+***Response PUT Upload Photo To Node***
+Note: The return payload from this request will provide a confirmation of the changes. 
+
+```json
+    "OK"
+```
+# PUT Upload Photo To Section
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/connections/:connectionId/sections/:sectionId/photos?api_key={{api-key}}_***
+
+A PUT request to /sections/:sectionId/photos allows you to put a photo on a specific section. The request requires a vaild Job ID, Connection ID, and Section ID. The payload body be the image that will be added to the node.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+| jobId | Your valid Job ID |
+| connectionId | ID of Connection to Update|
+| sectionID | ID of Section to Update|
+
+
+***Example Body***
+```json
+
+var data = 'image.jpg'
+
+```
+
+***Example PUT Upload Photo To Section***
+```java
+var config = {
+        method: 'put',
+        maxBodyLength: Infinity,
+        url: `${URL_PATH}${JOB_ID}/connections${CONNECTION_ID}/sections${SECTION_ID}/photos?api_key=${API_KEY}`,
+        headers: { 
+          'Content-Type': 'image/jpeg'
+        },
+        data : data
+      };
+      console.log(config.url);
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+```
+***Response PUT Upload Photo To Section***
+Note: The return payload from this request will provide a confirmation of the changes. 
+
+```json
+    "OK"
+```
