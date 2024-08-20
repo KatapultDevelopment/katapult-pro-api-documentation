@@ -10,7 +10,7 @@
 //**********************************************************************************************
 //* dotnet new console  <<< To create                                                                
 //************ Packages Installed **************************************************************
-//* dotnet add package Newtonsoft.Json --version 12.0.1   <<< Add package required                              
+//* dotnet add package Newtonsoft.Json --version 13.0.1   <<< Add package required                              
 //**********************************************************************************************
 //************ Packages Installed **************************************************************
 //* dotnet run  <<< To run
