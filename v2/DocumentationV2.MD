@@ -744,6 +744,8 @@ A PATCH request to /nodes/:nodeId allows you to update an existing node within a
 ***Example Body***
 ```json
 {
+    "latitude": 29.56486371782001,
+    "longitude": -98.6970369527974,
     "attributes": [
         {"attribute": "company", "value": "Unknown"}
     ]
