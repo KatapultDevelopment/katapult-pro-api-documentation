@@ -500,8 +500,47 @@ axios.request(config)
             }
     }
 }
-```    
 
+```    
+# GET Partial Job Data
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/:paths?api_key={{api-key}}_***
+
+A GET request to a job with a list of paths included after the job ID will return the data at the specified paths for that job. You can include one path, or up to 10 paths separated by commas. Each path can have multiple path components, each separated with a forward slash.
+
+For example, to fetch all nodes in a job your path after the job ID should be "nodes". To fetch data for a specific node, your path should be "nodes/{node_id}". To fetch data for a specific node and the job name, your path list should be "node/{node_id},name".
+
+If you only include one path, only the data at that path will be returned. If you include multiple paths, a JSON object will be returned. The keys of the returned object will be the paths you requested, regardless if there is data in the job at those paths or not. The values for those keys will be the data at those paths. If there is no data at a path requested, the value will be null.
+
+Visit this link to see the structure for job data: https://katapultpro.com/schema/job.json
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+| jobId | Your valid Job ID |
+| paths | A comma separated list of paths that should be fetched from the job |
+
+***Example Get Partial Job Data: Nodes***
+
+```java
+var axios = require('axios');
+
+var config = {
+  method: 'get',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6/nodes?api_key={{api-key}}',
+  headers: { }
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+```
 # GET Photo URL
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photoURL/:photoid?api_key={{api-key}}&filesize=_***
 
