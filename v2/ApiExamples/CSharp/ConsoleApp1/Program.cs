@@ -10,7 +10,7 @@
 //**********************************************************************************************
 //* dotnet new console  <<< To create                                                                
 //************ Packages Installed **************************************************************
-//* dotnet add package Newtonsoft.Json --version 12.0.1   <<< Add package required                              
+//* dotnet add package Newtonsoft.Json --version 13.0.1   <<< Add package required                              
 //**********************************************************************************************
 //************ Packages Installed **************************************************************
 //* dotnet run  <<< To run
@@ -28,18 +28,21 @@ namespace KatapultApi
 {
     class Program
     {
-        public static string my_api_key = "api_key=sJ3zygFJN_ZU81-3I8w0VLZvFUst_5L-2uuVzXubYbFeAP7vr52VRc1BMlIOQ0bHks1EfMSe8rBYhNHfoec9kBjj9wsYJPXseA8gb1cOhBC6Ne8MVceNs4kz5wiNDuHtECn0tM41pYlMYJ8eSKe75F_Ct4GfWO15sVg2sRGvw5kMfmfnbUEmYd6Cx_a6lAPXcaxW4ZdkRgRajYqKA-58oXYOIKpP9Buna74ZgzYPdAXVTmtE3oKkpUzLUQaLdKtgLzn7JaTkRo_RnFpe54Pwt7GVn8mxtCAAA3nDCqX-FmTi9PcIqwU-Lxoxqm6aUy4Mu4rvSj9adVYRR8qUVwEtog";
+        public static string my_api_key = "api_key={{API_KEY}}";
         public static string base_url = "https://training.katapultpro.com/api/v2";
         public static string base_url_users = "https://katapultpro.com/api/v2/users";
         public static string base_url_jobs = "https://training.katapultpro.com/api/v2/jobs";
         public static string base_url_updatedjobslist = "https://katapultpro.com/api/v2/updatedJobsList";
         public static string job_id = "/-O0AVVbpV-M0Mp8JbVE7";
         public static string node_id = "/-O0AVbHZTCKRGVaXqbP8";
-        public static string path_list = "/nodes";
+        public static string path_list = "/connections";
         public static string from_date = "?fromDate=2023-11-28T18:09:07.282Z";
         public static string to_date = "&toDate=11/29/23";
         public static string use_today = "&useToday=true";
         public static string page_num = "&page=1";
+        public static string connection_id = "/-O4H3Zm036Kg8B3urjeV";
+        public static string path_list_2 = "/sections";
+        public static string section_id = "/-O4H42xVu0bR_oBjSAWK";
 
         //public static string node_id = "/"
 
@@ -82,8 +85,9 @@ namespace KatapultApi
             // dynamic response = await Program.getupdatedJobsList();
             // dynamic response =  await Program.postCreateNode();
             // dynamic response = await Program.patchUpdateNode();
-            // dynamic response = await Program.postCreateJob();\
-            dynamic response = await Program.putPhotoNode();
+            // dynamic response = await Program.postCreateJob();
+            // dynamic response = await Program.putPhotoNode();
+            dynamic response = await Program.putPhotoSection();
             Console.WriteLine(response);       
         }
 
@@ -239,12 +243,33 @@ namespace KatapultApi
         {
             HttpClient client = new HttpClient();
 
-            var data = "Cat03.jpg";
+            byte [] data = File.ReadAllBytes("Cat03.jpg");
             var url = $"{base_url_jobs}{job_id}{path_list}{node_id}/photos?{my_api_key}";
             Console.WriteLine(url);
-            var json = JsonConvert.SerializeObject(data);
-            var value = new StringContent(json, Encoding.UTF8, "image/jpeg");
-            var response = await client.PutAsync(url, value);
+            var content = new ByteArrayContent(data);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+            var response = await client.PutAsync(url, content);
+             if(response.IsSuccessStatusCode)
+            {
+                var responseData = await response.Content.ReadAsStringAsync();
+                dynamic result = JsonConvert.DeserializeObject(responseData);
+                return result;
+            }
+            else{
+                return null;
+            }
+        }
+
+         public static async Task<dynamic> putPhotoSection()
+        {
+            HttpClient client = new HttpClient();
+
+            byte [] data = File.ReadAllBytes("Cat03.jpg");
+            var url = $"{base_url_jobs}{job_id}{path_list}{connection_id}{path_list_2}{section_id}/photos?{my_api_key}";
+            Console.WriteLine(url);
+            var content = new ByteArrayContent(data);
+            content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+            var response = await client.PutAsync(url, content);
              if(response.IsSuccessStatusCode)
             {
                 var responseData = await response.Content.ReadAsStringAsync();
