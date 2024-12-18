@@ -146,6 +146,8 @@ Another example is setting `orderByChild` to "name" and `equalTo` to "Test Job".
 | --------- | ----------- |
 | orderByChild | status/name - Two sorting methods can be selected. Order or sort by Job Name or Job Status |
 | equalTo | Return items equal to the specified key or value, depending on the order-by method chosen (either status or name) |
+| filter | Metadata attribute you want to use to filter the list |
+| value| Filter metadata value to use | 
 | api_key | {{api-key}} Your API key with the braces removed |
 
 ***Example Get Job List***
@@ -317,7 +319,83 @@ axios(config)
 ]
 
 ```
+# GET Attribute Tracking List
+***Message:*** ***_katapultpro.com/api/v2/attributeTracking/:jobId?api_key={{api-key}}_***
 
+A GET request to a job will return the latest attribute tracking data for that job. 
+
+**** **Important Note** ****
+It is important that the length of the array that is returned from this request is monitored by your calling code routine. If the size of the array is 200(Which is the limit of the query) then the user should expect that there are more than 200 total updated jobs in the query. If this is the case you can simply use the last date in the array as the next {{fromDate}} to get the remaining Updated Jobs List. Please continue this method repeatedly until there is a zero length array received. We do not return the entire length of the queried time period initially entered.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| fromDate | 1/1/23 etc - Start or From Date |
+| toDate | 2/1/23 - End or To Date |
+| useToday | true/false - Use todays date if marked true |
+| api_key | {{api-key}} Your API key with the braces removed |
+
+***Example GET Updated Jobs List***
+```java
+var axios = require('axios');
+var data = '';
+
+var config = {
+  method: 'get',
+  maxBodyLength: Infinity,
+  url: 'https://katapultpro.com/api/v2/attributeTracking/-NbLE2N_uhApTcVotF4X?fromDate=0&toDate=11/28/23&useToday=true&api_key={{api-key}}',
+  headers: { },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+```
+
+***Response***
+```java
+{
+   "jobId": "-NbLE2N_uhApTcVotF4X",
+    "jobName": "Testing attribute tracking",
+    "attribute_changes": {
+        "c7f6843dbcacaea36d847f901e6bea8f": {
+            "timestamp": 1692199883822,
+            "entity_type": "NODE",
+            "entity_id": "-NbyyGEGYG3wPe6AABRu",
+            "attribute": "internal_note",
+            "value_key": "button_added",
+            "value": "",
+            "user": "TaSs4PIIboZ9labZxm6RmeCREmm1"
+        },
+        "befed3a7581374486d847f901e6bea8f": {
+            "timestamp": 1692199883822,
+            "entity_type": "NODE",
+            "entity_id": "-NbyyGEGYG3wPe6AABRu",
+            "attribute": "done",
+            "value_key": "button_added",
+            "value": false,
+            "user": "TaSs4PIIboZ9labZxm6RmeCREmm1"
+        },
+        "40ab4528fd1d44d56d847f901e6bea8f": {
+            "timestamp": 1692199883822,
+            "entity_type": "NODE",
+            "entity_id": "-NbyyGEGYG3wPe6AABRu",
+            "attribute": "node_type",
+            "value_key": "button_added",
+            "value": "pole",
+            "user": "TaSs4PIIboZ9labZxm6RmeCREmm1"
+        }
+    }
+}
+
+```
 # GET Job Data
  ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId?api_key={{api-key}}_***
 
@@ -344,6 +422,7 @@ The value for  _api_proposed_height_  is the calculated proposed height for the 
 | height_marker_type | node/midspan/both Optional addition for include_proposed_existing_and_markers. Set which height photos should include the height data. |
 | include_pixel_selection | true Include this if pixel selection coordinates are needed for all markers. |
 | include_anchor_calibrations | true Include this if anchor calibration markers are required. |
+| include_mr_directives | true Includes Make Ready Directives for nodes and sections|
 
 ***Path Variables***
 | Variable | Description |
