@@ -1021,3 +1021,73 @@ Note: The return payload from this request will provide a confirmation of the ch
 ```json
     "OK"
 ```
+
+# PUT Archive a Job
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/archive?api_key={{api-key}}_***
+
+A PUT request to /archive will change the job's status from 'active' to 'archived.' The job ID is required to complete this request.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+| jobId | Your valid Job ID |
+
+
+***Example PUT Upload Photo To Section***
+```java
+var axios = require('axios');
+
+var config = {
+  method: 'put',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs/:jobId/archive?api_key={{api-key}}',
+  headers: { }
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
+***Response PUT Upload Photo To Section***
+Note: This request doesn't return any response body.
+
+# PUT Un-Archive a Job
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{api-key}}_***
+
+A PUT request to /unarchive will change the job's status from 'archived' to 'active.' The job ID is required to complete this request.
+
+
+***Query Params***
+| Parameter | Description |
+| --------- | ----------- |
+| api_key   | {{api-key}} Your API key with the braces removed |
+| jobId | Your valid Job ID |
+
+
+***Example PUT Upload Photo To Section***
+```java
+var axios = require('axios');
+
+var config = {
+  method: 'put',
+maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{api-key}}',
+  headers: { }
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
+***Response PUT Upload Photo To Section***
+Note: This request doesn't return any response body.
