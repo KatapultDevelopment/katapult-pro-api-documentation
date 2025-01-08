@@ -1035,13 +1035,13 @@ A PUT request to /archive will change the job's status from 'active' to 'archive
 | jobId | Your valid Job ID |
 
 
-***Example PUT Upload Photo To Section***
+***Example PUT Archive a Job***
 ```java
 var axios = require('axios');
 
 var config = {
   method: 'put',
-maxBodyLength: Infinity,
+  maxBodyLength: Infinity,
   url: 'katapultpro.com/api/v2/jobs/:jobId/archive?api_key={{api-key}}',
   headers: { }
 };
@@ -1054,7 +1054,7 @@ axios(config)
   console.log(error);
 });
 ```
-***Response PUT Upload Photo To Section***
+***Response PUT Archive a Job***
 Note: This request doesn't return any response body.
 
 # PUT Un-Archive a Job
@@ -1070,13 +1070,13 @@ A PUT request to /unarchive will change the job's status from 'archived' to 'act
 | jobId | Your valid Job ID |
 
 
-***Example PUT Upload Photo To Section***
+***Example PUT Un-Archive a Job***
 ```java
 var axios = require('axios');
 
 var config = {
   method: 'put',
-maxBodyLength: Infinity,
+  maxBodyLength: Infinity,
   url: 'katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{api-key}}',
   headers: { }
 };
@@ -1089,5 +1089,5 @@ axios(config)
   console.log(error);
 });
 ```
-***Response PUT Upload Photo To Section***
+***Response PUT Un-Archive a Job***
 Note: This request doesn't return any response body.
