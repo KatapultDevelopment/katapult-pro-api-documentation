@@ -412,17 +412,20 @@ The  _api_proposed_height_  key will be added to midspan wire objects in either 
 
 The value for  _api_proposed_height_  is the calculated proposed height for the midspan wire in inches.
 
+You can optionally include the _include_company_picklist_ query parameter as well with a value of "true" to show the companies in their respective picklists under the Company attribute for the job model used in the job.
+
 
 ***Query Params***
 | Parameter | Description |
 | --------- | ----------- |
 | api_key   | {{api-key}} Your API key with the braces removed |
-| include_proposed_midspan_heights | true Include this if proposed midspan heights are required. |
-| include_proposed_existing_and_markers | true Include this if proposed and existing heights are needed for all markers. |
+| include_proposed_midspan_heights | true - Include this if proposed midspan heights are required. |
+| include_proposed_existing_and_markers | true - Include this if proposed and existing heights are needed for all markers. |
 | height_marker_type | node/midspan/both Optional addition for include_proposed_existing_and_markers. Set which height photos should include the height data. |
-| include_pixel_selection | true Include this if pixel selection coordinates are needed for all markers. |
-| include_anchor_calibrations | true Include this if anchor calibration markers are required. |
-| include_mr_directives | true Includes Make Ready Directives for nodes and sections|
+| include_pixel_selection | true - Include this if pixel selection coordinates are needed for all markers. |
+| include_anchor_calibrations | true - Include this if anchor calibration markers are required. |
+| include_mr_directives | true - Includes Make Ready Directives for nodes and sections |
+| include_company_picklist | true - Includes list of companies under the Company attribute | 
 
 ***Path Variables***
 | Variable | Description |
@@ -580,7 +583,67 @@ axios.request(config)
     }
 }
 
-```    
+```
+***Response with include_company_picklist***
+```json
+{
+
+    ........ Beginning Data Omitted Due to Length *********
+
+    "companyPicklists": {
+        "other_companies": [
+            {
+                 "value": "Other Company"
+            },
+            {
+                "shortname": "HZNTalk",
+		              "value": "HorizonTalk"
+            },
+            {
+                "shortname": "RL NETWX",
+		              "value": "Rapid Link Networks"
+            },
+            {
+                "shortname": "SKY TELECM",
+		              "value": "Sky Bridge Telecom"
+            },
+            {
+                "shortname": "UNKNOWN",
+                "value": "UNKNOWN"
+            },
+            {
+                "shortname": "U-CATV",
+                "value": "UNKN CATV"
+            },
+            {
+                "shortname": "U-TEL",
+                "value": "UNKN TELCO"
+	           }
+        ],
+        "power_companies": [
+            {
+                "value": "Power Company"
+            },
+	           {
+              		"shortname": "BLU-P ENERGY",
+              		"value": "BluePeak Energy"
+            },
+	           {
+              		"shortname": "SUMMIT",
+              		"value": "Summit Ridge Power"
+	           },
+	           {
+               		"shortname": "Radiant",
+               		"value": "Radiant Energy Solutions"
+	           },
+        ]
+    },
+                    ........ Rest of Data Omitted Due to Length *********
+                ]
+            }
+    }
+}
+```
 # GET Partial Job Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/:paths?api_key={{api-key}}_***
 
