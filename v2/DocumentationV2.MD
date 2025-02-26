@@ -785,8 +785,8 @@ This POST request creates a new node within a job. The job must be existing, and
 Visit this link to see the structure for job data (inside which is the structure for node data): https://katapultpro.com/schema/job.json
 
 ***Query Params***
-| Parameter | Description |
-| --------- | ----------- |
+| Parameter | Value | Description |
+| --------- | ----------- | ----------- |
 | api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |
 
 ***Path Variables***
