@@ -54,7 +54,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { },
   data : data
 };
@@ -67,7 +67,6 @@ axios(config)
   console.log(error);
 });
 ```  
-(Where `{{api-key}}` is your API Key)  
 
 ***GET Welcome Message Response:***
 ```json
@@ -92,7 +91,7 @@ var axios = require('axios');
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/users?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/users?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { }
 };
 
@@ -168,7 +167,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs?orderByChild=name&equalTo=Test Job&api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs?orderByChild=name&equalTo=Test Job&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc7096789b515c2a03e4abc2174e-89Ee5cd5d4a656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c91d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54decaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a61e8d1-b01a53b44a389643f408b93333d79afbb4a-f1e944ab98312ce836a1a3a3',
   headers: { },
   data : data
 };
@@ -218,7 +217,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/updatedjobslist?fromDate=11/28/23&useToday=true&api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/updatedjobslist?fromDate=11/28/23&useToday=true&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { },
   data : data
 };
@@ -233,7 +232,7 @@ axios(config)
 
 ```
 
-***GET Upadted Job List Response:***
+***GET Updated Job List Response:***
 ```java
 [  
     {  
@@ -280,7 +279,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/updatednodeslist?fromDate=11/28/23&useToday=true&jobId={{jobId}}&attribute=field_completed&changed=true&api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/updatednodeslist?fromDate=11/28/23&useToday=true&jobId=-OKRkT1ZRf9rSiF8qiwL&attribute=field_completed&changed=true&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { },
   data : data
 };
@@ -299,11 +298,11 @@ axios(config)
 ```java
 [  
     {  
-        "nodeId": "-N_4KXQ5CpSO9Tnmy6vX",  
+        "nodeId": "-OKRkji6P2b5OJc57Rxr",  
         "set_as": "2023-07-28T14:35:02.259Z"  
     },  
     {  
-        "nodeId": "-NaNYiarOSF8_laR297a",  
+        "nodeId": "-OKRkjvqRyBQxDa8OoGb",  
         "set_as": "2023-07-27T18:47:08.482Z"  
     },  
     {  
@@ -318,13 +317,13 @@ axios(config)
 ```java
 [  
     {  
-        "nodeId": "-N_4KXQ5CpSO9Tnmy6vX"
+        "nodeId": "-OKRkYt3rlTXv7Zl5tT-"
     },  
     {  
-        "nodeId": "-NaNYiarOSF8_laR297a"
+        "nodeId": "-OKRkZ2M_tsGuILuSOYR"
     },  
     {  
-        "nodeId": "-NaNGnTKmclbtlmmq84u"
+        "nodeId": "-OKRkZFYIO3L8x7rftql"
     }  
 ]
 
@@ -349,7 +348,7 @@ It is important that the amount of items that is returned from this request is m
 ***Path Variables***
 | Variable | Replace With |
 |--------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
+| :jobId | The valid Job Id found |  
 
 ***Example GET Attribute Tracking List Request:***
 ```java
@@ -359,7 +358,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'https://katapultpro.com/api/v2/attributeTracking/-NbLE2N_uhApTcVotF4X?fromDate=11/28/23&toDate=12/23/24&api_key={{api-key}}',
+  url: 'https://katapultpro.com/api/v2/attributeTracking/-NbLE2N_uhApTcVotF4X?fromDate=11/28/23&toDate=12/23/24&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { },
   data : data
 };
@@ -437,12 +436,13 @@ The value for `_api_proposed_height` is the calculated proposed height for the m
 | include_pixel_selection | Set to "true" | Include this parameter and set it to "true" if pixel selection coordinates are needed for all markers |
 | include_anchor_calibrations | Set to "true" | Include this parameter if anchor calibration markers should be included in the response body |
 | include_mr_directives | Set to "true" | The response body will include Make Ready Directives for nodes and sections if this parameter is set to "true" |
+| include_company_picklist | Set to "true" | The response body will include the picklist values for the Company attribute for the job model used for the job you are accessing at the end of the body |
 | api_key   | `{{api-key}}` | Replace `{{api-key}}` with you API key |
 
 ***Path Variables***
 | Variable | Replace With |
 |--------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
+| :jobId | The valid Job Id |  
 
 ***Example GET Job Data Requst (Basic Request):***
 
@@ -452,7 +452,7 @@ const axios = require('axios');
 let config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { }
 };
 
@@ -596,6 +596,51 @@ axios.request(config)
 }
 
 ```    
+***Same GET Job Data Response (but with the `include_company_picklists=true` in request):***
+```json
+{
+    "connections": {
+        "-NSGzkSLuepnLrHBMDsy": {
+            "_created": {
+                "method": "desktop",
+                "timestamp": 1680707880790,
+                "uid": "cPKA4ptkD1PplRH1Rs2MrjVHE8f1"
+            },
+            "attributes": {
+                "connection_type": {
+                    "button_added": "aerial cable"
+                }
+            },
+            "button": "aerial",
+            "node_id_1": "-NSGzkSK3-7ce4VJo9fX",
+            "node_id_2": "-NSGzjoK3bNio0SZWe2C"
+        },
+        ........ Additional Data Omitted Due to Length *********
+    },
+    "companyPicklists": {
+        "other_companies": [
+            {
+                "value": "CATV"
+            },
+            {
+                "value": "Fiber"
+            },
+            {
+                "value": "Telco"
+            },
+            {
+                "value": "Unknown"
+            }
+        ],
+        "power_companies": [
+            {
+                "value": "Power Co"
+            }
+        ]
+    }
+}
+```
+
 # GET Partial Job Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/:paths?api_key={{api-key}}_***
 
@@ -615,7 +660,7 @@ Visit this link to see the structure for job data: https://katapultpro.com/schem
 ***Path Variables***
 | Variable | Replace With |
 |--------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
+| :jobId | The valid Job Id |  
 | :paths | A comma separated list of paths that should be fetched from the job |
 
 ***Example GET Partial Job Data Request (For Node Data in Job):***
@@ -626,7 +671,7 @@ var axios = require('axios');
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6/nodes?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6/nodes?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { }
 };
 
@@ -726,7 +771,7 @@ axios(config)
 ```  
 
 # GET Photo URL
-***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photoURL/:photoId?api_key={{api-key}}&file_size={{full || none}}_***
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photoURL/:photoId?file_size={{full || none}}&api_key={{api-key}}_***
 
 This GET request will request the download URL link of the photo with a matching Photo ID contained on the server. This requires that a previous request to the job has been made to obtain the photo ID to be used. Anything other than a valid photo ID for that job will be rejected.
 
@@ -744,7 +789,7 @@ Visit this link to see the structure for job data: https://katapultpro.com/schem
 ***Path Variables***
 | Variable | Replace With |
 |--------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
+| :jobId | The valid Job Id |  
 | :photoId | A valid photo push ID within the selected job |  
 
 ***Example GET Photo URL Request:***
@@ -755,7 +800,7 @@ var axios = require('axios');
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NgVTYY_sWEyFzpLHXWT/photoURL/015eb1ba-e8c9-4824-a721-9047?api_key={{api-key}}&filesize=full',
+  url: 'katapultpro.com/api/v2/jobs/-NgVTYY_sWEyFzpLHXWT/photoURL/015eb1ba-e8c9-4824-a721-904785q205vs?filesize=full&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { }
 };
 
@@ -792,7 +837,7 @@ Visit this link to see the structure for job data (inside which is the structure
 ***Path Variables***
 | Variable | Replace With |
 |--------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |   
+| :jobId | The valid Job Id |   
 
 
 ***Example Payload Body***
@@ -842,7 +887,7 @@ var data = JSON.stringify({
 var config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -936,7 +981,7 @@ var data = JSON.stringify({
 var config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: `${URL_PATH}?api_key=${API_KEY}`,
+    url: 'katapultpro.com/api/v2/jobs?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
     headers: { 
           'Content-Type': 'application/json'
     },
@@ -976,8 +1021,8 @@ This PATCH request updates an existing node within a job. The request requires a
 ***Path Variables***
 | Variable | Replace With |
 | ----------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
-| :nodeId | The valid Node Id of the node to update, found in the URL of the opened job with the node selected, after the -n |  
+| :jobId | The valid Job Id |  
+| :nodeId | The valid Node Id of the node to update |  
 
 ***Example Payload Body:***
 ```json
@@ -985,7 +1030,10 @@ This PATCH request updates an existing node within a job. The request requires a
     "latitude": 29.56486371782001,
     "longitude": -98.6970369527974,
     "attributes": [
-        {"attribute": "company", "value": "Unknown"}
+        {
+            "attribute": "company", 
+            "value": "Unknown"
+        }
     ]
 }
 ```
@@ -994,8 +1042,8 @@ This PATCH request updates an existing node within a job. The request requires a
 ```java
 var axios = require('axios');
 var data = JSON.stringify({
-  "latitude": "latitude of the node",
-  "longitude": "longitude of the node",
+  "latitude": 29.56486371782001,
+  "longitude": "-98.6970369527974",
   "attributes": [
     {
       "attribute": "node_type",
@@ -1008,7 +1056,7 @@ var data = JSON.stringify({
 var config = {
   method: 'patch',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes/-NEa1Q0IXKB2N5x_UZvL?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes/-NEa1Q0IXKB2N5x_UZvL?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -1024,11 +1072,11 @@ axios(config)
 });
 ```
 ***PATCH Update Node on Job Response:***
-Note: The return payload from this request will provide a confirmation of the changes. 
+Note: The return payload from this request will provide a confirmation and JSON of the changes. 
 
 ```json
 {
-    "key": "-NnFmrvT80tBTpshdg4G",
+    "key": "-NEa1Q0IXKB2N5x_UZvL",
     "data": {
         "_created": {
             "method": "api",
@@ -1062,8 +1110,8 @@ This PUT request uploads a photo to a specific node. The request requires a vail
 ***Path Variables***  
 | Variable | Replace With |
 | ----------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
-| :nodeId | The valid Node Id of the node to update, found in the URL of the opened job with the node selected, after the -n |  
+| :jobId | The valid Job Id |  
+| :nodeId | The valid Node Id of the node to update |  
 
 ***Example Payload Body:***
 ```json
@@ -1092,15 +1140,18 @@ var config = {
       });
 ```
 ***PUT Upload Photo To Node Response:***
-Note: The return payload from this request will provide a confirmation of the changes. 
+Note: The return payload from this request will provide a confirmation of the changes along with the PhotoID stored in a key. 
 
 ```json
-    "OK"
+{
+    "message": "OK",
+    "key": "d1757261-5z5w-41e8-802d-5a68a51a1427"
+}
 ```
 # PUT Upload Photo To Section
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/connections/:connectionId/sections/:sectionId/photos?api_key={{api-key}}_***
 
-This PUT request uploads a photo on a specific section. The request requires a vaild Job ID, Connection ID, and Section ID. The payload body be the image that will be added to the node.
+This PUT request uploads a photo on a specific section. The request requires a vaild Job ID, Connection ID, and Section ID. The payload body should be the image that will be added to the node.
 
 
 ***Query Params***
@@ -1111,9 +1162,9 @@ This PUT request uploads a photo on a specific section. The request requires a v
 ***Path Variables***
 | Variable | Replace With |
 | ----------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
-| :nodeId | The valid Node Id of the node to update, found in the URL of the opened job after the -n | 
-| :connectionId | The valid Connection Id of the connection to update, found in the URL of the opened job with the selected connection, after the -c |
+| :jobId | The valid Job Id |  
+| :nodeId | The valid Node Id of the node to update | 
+| :connectionId | The valid Connection Id of the connection to update |
 | :sectionId | The valid Section Id of the section to update | 
 
 
@@ -1129,7 +1180,7 @@ var data = 'image.jpg'
 var config = {
         method: 'put',
         maxBodyLength: Infinity,
-        url: `${URL_PATH}${JOB_ID}/connections${CONNECTION_ID}/sections${SECTION_ID}/photos?api_key=${API_KEY}`,
+        url: 'katapultpro.com/api/v2/jobs/-OKRkT1ZRf9rSiF8qiwL/connections/-OKRkZFYIO3L8x7rftqm/sections/midpoint_section/photos?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
         headers: { 
           'Content-Type': 'image/jpeg'
         },
@@ -1143,12 +1194,16 @@ var config = {
       .catch(function (error) {
         console.log(error);
       });
+}
 ```
 ***Response PUT Upload Photo To Section***
-Note: The return payload from this request will provide a confirmation of the changes. 
+Note: The return payload from this request will provide a confirmation of the changes along with the PhotoID stored in a key.
 
 ```json
-    "OK"
+{
+    "message": "OK",
+    "key": "4720d250-ebef-45d4-bb07-d64420e34435"
+}
 ```
 
 # PUT Archive a Job
@@ -1165,17 +1220,17 @@ This PUT request will change the specified job's status from 'active' to 'archiv
 ***Path Variables***
 | Variable | Replace With |
 | ----------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
+| :jobId | The valid Job Id |  
 
 
-***Example PUT Upload Photo To Section***
+***Example PUT Archive a Job***
 ```java
 var axios = require('axios');
 
 var config = {
   method: 'put',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/:jobId/archive?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs/-N_9o3H3_PmKWs88JDfz/archive?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { }
 };
 
@@ -1187,7 +1242,7 @@ axios(config)
   console.log(error);
 });
 ```
-***PUT Upload Photo To Section Response***
+***PUT Archive a Job To Section Response***
 Note: This request doesn't return any response body.
 
 # PUT Un-Archive a Job
@@ -1204,17 +1259,17 @@ This PUT request will change the job's status from 'archived' to 'active.' The j
 ***Path Variables***
 | Variable | Replace With |
 | ----------- | ----------- |
-| :jobId | The valid Job Id found in the URL of the opened job after the # |  
+| :jobId | The valid Job Id found |  
 
 
-***Example PUT Upload Photo To Section***
+***Example PUT Un-Archive a Job***
 ```java
 var axios = require('axios');
 
 var config = {
   method: 'put',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{api-key}}',
+  url: 'katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { }
 };
 
@@ -1226,5 +1281,5 @@ axios(config)
   console.log(error);
 });
 ```
-***Response PUT Upload Photo To Section***
+***Response PUT Un-Archive a Job***
 Note: This request doesn't return any response body.
