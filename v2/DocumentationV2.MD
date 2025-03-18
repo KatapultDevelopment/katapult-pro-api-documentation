@@ -143,7 +143,7 @@ axios(config)
 
 
 # GET Job List
-***Message:*** ***_katapultpro.com/api/v2/jobs?orderByChild={{status || name}}&equalTo={{archived || active || job_name}}&api_key={{api-key}}_***  
+***Message:*** ***_katapultpro.com/api/v2/jobs?orderByChild={{status || name}}&equalTo={{archived || active || job_name}}&{{metadata_attribute_name}}={{metadata_value_for_filtering}}&api_key={{api-key}}_***  
 This GET request will return a list of all jobs for your company.
 
 The orderByChild and equalTo query parameters can be used to filter the job list to only jobs that have a certain status or name.
@@ -1207,6 +1207,155 @@ Note: The return payload from this request will provide a confirmation of the ch
 }
 ```
 
+# POST Upload Photo Data
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}_***
+
+This POST request will create markers (whether height annotations or photo chips) on the photo with the correpsonding photo ID. The `"marker_type"` and `"pixel_selection"` properties are required in the payload body. The value for `"percentX"` and `"percentY"` in `"pixel_selection"` is a number between 0 and 100. For `"percentX"`, 0 corresponds to the left edge of the photo, whereas 100 corresponds to the right edge of the photo. With `"percentY"`, 0 corresponds to the top of the photo, while 100 corresponds with the bottom of the photo.
+
+
+***Query Params***
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+  
+***Path Variables***
+| Variable | Replace With |
+| ----------- | ----------- |
+| :jobId | The valid Job Id |
+| :photoID |  A valid photo push ID within the selected job |
+
+
+***Example Payload Body***
+```json
+[
+    {
+        "marker_type": "back",
+        "pixel_selection": [{"percentX": 0, "percentY": 0}]
+    },
+    {
+        "marker_type": "wire",
+        "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
+    }
+]
+```
+
+***Example POST Upload Photo Data Request:***
+```java
+var axios = require('axios');
+var data = JSON.stringify([
+    {
+        "marker_type": "back",
+        "pixel_selection": [{"percentX": 0, "percentY": 0}]
+    },
+    {
+        "marker_type": "wire",
+        "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
+    }
+]);
+
+var config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  headers: { 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
+***POST Upload Photo Data Response:***  
+```json
+{
+  "message": "OK'
+}
+```
+
+# PATCH Replace Photo Data
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}_***
+
+This PATCH request will update photo markers on the photo with the correpsonding photo ID. In the payload body, identify the marker you want to update by including its marker key and marker type. These properties are required in your payload body, as well as `"pixel_selection"`. (The value for `"percentX"` and `"percentY"` in `"pixel_selection"` is a number between 0 and 100. For `"percentX"`, 0 corresponds to the left edge of the photo, whereas 100 corresponds to the right edge of the photo. With `"percentY"`, 0 corresponds to the top of the photo, while 100 corresponds with the bottom of the photo.) Any other marker data you put in your payload body will overwrite any existing marker data.
+
+***Query Params***
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+  
+***Path Variables***
+| Variable | Replace With |
+| ----------- | ----------- |
+| :jobId | The valid Job Id |
+| :photoID |  A valid photo push ID within the selected job |
+
+
+***Example Payload Body***
+```json
+[
+    {
+        "marker_type": "insulator",
+        "marker_key": "-M2cpQTc2IdW4AdFC2gx",
+        "manual_height": "25'-2\"",
+        "pixel_selection": [{"percentX": 0, "percentY": 0}]
+    },
+    {
+        "marker_type": "wire",
+        "marker_key": "-M2coEssj_C2cVRKilDl",
+        "manual_height": "17'-7\"",
+        "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
+    }
+]
+```
+
+***Example PATCH Replace Photo Data Request:***
+```java
+var axios = require('axios');
+var data = JSON.stringify([
+    {
+        "marker_type": "insulator",
+        "marker_key": "-M2cpQTc2IdW4AdFC2gx",
+        "manual_height": "25'-2\"",
+        "pixel_selection": [{"percentX": 0, "percentY": 0}]
+    },
+    {
+        "marker_type": "wire",
+        "marker_key": "-M2coEssj_C2cVRKilDl",
+        "manual_height": "17'-7\"",
+        "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
+    }
+]);
+
+var config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  headers: { 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
+***PATCH Replace Photo Data Response:***  
+```json
+{
+    "message": "OK"
+}
+```
+
 # PUT Archive a Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/archive?api_key={{api-key}}_***
 
@@ -1246,7 +1395,7 @@ axios(config)
 ***PUT Archive a Job To Section Response***
 ```java
 {
-    "message": "OK"
+    "message": "Job status set to archived"
 }
 ```
 # PUT Un-Archive a Job
@@ -1258,7 +1407,7 @@ This PUT request will change the job's status from 'archived' to 'active.' The j
 ***Query Params***
 | Parameter | Value | Description | Required? |
 | --------- | ----------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
@@ -1288,6 +1437,6 @@ axios(config)
 ***Response PUT Un-Archive a Job***
 ```java
 {
-    "message": "OK"
+    "message": "Job status set to active"
 }
 ```
