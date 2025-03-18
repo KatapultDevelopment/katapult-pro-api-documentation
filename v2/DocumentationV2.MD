@@ -1249,7 +1249,6 @@ axios(config)
     "message": "OK"
 }
 ```
-
 # PUT Un-Archive a Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{api-key}}_***
 
