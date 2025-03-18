@@ -41,9 +41,9 @@ Ex: If your URL for accessing Katapult Pro on your private server were company.k
 This simple API GET request is provided to allow the user to test basic API access. This request can be used to test your basic starter application to ensure the subscription is active and your "Welcome Message" API request is working before moving on to more complex requests.
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` in the example message above with your API key (no curly braces) |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` in the example message above with your API key (no curly braces) | <mark>Yes</mark> |
 
 ***Example GET Welcome Message Request:***
 
@@ -80,9 +80,9 @@ axios(config)
 This GET request will return all of the users within your company.
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Example GET User List Request:***
 ```java
@@ -152,12 +152,12 @@ For example, by setting `orderByChild` to "status" and `equalTo` to "active," a 
 Another example is setting `orderByChild` to "name" and `equalTo` to "Test Job". In this case, the job with the name "Test Job" is returned.
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| orderByChild | Set to "status" or "name" | Select one of these two sorting methods. Order/sort jobs by Job Status or Job Name |
-| equalTo | Set to "archived," "active," or the name of the job in place of `job_name` | If "status" is used for `orderByChild`, use "archived" or "active;" if "name" is used for `orderByChild`, use the job name to return items that have matching values |
-| `{{metadata_attribute_name}}` | `{{metadata_value_for_filtering}}` | Replace `{{metadata_attribute_name}}` with the name of the metadata attribute you want (in snake case) to filter the list with and the value of the attribute you are looking for; replace `{{metadata_value_for_filtering}}` with the value the filtered attributes should have |
-| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| orderByChild | Set to "status" or "name" | Select one of these two sorting methods. Order/sort jobs by Job Status or Job Name | No |
+| equalTo | Set to "archived," "active," or the name of the job in place of `job_name` | If "status" is used for `orderByChild`, use "archived" or "active;" if "name" is used for `orderByChild`, use the job name to return items that have matching values | No |
+| `{{metadata_attribute_name}}` | `{{metadata_value_for_filtering}}` | Replace `{{metadata_attribute_name}}` with the name of the metadata attribute you want (in snake case) to filter the list with and the value of the attribute you are looking for; replace `{{metadata_value_for_filtering}}` with the value the filtered attributes should have | No |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Example GET Job List Request:***
 ```java
@@ -202,12 +202,12 @@ It is important that the length of the array that is returned from this request 
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| fromDate | `{{fromDate}}` | Replace `{{fromDate}}` with the starting date in the MM/DD/YY format (without leading zeros) i.e. 11/28/23 |
-| toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 |
-| useToday | Set to "true" or "false" | If marked true, the timestamp for the moment your request is received will be used for the end of the timeframe (for `toDate`) |
-| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| fromDate | `{{fromDate}}` | Replace `{{fromDate}}` with the starting date in the MM/DD/YY format (without leading zeros) i.e. 11/28/23 | <mark>Yes</mark> |
+| toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 | <mark>Yes</mark> |
+| useToday | Set to "true" or "false" | If marked true, the timestamp for the moment your request is received will be used for the end of the timeframe (for `toDate`) | No |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Example GET Updated Jobs List Request:***
 ```java
@@ -261,15 +261,15 @@ It is important that the length of the array that is returned from this request 
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| fromDate | `{{fromDate}}` | Replace `{{fromDate}}` with the starting date in the MM/DD/YY format (without leading zeros) i.e. 11/28/23 |
-| toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 |
-| useToday | Set to "true" or "false" | If marked true, the timestamp for the moment your request is received will be used for the end of the timeframe (for `toDate`) |
-| jobId | `{{jobId}}` | Replace `{{jobId}}` with the valid Job ID |
-| attribute | `{{attribute_name}}` | Filter nodes by whether or not the specified attribute (replace `{{attribute_name}}` with the name of the attribute in snake case) has been changed in the given timeframe (optional) |
-| changed | Set to "true" or "false" | List the nodes that were changed (using "true") or the nodes that were NOT changed (using "false") |
-| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| fromDate | `{{fromDate}}` | Replace `{{fromDate}}` with the starting date in the MM/DD/YY format (without leading zeros) i.e. 11/28/23 | <mark>Yes</mark> |
+| toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 | <mark>Yes</mark> |
+| useToday | Set to "true" or "false" | If marked true, the timestamp for the moment your request is received will be used for the end of the timeframe (for `toDate`) | No |
+| jobId | `{{jobId}}` | Replace `{{jobId}}` with the valid Job ID | <mark>Yes</mark> |
+| attribute | `{{attribute_name}}` | Filter nodes by whether or not the specified attribute (replace `{{attribute_name}}` with the name of the attribute in snake case) has been changed in the given timeframe (optional) | No |
+| changed | Set to "true" or "false" | List the nodes that were changed (using "true") or the nodes that were NOT changed (using "false") | No |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Example GET Updated Nodes List Request:***
 ```java
@@ -338,12 +338,12 @@ It is important that the amount of items that is returned from this request is m
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| fromDate | `{{fromDate}}` | Replace `{{fromDate}}` with the starting date in the MM/DD/YY format (without leading zeros) i.e. 11/28/23 |
-| toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 |
-| useToday | Set to "true" or "false" | If marked true, the timestamp for the moment your request is received will be used for the end of the timeframe (for `toDate`) |
-| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key |  
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| fromDate | `{{fromDate}}` | Replace `{{fromDate}}` with the starting date in the MM/DD/YY format (without leading zeros) i.e. 11/28/23 | <mark>Yes</mark> |
+| toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 | <mark>Yes</mark> |
+| useToday | Set to "true" or "false" | If marked true, the timestamp for the moment your request is received will be used for the end of the timeframe (for `toDate`) | No |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
@@ -425,19 +425,21 @@ The `_api_proposed_height` key will be added to wire objects in midspans for eit
 * The midspan wire is proposed
 * The midspan wire is moved - either by a Make Ready move on the wire in the midspan itself or by a move on a pole at either end of the connection the midspan is on.
 
-The value for `_api_proposed_height` is the calculated proposed height for the midspan wire in inches.  
+The value for `_api_proposed_height` is the calculated proposed height for the midspan wire in inches.
+
+You can optionally include the _include_company_picklist_ query parameter as well with a value of "true" to show the companies in their respective picklists under the Company attribute for the job model used in the job.
 
 ***Query Params***  
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| include_proposed_midspan_heights | Set to "true" | Include proposed midspan heights in the response body |
-| include_proposed_existing_and_markers | Set to "true" | Include this if proposed and existing heights are needed for all markers; you will see the proposed heights, existing heights, and marker IDs in the response body |
-| height_marker_type | Set to "node," "midspan," or "both" | Optional parameter when using `include_proposed_existing_and_markers` to set which height photos should include the height data |
-| include_pixel_selection | Set to "true" | Include this parameter and set it to "true" if pixel selection coordinates are needed for all markers |
-| include_anchor_calibrations | Set to "true" | Include this parameter if anchor calibration markers should be included in the response body |
-| include_mr_directives | Set to "true" | The response body will include Make Ready Directives for nodes and sections if this parameter is set to "true" |
-| include_company_picklist | Set to "true" | The response body will include the picklist values for the Company attribute for the job model used for the job you are accessing at the end of the body |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with you API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| include_proposed_midspan_heights | Set to "true" | Include proposed midspan heights in the response body | No |
+| include_proposed_existing_and_markers | Set to "true" | Include this if proposed and existing heights are needed for all markers; you will see the proposed heights, existing heights, and marker IDs in the response body | No |
+| height_marker_type | Set to "node," "midspan," or "both" | Optional parameter when using `include_proposed_existing_and_markers` to set which height photos should include the height data | No |
+| include_pixel_selection | Set to "true" | Include this parameter and set it to "true" if pixel selection coordinates are needed for all markers | No |
+| include_anchor_calibrations | Set to "true" | Include this parameter if anchor calibration markers should be included in the response body | No |
+| include_mr_directives | Set to "true" | The response body will include Make Ready Directives for nodes and sections if this parameter is set to "true" | No |
+| include_company_picklist | Set to "true" | The response body will include the picklist values for the Company attribute for the job model used for the job you are accessing at the end of the body | No |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with you API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
@@ -594,8 +596,8 @@ axios.request(config)
             }
     }
 }
+```
 
-```    
 ***Same GET Job Data Response (but with the `include_company_picklists=true` in request):***
 ```json
 {
@@ -640,7 +642,6 @@ axios.request(config)
     }
 }
 ```
-
 # GET Partial Job Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/:paths?api_key={{api-key}}_***
 
@@ -653,9 +654,9 @@ If you only include one path, only the data at that path will be returned. If yo
 Visit this link to see the structure for job data: https://katapultpro.com/schema/job.json
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |  
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
@@ -780,10 +781,10 @@ Visit this link to see the structure for job data: https://katapultpro.com/schem
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| file_size | Set to "full" or "none" | Return the full sized photo link or none |  
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| file_size | Set to "full" or "none" | Return the full sized photo link or none | No | 
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 
 ***Path Variables***
@@ -830,9 +831,9 @@ This POST request creates a new node within a job. The job must be existing, and
 Visit this link to see the structure for job data (inside which is the structure for node data): https://katapultpro.com/schema/job.json
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
@@ -954,9 +955,9 @@ This POST request creates a new job. The payload body needs a job name, the map 
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 
 ***Example Payload Body:***
@@ -1014,9 +1015,9 @@ This PATCH request updates an existing node within a job. The request requires a
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |  
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
@@ -1103,9 +1104,9 @@ This PUT request uploads a photo to a specific node. The request requires a vail
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***  
 | Variable | Replace With |
@@ -1155,9 +1156,9 @@ This PUT request uploads a photo on a specific section. The request requires a v
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |  
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
@@ -1213,9 +1214,9 @@ This PUT request will change the specified job's status from 'active' to 'archiv
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
   
 ***Path Variables***
 | Variable | Replace With |
@@ -1242,11 +1243,12 @@ axios(config)
   console.log(error);
 });
 ```
-
-***Response PUT Archive a Job***
-
-Note: This request doesn't return any response body.
-
+***PUT Archive a Job To Section Response***
+```java
+{
+    "message": "OK"
+}
+```
 # PUT Un-Archive a Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{api-key}}_***
 
@@ -1254,9 +1256,9 @@ This PUT request will change the job's status from 'archived' to 'active.' The j
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
@@ -1284,4 +1286,8 @@ axios(config)
 });
 ```
 ***Response PUT Un-Archive a Job***
-Note: This request doesn't return any response body.
+```java
+{
+    "message": "OK"
+}
+```
