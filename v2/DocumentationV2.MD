@@ -1242,7 +1242,9 @@ axios(config)
   console.log(error);
 });
 ```
-***PUT Archive a Job To Section Response***
+
+***Response PUT Archive a Job***
+
 Note: This request doesn't return any response body.
 
 # PUT Un-Archive a Job
