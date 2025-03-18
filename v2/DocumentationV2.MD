@@ -157,7 +157,7 @@ Another example is setting `orderByChild` to "name" and `equalTo` to "Test Job".
 | orderByChild | Set to "status" or "name" | Select one of these two sorting methods. Order/sort jobs by Job Status or Job Name | No |
 | equalTo | Set to "archived," "active," or the name of the job in place of `job_name` | If "status" is used for `orderByChild`, use "archived" or "active;" if "name" is used for `orderByChild`, use the job name to return items that have matching values | No |
 | `{{metadata_attribute_name}}` | `{{metadata_value_for_filtering}}` | Replace `{{metadata_attribute_name}}` with the name of the metadata attribute you want (in snake case) to filter the list with and the value of the attribute you are looking for; replace `{{metadata_value_for_filtering}}` with the value the filtered attributes should have | No |
-| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> | 
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Example GET Job List Request:***
 ```java
@@ -264,10 +264,10 @@ It is important that the length of the array that is returned from this request 
 | Parameter | Value | Description | Required? |
 | --------- | ----------- | ----------- | ----------- |
 | fromDate | `{{fromDate}}` | Replace `{{fromDate}}` with the starting date in the MM/DD/YY format (without leading zeros) i.e. 11/28/23 | <mark>Yes</mark> |
-| toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 | <mark>Yes</mark>
+| toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 | <mark>Yes</mark> |
 | useToday | Set to "true" or "false" | If marked true, the timestamp for the moment your request is received will be used for the end of the timeframe (for `toDate`) | No |
 | jobId | `{{jobId}}` | Replace `{{jobId}}` with the valid Job ID | <mark>Yes</mark> |
-| attribute | `{{attribute_name}}` | Filter nodes by whether or not the specified attribute (replace `{{attribute_name}}` with the name of the attribute in snake case) has been changed in the given timeframe | No |
+| attribute | `{{attribute_name}}` | Filter nodes by whether or not the specified attribute (replace `{{attribute_name}}` with the name of the attribute in snake case) has been changed in the given timeframe (optional) | No |
 | changed | Set to "true" or "false" | List the nodes that were changed (using "true") or the nodes that were NOT changed (using "false") | No |
 | api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
@@ -339,7 +339,7 @@ It is important that the amount of items that is returned from this request is m
 
 ***Query Params***
 | Parameter | Value | Description | Required? |
-| --------- | ----------- | ----------- |
+| --------- | ----------- | ----------- | ----------- |
 | fromDate | `{{fromDate}}` | Replace `{{fromDate}}` with the starting date in the MM/DD/YY format (without leading zeros) i.e. 11/28/23 | <mark>Yes</mark> |
 | toDate | `{{toDate}}` | Replace `{{toDate}}` with the ending date in the MM/DD/YY format (without leading zeros) i.e. 2/1/23 | <mark>Yes</mark> |
 | useToday | Set to "true" or "false" | If marked true, the timestamp for the moment your request is received will be used for the end of the timeframe (for `toDate`) | No |
@@ -425,7 +425,9 @@ The `_api_proposed_height` key will be added to wire objects in midspans for eit
 * The midspan wire is proposed
 * The midspan wire is moved - either by a Make Ready move on the wire in the midspan itself or by a move on a pole at either end of the connection the midspan is on.
 
-The value for `_api_proposed_height` is the calculated proposed height for the midspan wire in inches.  
+The value for `_api_proposed_height` is the calculated proposed height for the midspan wire in inches.
+
+You can optionally include the _include_company_picklist_ query parameter as well with a value of "true" to show the companies in their respective picklists under the Company attribute for the job model used in the job.
 
 ***Query Params***  
 | Parameter | Value | Description | Required? |
@@ -594,8 +596,8 @@ axios.request(config)
             }
     }
 }
+```
 
-```    
 ***Same GET Job Data Response (but with the `include_company_picklists=true` in request):***
 ```json
 {
@@ -640,7 +642,6 @@ axios.request(config)
     }
 }
 ```
-
 # GET Partial Job Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/:paths?api_key={{api-key}}_***
 
@@ -780,9 +781,9 @@ Visit this link to see the structure for job data: https://katapultpro.com/schem
 
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
-| file_size | Set to "full" or "none" | Return the full sized photo link or none |  No |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| file_size | Set to "full" or "none" | Return the full sized photo link or none | No | 
 | api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 
@@ -830,8 +831,8 @@ This POST request creates a new node within a job. The job must be existing, and
 Visit this link to see the structure for job data (inside which is the structure for node data): https://katapultpro.com/schema/job.json
 
 ***Query Params***
-| Parameter | Value | Description |
-| --------- | ----------- | ----------- |
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
 | api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
@@ -1397,7 +1398,6 @@ axios(config)
     "message": "Job status set to archived"
 }
 ```
-
 # PUT Un-Archive a Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{api-key}}_***
 
@@ -1407,7 +1407,7 @@ This PUT request will change the job's status from 'archived' to 'active.' The j
 ***Query Params***
 | Parameter | Value | Description | Required? |
 | --------- | ----------- | ----------- | ----------- |
-| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key |<mark>Yes</mark> |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Path Variables***
 | Variable | Replace With |
