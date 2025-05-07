@@ -56,6 +56,7 @@ Responses from the API will be in JSON format and contain information about how 
 | 400 | Bad Request - The request was invalid or malformed. |
 | 401 | Unauthorized - The request did not include a valid API key or the API key is invalid. |
 | 404 | Not Found - The requested resource was not found. |
+| 429 | Rate Limit Exceeded - The API key used for the request has exceeded the rate limit for the API. Increase the delay between your requests to avoid this error. |
 | 500 | Internal Server Error - An error occurred on the server while processing the request. |
 
 ### Getting IDs from Katapult Pro
