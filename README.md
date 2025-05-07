@@ -1,64 +1,70 @@
-# ***Katapult Pro API***
-***Welcome to the Katapult Pro API!***
+# Katapult Pro API Documentation
+
+Welcome to the Katapult Pro API!
+
+## Versions
+- (Preview) [Katapult Pro API v3](v3/README.md)
+- [Katapult Pro API v2](v2/DocumentationV2.MD)
+- [Katapult Pro API v1](https://documenter.getpostman.com/view/9081167/SVtVV93W)
 
 ## Introduction
-“What is an API?” API is an acronym for application programming interface — a software intermediary that allows a user to programmatically access the backend of a PC/Web-based application without using the frontend user interface. Typically, applications have a backend engine that allows for easy storage, search, and manipulation of data of which a frontend application is added to provide a user-friendly interface for day-to-day data entry. In our case, Katapult has provided an API that allows users to access their company firebase data without the use of the Katapult Pro frontend.
 
-## Usage
-Customers use the API in order to facilitate operations required to programmatically manipulate their company firebase database in many ways. Here are some examples to note that make this powerful for our users. 
-* Third Party integrations - There are numerous data management software packages in use by our customers that helps them organize their Company workflows. We do not specifically build a complete solution for direct integration, however, customers have used our API to populate their Katapult Pro database with information from other databases.
-## API Response Format
-Responses returned from the API directly will have a JSON format. This will make it easier to identify if the API had an issue with a request or the cloud server itself has had an issue with the request. A typical response without error should be returned as shown below.
-***Response to PUT(200)***
-```javascript
-{
-    "message": "OK"
-}
+[API](https://en.wikipedia.org/wiki/API) stands for Application Programming Interface: a software intermediary that allows a user to programmatically access application resources without using a front end interface. They are useful for automating tasks, integrating with other applications, and building custom solutions. Katapult Pro has an API that allows users to programmatically access and manipulate their Katapult Pro data, including jobs, users, company information, and more.
+
+The Katapult Pro API is a [RESTful](https://en.wikipedia.org/wiki/REST) API that uses standard HTTP methods (GET, POST, DELETE) to interact with resources.
+
+## Getting Started
+
+### Authentication
+
+To get started with the Katapult Pro API, you will need to obtain an API key. This key is used to authenticate your requests and ensure that only authorized users can access your data. Obtaining an API is done in different ways depending on the version of the API you are using.
+- For v2 (and v3 preview), see the [v2 API Key generation guide](v2/DocumentationV2.MD#api-key-generation).
+- For v2, contact [Katapult Pro support](mailto:support@katapultengineering.com).
+
+### Usage
+
+Once you have your API key, you can start making requests to the Katapult Pro API. Our API versions are hosted at:
+```sh
+https://katapultpro.com/api/v3
+https://katapultpro.com/api/v2
+https://katapultpro.com/api/v1
 ```
-**Response to Invalid API Key**
-```json
-{
-    "error": "INVALID API KEY"
-}
-```
-**Response to Welcome Message**
-```json
-{
-    "message": "Welcome to the Katapult Pro API"
-}
-```
-**Bad response to GET Job Data**
-```json
-{
-    "error": "PERMISSION_DENIED"
-}
-```
-***Error Response (500)***
-```json
-{
-    "error": "Internal Server Error"
-}
-```
-Server error codes, like 500, that do not have an associated JSON response indicates that your request has not made it to the API interface. This error has not been returned by the API and is likely an error in handling the transmission of the API call.
 
-## Job ID
-The user can open a Katapult Pro job and look to the url to obtain the actual Job ID. In the example below, the Job ID is “-MWjCEDgYy9qzw2zZ2dc,” which is the ID after the ‘#’ sign in the url.
+Private server users should use their private server domain instead of katapultpro.com.
 
-//katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc
+To interact with the API, send HTTP requests to the appropriate endpoint (see respective API documentation for details on endpoints). The API will respond with JSON data, which you can parse and use in your application. To get started making request, you can use an interactive tool like [Postman](https://www.postman.com/) or a command line tool like [cURL](https://curl.se/).
 
-## Node ID
-The Node ID can be derived by using the same method above. The Node ID in the example below is “-MTLZaZZiv_iMOEKc70T,” which is the ID after the ‘n’ in the url.
-//katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/n-MTLZaZZiv_iMOEKc70T
+Programming languages like Python, JavaScript, and Ruby have methods and libraries for making HTTP requests and parsing JSON data. Here are some recommendations and resources for popular programming languages (be sure to check the documentation for your specific version of the language and determine the appropriateness of the library for your use case):
 
-## Connection ID
-The Connection ID is similar to Node ID. The Connection ID in the example below is “-MJ93SdtSMBWcCWdRBFN,” which is the ID after the ‘c’ in the url.
+| Language | Making Requests | Parsing Responses |
+| --- | --- | --- |
+| bash | [cURL](https://curl.se/) | [jq](https://stedolan.github.io/jq/) |
+| Python | [requests](https://docs.python-requests.org/en/latest/) | [json](https://docs.python.org/3/library/json.html) |
+| JavaScript | [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) | [JSON.parse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse) |
+| Ruby | [Net::HTTP](https://ruby-doc.org/stdlib-2.7.0/libdoc/net/http/rdoc/Net/HTTP.html) | [JSON.parse](https://ruby-doc.org/stdlib-2.7.0/libdoc/json/rdoc/JSON.html#method-c-parse) |
+| Java | [HttpURLConnection](https://docs.oracle.com/javase/7/docs/api/java/net/HttpURLConnection.html) | [Jackson](https://github.com/FasterXML/jackson-databind/) |
 
-//katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/c-MJ93SdtSMBWcCWdRBFN
+### Request Endpoints and Responses
 
-## Section ID
-Similar to Connection and Node, the Section ID in the example below is “-MJ93SdtSMBWcCWdRBFN,” which is the ID after the ‘s’ in the url.
-//katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/s-MJ93SdtSMBWcCWdRBFN:midpoint_section
+Endpoints in a RESTful API are the URLs that you send requests to. Each endpoint corresponds to a specific resource or action in the API. Refer to the respective API documentation for a list of available endpoints and their descriptions.
 
-# Version Specific Documentation
-# [Katapult Pro API V1](https://documenter.getpostman.com/view/9081167/SVtVV93W)
-# [Katapult Pro API V2](v2/DocumentationV2.MD)
+Responses from the API will be in JSON format and contain information about how the request was processed, most importantly with any requested data, and whether it was successful or not. The response will also include an HTTP status code that indicates the success or failure of the request.
+
+| HTTP Status Code | Description |
+| --- | --- |
+| 200 | OK - The request was successful and the response contains the requested data. |
+| 400 | Bad Request - The request was invalid or malformed. |
+| 401 | Unauthorized - The request did not include a valid API key or the API key is invalid. |
+| 404 | Not Found - The requested resource was not found. |
+| 500 | Internal Server Error - An error occurred on the server while processing the request. |
+
+### Getting IDs from Katapult Pro
+
+Unlike with the Katapult Pro web application, the API primarily identifies resources by their IDs. Particularly when getting started with the API, it is helpful to work with data that is already accessible in Katapult Pro, and you can get the IDs of common resources from the Katapult Pro web application from the URL of certain pages. The following examples show how to get IDs from Desktop (/map).
+
+| Resource | URL Example | Notes |
+| --- | --- | --- |
+| Job | https://katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc | `-MWjCEDgYy9qzw2zZ2dc` is the job ID. Selecting a job from the job chooser will put this in the URL. |
+| Node | https://katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/n-MTLZaZZiv_iMOEKc70T | `-MTLZaZZiv_iMOEKc70T` is the node ID. Selecting a node on the map will put this in the URL. Be sure to _not_ include the `n` prefix. |
+| Connection | https://katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/c-MJ93SdtSMBWcCWdRBFN | `-MJ93SdtSMBWcCWdRBFN` is the connection ID. Selecting a connection on the map will put this in the URL. Be sure to _not_ include the `c` prefix. |
+| Section | https://katapultpro.com/map/#-MWjCEDgYy9qzw2zZ2dc/s-MJ93SdtSMBWcCWdRBFN:midpoint_section | `midpoint_section` is the section ID. Selecting a section on the map will put this in the URL. Note that the section ID is the last part of the URL after the `:`. |
