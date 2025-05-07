@@ -1440,3 +1440,210 @@ axios(config)
     "message": "Job status set to active"
 }
 ```
+# GET App Buttons
+***Message:*** ***_workflow-management.katapultpro.com/api/v2/application/getAllowedActionButtons/:appId?api_key={{api-key}}_***
+
+This GET request will return all the buttons that would appear on the application (that matches the provided App ID) given its status at the time of the request. The response is a list containing the ID and Name of each button on the application. 
+
+***Query Params***
+
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+
+***Path Variables***
+
+| Variable | Replace With |
+| --------- | ----------- |
+| :appId | The valid Id of the application you are accessing |
+
+***Example GET App Buttons Request:***
+```java
+    var axios = require(‘axios’);
+    var config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'workflow-management.katapultpro.com/api/v2/application/getAllowedActionButtons/-OwmIsbn3idk2IkOksLs?a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+        headers: { 
+          'Content-Type': ‘application/json'
+        },
+        data : data
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+```
+***GET App Buttons Response:***
+```java
+[
+    {
+        “-OxkdEj8sIfKxMe3WO0a”: “Estimate Complete”
+    }
+]
+```
+
+
+# GET App Prompts
+***Message:*** ***_workflow-management.katapultpro.com/api/v2/application/getAppPrompts/:appId?button_id={{button-id}}&api_key={{api-key}}_***
+
+This GET App Prompts request will return the prompt that the button (matching the provided button ID) triggers. For the ‘button_id’ query parameter, use the ID of the desired button from the response to the GET App Buttons request.
+
+***Query Params***
+
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| button_id | `{{button-id}}` | Replace `{{button-id}}` with the ID of the button that triggers the app’s prompts | <mark>Yes</mark> |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+
+***Path Variables***
+
+| Variable | Replace With |
+| --------- | ----------- |
+| :appId | The valid Id for the application you are accessing |
+
+***Example GET App Prompts Request:***
+```java
+var axios = require(‘axios’);
+var config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'workflow-management.katapultpro.com/api/v2/application/getAppPrompts/-OwmIsbn3idk2IkOksLs?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+        headers: { 
+          'Content-Type': ‘application/json'
+        },
+        data : data
+      };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+```
+***GET App Prompts Response:***
+```java
+{
+    “emails”: [
+        {
+            “action”: “SEND_EMAIL”,
+            “email_template”: {
+                “body”: “”,
+                “options”: {
+                    “portal_send_to_applicant”: true,
+                    “portal_send_to_utility”: true,
+                    “portal_user_editable”: true
+                },
+                “subject”: “ACTION REQUIRED - APPLICATION_3246638 - \”Susquehanna Southeast Route\” - Status set to Attacher Acceptance”,
+                “addresses”: {},
+                “to” “”,
+                “cc”: “”
+            },
+            “order”: 7,
+            “$key”: “-OSiamw8IAMEgpSIEm1S”
+        }
+    ],
+    “prompts”: [
+        {
+            “attribute”: “note”,
+            “default_value”: “Default Value”,
+            “order”: 0,
+            “required”: true,
+            “type”: “UPDATE_APPLICATION”,
+            “$value”: “Default Note”
+        }
+    ]
+}
+
+```
+
+
+# PATCH Update App Status
+***Message:*** ***_workflow-management.katapultpro.com/api/v2/application/takeAppAction/:jobId?api_key={{api-key}}_***
+
+This PATCH Update App Status request allows you to essentially “click” an action button, “fill out” any prompt that may pop up, and move the application along in its process. For the payload body, essentially you’ll want to take the response from the GET App Prompts request and modify some of the values to suit your needs.
+
+***Query Params***
+
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+
+***Path Variables***
+
+| Variable | Replace With |
+| --------- | ----------- |
+| :appId | The valid Id for the application you are accessing |
+
+
+***Example Payload Body:***
+```java
+{
+    “emails”: [
+        {
+            “action”: “SEND_EMAIL”,
+            “email_template”: {
+                “body”: “”,
+                “options”: {
+                    “portal_send_to_applicant”: true,
+                    “portal_send_to_utility”: true,
+                    “portal_user_editable”: true
+                },
+                “subject”: “ACTION REQUIRED - APPLICATION_3246638 - \”Susquehanna Southeast Route\” - Status set to Attacher Acceptance”,
+                “addresses”: {},
+                “to” “”,
+                “cc”: “”
+            },
+            “order”: 7,
+            “$key”: “-OSiamw8IAMEgpSIEm1S”
+        }
+    ],
+    “prompts”: [
+        {
+            “attribute”: “note”,
+            “default_value”: “Default Value”,
+            “order”: 0,
+            “required”: true,
+            “type”: “UPDATE_APPLICATION”,
+            “$value”: “Default Note”
+        }
+    ]
+}
+```
+***Example PATCH Update App Status Request:***
+```java
+var axios = require(‘axios’);
+var data = JSONstringify( {{put_payload_body_in_here}} );
+var config = {
+        method: '{{put_the_right_method_here}}',
+        maxBodyLength: Infinity,
+        url: '{{put_url_here}}',
+        headers: { 
+          'Content-Type': ‘application/json'
+        },
+        data : data
+      };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+}
+```
+***PATCH Update App Status Response:***
+```java
+{
+“message”: “Success”
+}
+```
