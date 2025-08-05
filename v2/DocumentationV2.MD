@@ -822,6 +822,184 @@ axios(config)
 }
 ```
 
+# GET Pages
+***Message:*** ***_katapultpro.com/api/v2/company-data/pages?&api_key={{api-key}}_***
+
+This GET request will request the pages from the user's company. This allows the user to include the links to each of their company's pages, both standard and custom, in the nine-dot menu of their custom extensions.
+
+
+***Query Params***
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+
+
+***Example GET Pages Request:***
+
+```java
+var axios = require("axios");
+
+var config = {
+  method: "get",
+  maxBodyLength: Infinity,
+  url: "katapultpro.com/api/v2/company-data/pages?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc7096789b515c2a03e4abc2174e-89Ee5cd5d4a656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c91d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54decaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a61e8d1-b01a53b44a389643f408b93333d79afbb4a-f1e944ab98312ce836a1a3a3",
+  headers: {}
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+
+```
+***GET Pages Response:***
+
+```json
+[
+    {
+        "page": "pole-application-overview",
+        "order": 1,
+        "name": "app overview",
+        "color": "var(--paper-grey-700)",
+        "icon": "format_list_bulleted",
+        "url": "pole-application-overview/",
+        "isExtension": false
+    },
+    {
+        "page": "admin",
+        "order": 2,
+        "name": "admin",
+        "color": "var(--paper-red-600)",
+        "icon": "group",
+        "url": "admin/",
+        "isExtension": false
+    },
+    {
+        "page": "photos",
+        "order": 2,
+        "name": "photos",
+        "color": "var(--paper-blue-500)",
+        "icon": "image",
+        "url": "photos/",
+        "isExtension": false
+    },
+    {
+        "page": "upload",
+        "order": 3,
+        "name": "upload",
+        "color": "var(--paper-deep-purple-500)",
+        "icon": "file_upload",
+        "url": "upload/",
+        "isExtension": false
+    },
+    {
+        "page": "pole-application",
+        "order": 3,
+        "name": "app view",
+        "color": "var(--paper-light-blue-500)",
+        "icon": "assignment",
+        "url": "pole-application/",
+        "isExtension": false
+    },
+    {
+        "page": "map",
+        "order": 4,
+        "name": "survey view",
+        "color": "var(--paper-green-700)",
+        "icon": "map",
+        "url": "map/",
+        "isExtension": false
+    },
+    {
+        "page": "dashboard",
+        "order": 4,
+        "name": "dashboard",
+        "color": "var(--paper-indigo-500)",
+        "icon": "dashboard",
+        "url": "dashboard/",
+        "isExtension": false
+    },
+    {
+        "page": "viewer",
+        "order": 5,
+        "name": "viewer",
+        "color": "#E91E63",
+        "icon": "photo_library",
+        "url": "viewer/",
+        "isExtension": false
+    },
+    {
+        "page": "home",
+        "order": 6,
+        "name": "home",
+        "color": "var(--paper-teal-600)",
+        "icon": "home",
+        "url": "home/",
+        "isExtension": false
+    },
+    {
+        "page": "search",
+        "order": 7,
+        "name": "search",
+        "color": "var(--paper-brown-700)",
+        "icon": "search",
+        "url": "search/",
+        "isExtension": false
+    },
+    {
+        "page": "model-editor",
+        "order": 8,
+        "name": "model-editor",
+        "color": "var(--paper-deep-orange-500)",
+        "icon": "settings",
+        "url": "model-editor/",
+        "isExtension": false
+    },
+    {
+        "page": "https://katapult-template-test.web.app/",
+        "name": "API Template",
+        "color": "#26DFD6",
+        "icon": "amp_stories",
+        "url": "https://katapult-template-test.web.app//",
+        "isExtension": true
+    },
+    {
+        "page": "https://github.com/KatapultDevelopment/katapult-pro-api-documentation/blob/main/README.md",
+        "name": "API Reference",
+        "color": "#2A26DF",
+        "icon": "assistant",
+        "url": "https://github.com/KatapultDevelopment/katapult-pro-api-documentation/blob/main/README.md/",
+        "isExtension": true
+    },
+    {
+        "page": "https://www.katapultengineering.com/blog/integrated-pole-loading",
+        "name": "Pole Loading",
+        "color": "#94094E",
+        "icon": "library_books",
+        "url": "https://www.katapultengineering.com/blog/integrated-pole-loading/",
+        "isExtension": true
+    },
+    {
+        "page": "pole-application-getting-started",
+        "order": 5,
+        "name": "getting started",
+        "color": "var(--paper-indigo-500)",
+        "icon": "help",
+        "url": "pole-application-getting-started/",
+        "isExtension": false
+    },
+    {
+        "page": "project-management",
+        "name": "project management",
+        "color": "var(--primary-color)",
+        "icon": "hub",
+        "url": "project-management"
+    }
+]
+```
 
 # POST Create Node
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/nodes?api_key={{api-key}}_***
