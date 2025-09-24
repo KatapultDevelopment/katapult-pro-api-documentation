@@ -19,7 +19,7 @@ The Katapult Pro API is a [RESTful](https://en.wikipedia.org/wiki/REST) API that
 
 To get started with the Katapult Pro API, you will need to obtain an API key. This key is used to authenticate your requests and ensure that only authorized users can access your data. Obtaining an API is done in different ways depending on the version of the API you are using.
 - For v2 (and v3 preview), see the [v2 API Key generation guide](v2/DocumentationV2.MD#api-key-generation).
-- For v2, contact [Katapult Pro support](mailto:support@katapultengineering.com).
+- For v1, contact [Katapult Pro support](mailto:support@katapultengineering.com).
 
 ### Usage
 
