@@ -1388,13 +1388,19 @@ Note: The return payload from this request will provide a confirmation of the ch
 # POST Upload Photo Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}_***
 
-This POST request will create markers (whether height annotations or photo chips) on the photo with the correpsonding photo ID. The `"marker_type"` and `"pixel_selection"` properties are required in the payload body. The value for `"percentX"` and `"percentY"` in `"pixel_selection"` is a number between 0 and 100. For `"percentX"`, 0 corresponds to the left edge of the photo, whereas 100 corresponds to the right edge of the photo. With `"percentY"`, 0 corresponds to the top of the photo, while 100 corresponds with the bottom of the photo.
+This POST request will create markers (whether height annotations or photo chips) on the photo with the corresponding photo ID. 
 
+The payload body can be an array of markers to create or just a single object for one marker. The `"marker_type"` property is required as a query parameter as well as in the object for each marker. The `"marker_type"` query parameter will be used for every marker created.
+
+Photo chip elements _must not_ have a `"pixel_selection"` or `"manual_height"` property. Height annotation elements _must_ have a `"pixel_selection"` property. The value for `"percentX"` and `"percentY"` in `"pixel_selection"` is a number between 0 and 100. For `"percentX"`, 0 corresponds to the left edge of the photo, whereas 100 corresponds to the right edge of the photo. With `"percentY"`, 0 corresponds to the top of the photo, while 100 corresponds to the bottom of the photo. The `manual_height` property should only be used for height annotations on a non-calibrated photo.
+
+Any additional properties in the marker's object will be considered a marker attribute and applied to the marker.
 
 ***Query Params***
 | Parameter | Value | Description | Required? |
 | --------- | ----------- | ----------- | ----------- |
 | api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+| marker_type   | `{{marker_type}}` | The marker's input model (can be found in Model Editor under Photo Elements) | <mark>Yes</mark> |
   
 ***Path Variables***
 | Variable | Replace With |
@@ -1403,33 +1409,28 @@ This POST request will create markers (whether height annotations or photo chips
 | :photoID |  A valid photo push ID within the selected job |
 
 
-***Example Payload Body***
+***Example Photo Chip Payload Body***
 ```json
-[
-    {
-        "marker_type": "back",
-        "pixel_selection": [{"percentX": 0, "percentY": 0}]
-    },
-    {
-        "marker_type": "wire",
-        "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
-    }
-]
+{
+  "marker_type": "back"
+}
+```
+
+***Example Height Annotation Payload Body***
+```json
+{
+  "marker_type": "wire",
+  "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
+}
 ```
 
 ***Example POST Upload Photo Data Request:***
 ```java
 var axios = require('axios');
-var data = JSON.stringify([
-    {
-        "marker_type": "back",
-        "pixel_selection": [{"percentX": 0, "percentY": 0}]
-    },
-    {
-        "marker_type": "wire",
-        "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
-    }
-]);
+var data = JSON.stringify({
+  "marker_type": "wire",
+  "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
+});
 
 var config = {
   method: 'post',
