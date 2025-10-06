@@ -1460,7 +1460,7 @@ axios(config)
 # PATCH Replace Photo Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}&marker_type={{marker_type}}&marker_key={{marker_key}}_***
 
-This PATCH request will update the photo marker on the photo with the correpsonding photo ID.
+This PATCH request will update the photo marker on the photo with the corresponding photo ID.
 
 In the payload body, identify the marker you want to update by including its `"marker_type"` and `"marker_key"` in the object for the marker. These properties are also required as query parameters.
 
@@ -1469,6 +1469,8 @@ If you are updating a photo chip element, you _must not_ include a `"pixel_selec
 The value for `"percentX"` and `"percentY"` in `"pixel_selection"` is a number between 0 and 100. For `"percentX"`, 0 corresponds to the left edge of the photo, whereas 100 corresponds to the right edge of the photo. With `"percentY"`, 0 corresponds to the top of the photo, while 100 corresponds to the bottom of the photo. The `manual_height` property should only be used for height annotations on a non-calibrated photo.
 
 Any other properties you include in the marker object will overwrite any existing marker data.
+
+If you want to delete an existing marker, use the Delete Photo Data call.
 
 ***Query Params***
 | Parameter | Value | Description | Required? |
@@ -1505,7 +1507,7 @@ var data = JSON.stringify({
 });
 
 var config = {
-  method: 'post',
+  method: 'patch',
   maxBodyLength: Infinity,
   url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&marker_key=-M2coEssj_C2cVRKilDl&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { 
@@ -1526,6 +1528,68 @@ axios(config)
 ```json
 {
     "message": "OK"
+}
+```
+
+# DELETE Delete Photo Data
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}&marker_type={{marker_type}}&marker_key={{marker_key}}_***
+
+This DELETE request will remove the photo marker with the corresponding photo ID from the photo.
+
+You do not need to provide a payload body for this call.  Only the `"marker_type"` and `"marker_key"` properties are required as query parameters.
+
+This call will return to you the key of the marker deleted as well as the marker data that was deleted.
+
+***Query Params***
+| Parameter | Value | Description | Required? |
+| --------- | ----------- | ----------- | ----------- |
+| api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+| marker_type   | `{{marker_type}}` | The marker's input model (can be found in Model Editor under Photo Elements) | <mark>Yes</mark> |
+| marker_key | `{{marker_key}}` | The key of the marker to delete | <mark>Yes</mark> |
+  
+***Path Variables***
+| Variable | Replace With |
+| ----------- | ----------- |
+| :jobId | The valid Job Id |
+| :photoID |  A valid photo push ID within the selected job |
+
+
+***Example DELETE Photo Data Request:***
+```java
+var axios = require('axios');
+
+var config = {
+  method: 'delete',
+  maxBodyLength: Infinity,
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&marker_key=-M2coEssj_C2cVRKilDl&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  headers: { 
+    'Content-Type': 'application/json'
+  },
+  data : {}
+};
+
+axios(config)
+.then(function (response) {
+  console.log(JSON.stringify(response.data));
+})
+.catch(function (error) {
+  console.log(error);
+});
+```
+***DELETE Photo Data Response:***  
+```json
+{
+    "key": "-M2coEssj_C2cVRKilDl",
+    "data": {
+        "_manual_height": 303,
+        "manual_height": "25-3",
+        "pixel_selection": [
+            {
+                "percentX": 53.9373022720737,
+                "percentY": 27.648835202761
+            }
+        ]
+    }
 }
 ```
 
