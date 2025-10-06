@@ -1386,7 +1386,7 @@ Note: The return payload from this request will provide a confirmation of the ch
 ```
 
 # POST Upload Photo Data
-***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}_***
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}&marker_type={{marker_type}}_***
 
 This POST request will create markers (whether height annotations or photo chips) on the photo with the corresponding photo ID. 
 
@@ -1435,7 +1435,7 @@ var data = JSON.stringify({
 var config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { 
     'Content-Type': 'application/json'
   },
