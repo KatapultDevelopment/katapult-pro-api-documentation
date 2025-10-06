@@ -1458,14 +1458,24 @@ axios(config)
 ```
 
 # PATCH Replace Photo Data
-***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}_***
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}&marker_type={{marker_type}}&marker_key={{marker_key}}_***
 
-This PATCH request will update photo markers on the photo with the correpsonding photo ID. In the payload body, identify the marker you want to update by including its marker key and marker type. These properties are required in your payload body, as well as `"pixel_selection"`. (The value for `"percentX"` and `"percentY"` in `"pixel_selection"` is a number between 0 and 100. For `"percentX"`, 0 corresponds to the left edge of the photo, whereas 100 corresponds to the right edge of the photo. With `"percentY"`, 0 corresponds to the top of the photo, while 100 corresponds with the bottom of the photo.) Any other marker data you put in your payload body will overwrite any existing marker data.
+This PATCH request will update the photo marker on the photo with the correpsonding photo ID.
+
+In the payload body, identify the marker you want to update by including its `"marker_type"` and `"marker_key"` in the object for the marker. These properties are also required as query parameters.
+
+If you are updating a photo chip element, you _must not_ include a `"pixel_selection"` or `"manual_height"` property in the marker object.
+
+The value for `"percentX"` and `"percentY"` in `"pixel_selection"` is a number between 0 and 100. For `"percentX"`, 0 corresponds to the left edge of the photo, whereas 100 corresponds to the right edge of the photo. With `"percentY"`, 0 corresponds to the top of the photo, while 100 corresponds to the bottom of the photo. The `manual_height` property should only be used for height annotations on a non-calibrated photo.
+
+Any other properties you include in the marker object will overwrite any existing marker data.
 
 ***Query Params***
 | Parameter | Value | Description | Required? |
 | --------- | ----------- | ----------- | ----------- |
 | api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
+| marker_type   | `{{marker_type}}` | The marker's input model (can be found in Model Editor under Photo Elements) | <mark>Yes</mark> |
+| marker_key | `{{marker_key}}` | The key of the marker to update | <mark>Yes</mark> |
   
 ***Path Variables***
 | Variable | Replace With |
@@ -1476,44 +1486,28 @@ This PATCH request will update photo markers on the photo with the correpsonding
 
 ***Example Payload Body***
 ```json
-[
-    {
-        "marker_type": "insulator",
-        "marker_key": "-M2cpQTc2IdW4AdFC2gx",
-        "manual_height": "25'-2\"",
-        "pixel_selection": [{"percentX": 0, "percentY": 0}]
-    },
-    {
-        "marker_type": "wire",
-        "marker_key": "-M2coEssj_C2cVRKilDl",
-        "manual_height": "17'-7\"",
-        "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
-    }
-]
+{
+  "marker_type": "wire",
+  "marker_key": "-M2coEssj_C2cVRKilDl",
+  "manual_height": "17-7",
+  "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
+}
 ```
 
 ***Example PATCH Replace Photo Data Request:***
 ```java
 var axios = require('axios');
-var data = JSON.stringify([
-    {
-        "marker_type": "insulator",
-        "marker_key": "-M2cpQTc2IdW4AdFC2gx",
-        "manual_height": "25'-2\"",
-        "pixel_selection": [{"percentX": 0, "percentY": 0}]
-    },
-    {
-        "marker_type": "wire",
-        "marker_key": "-M2coEssj_C2cVRKilDl",
-        "manual_height": "17'-7\"",
-        "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
-    }
-]);
+var data = JSON.stringify({
+  "marker_type": "wire",
+  "marker_key": "-M2coEssj_C2cVRKilDl",
+  "manual_height": "17-7",
+  "pixel_selection": [{"percentX": 53.9373022720737, "percentY": 27.648835202761}]
+});
 
 var config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&marker_key=-M2coEssj_C2cVRKilDl&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { 
     'Content-Type': 'application/json'
   },
