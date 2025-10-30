@@ -486,7 +486,7 @@ POST https://katapultpro.com/api/v3/jobs/:job_id/photos/:photo_id/photo_elements
 Route Parameters:
 - `job_id`: Id of the job.
 - `photo_id`: Id of the photo.
-- `element_id`: Id of the element. If the element does not exist, a new element will be created with the specified element id (provided it meets the [id-requirements](#resource-id-requirements)).
+- `element_id`: Id of the element to update. If an element is not found with the specified ID, a new element with a random ID will be created.
 
 | Query Parameter | Type | Description |
 | --- | --- | --- |
