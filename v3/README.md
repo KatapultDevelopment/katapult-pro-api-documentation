@@ -32,7 +32,9 @@ GET https://katapultpro.com/api/v3/jobs
 | `includeArchived` | `string` | If "true", archived jobs will be included in the results. By default, only non-archived jobs are included. |
 | `metadataFilter` | `string` | Metadata filter for the job list (structure as `{attribute}:{value}`, and separate multiples with a comma). |
 
-### Get a job
+Gets a list of jobs accessible to the requester. The list entries do not contain the full job data.
+
+### Get a job (partial data)
 ```sh
 GET https://katapultpro.com/api/v3/jobs/:job_id
 ```
@@ -42,7 +44,9 @@ Route Parameters:
 
 | Query Parameter | Type | Description |
 | --- | --- | --- |
-| `paths` | `string` | Comma-separated list of data paths to return in the response. Useful for fetching partial job data.  The following paths are valid: **name, job_creator, job_owner, project_folder, project_id, status, done, map_styles, metadata, and sharing**. |
+| `paths` | `string` | Comma-separated list of data paths to return in the response. The following paths are allowed: `name \| job_creator \| job_owner \| project_folder \| project_id \| status \| done \| map_styles \| metadata \| sharing`. |
+
+Gets partial job data for the specified job.
 
 ### Create a job
 ```sh
@@ -52,10 +56,12 @@ POST https://katapultpro.com/api/v3/jobs
 | Body Field | Type | Required | Description |
 | --- | --- | :---: | --- |
 | `name` | `string` | ✓ | Name of the job. |
-| `model` | `string` | ✓ | Model of the job. To access the model in a job's data, use the `job_creator` property. `Model` is just an alias for this call. |
+| `model` | `string` | ✓ | Model of the job. This value is stored on the `job_creator` property. |
 | `map_styles` | `string` | | Map styles for the job. |
 | `metadata` | `object` | | Metadata for the job. Must be formatted as a flat map. |
 | `sharing` | `object` | | Sharing settings for the job. Must be formatted as a flat map. Owner company will be automatically added. |
+
+Creates a new job using the provided data.
 
 ### Update a job
 ```sh
@@ -68,10 +74,12 @@ Route Parameters:
 | Body Field | Type | Required | Description |
 | --- | --- | :---: | --- |
 | `name` | `string` | | Name of the job. |
-| `model` | `string` | | Model of the job. To access the model in a job's data, use the `job_creator` property. `Model` is just an alias for this call. |
+| `model` | `string` | | Model of the job. This value is stored on the `job_creator` property. |
 | `map_styles` | `string` | | Map styles for the job. |
 | `metadata` | `object` | | Metadata for the job. Must be formatted as a flat map. |
 | `sharing` | `object` | | Sharing settings for the job. Must be formatted as a flat map. |
+
+Updates the specified job with the provided data.
 
 ### Get job status
 ```sh
@@ -80,6 +88,8 @@ GET https://katapultpro.com/api/v3/jobs/:job_id/status
 
 Route Parameters:
 - `job_id`: Id of the job. The specified job must exist.
+
+Gets the status of the specified job, either `active` or `archived`.
 
 ### Update job status
 ```sh
@@ -92,6 +102,8 @@ Route Parameters:
 | Body Field | Type | Required | Description |
 | --- | --- | :---: | --- |
 | `status` | `'active' \| 'archived'` | ✓ | Status for the job. |
+
+Updates the status of the specified job.
 
 <!-- TODO (04/28/25): Add these back when the calls are complete
 ### Duplicate a job
@@ -132,13 +144,15 @@ POST /v3/jobs/:job_id/nodes/:node_id/photos
 DELETE /v3/jobs/:job_id/nodes/:node_id
 ```
 
-### List all nodes
+### Get all nodes
 ```sh
 GET https://katapultpro.com/api/v3/jobs/:job_id/nodes
 ```
 
 Route Parameters:
 - `job_id`: Id of the job.
+
+Gets all nodes in the specified job.
 
 ### Get a node
 ```sh
@@ -148,6 +162,8 @@ GET https://katapultpro.com/api/v3/jobs/:job_id/nodes/:node_id
 Route Parameters:
 - `job_id`: Id of the job.
 - `node_id`: Id of the node.
+
+Gets the specified node.
 
 ### Create a node
 ```sh
@@ -163,6 +179,8 @@ Route Parameters:
 | `longitude` | `number` | ✓ | Longitude of the node. |
 | `attributes` | `object` | | Full attributes object for the node. Must be formatted as an [entity attribute list](#nodes-connections-and-sections). |
 | `add_attributes` | `object` | | Attributes to add to the node (instance ids will be created automatically). Must be formatted as a flat map. |
+
+Creates a new node using the provided data.
 
 ### Update a node
 ```sh
@@ -185,6 +203,8 @@ Route Parameters:
 | `attributes` | `object` | | Full attributes object for the node. Must be formatted as an [entity attribute list](#nodes-connections-and-sections). |
 | `add_attributes` | `object` | | Attributes to add to the node (instance ids will be created automatically). Must be formatted as a flat map. |
 
+Updates the specified node with the provided data.
+
 ### Upload a photo to a node
 ```sh
 POST https://katapultpro.com/api/v3/jobs/:job_id/nodes/:node_id/photos
@@ -198,6 +218,8 @@ Route Parameters:
 | --- | --- | --- |
 | `association_value` | `string` | Determines how the photo will be associated to the node. Valid values are "main" and "true". The default value is "true" |
 
+Uploads a photo (must be an `image/jpeg` file) and associates it to the specified node.
+
 ### Delete a node
 ```sh
 DELETE https://katapultpro.com/api/v3/jobs/:job_id/nodes/:node_id
@@ -206,6 +228,8 @@ DELETE https://katapultpro.com/api/v3/jobs/:job_id/nodes/:node_id
 Route Parameters:
 - `job_id`: Id of the job.
 - `node_id`: Id of the node.
+
+Deletes the specified node.
 
 ## Connections
 
@@ -218,13 +242,15 @@ POST /v3/jobs/:job_id/connections/:connection_id
 DELETE /v3/jobs/:job_id/connections/:connection_id
 ```
 
-### List all connections
+### Get all connections
 ```sh
 GET https://katapultpro.com/api/v3/jobs/:job_id/connections
 ```
 
 Route Parameters:
 - `job_id`: Id of the job.
+
+Gets all connections (and their sections) in the specified job.
 
 ### Get a connection
 ```sh
@@ -234,6 +260,8 @@ GET https://katapultpro.com/api/v3/jobs/:job_id/connections/:connection_id
 Route Parameters:
 - `job_id`: Id of the job.
 - `connection_id`: Id of the connection.
+
+Gets the specified connection (and its sections).
 
 ### Create a connection
 ```sh
@@ -249,6 +277,8 @@ Route Parameters:
 | `node_id_2` | `string` | ✓ | Id of the second node. |
 | `attributes` | `object` | | Full attributes object for the connection. Must be formatted as an [entity attribute list](#nodes-connections-and-sections). |
 | `add_attributes` | `object` | | Attributes to add to the connection (instance ids will be created automatically). Must be formatted as a flat map. |
+
+Creates a new connection using the provided data.
 
 ### Update a connection
 ```sh
@@ -271,6 +301,8 @@ Route Parameters:
 | `attributes` | `object` | | Full attributes object for the connection. Must be formatted as an [entity attribute list](#nodes-connections-and-sections). |
 | `add_attributes` | `object` | | Attributes to add to the connection (instance ids will be created automatically). Must be formatted as a flat map. |
 
+Updates the specified connection with the provided data.
+
 ### Delete a connection
 ```sh
 DELETE https://katapultpro.com/api/v3/jobs/:job_id/connections/:connection_id
@@ -279,6 +311,8 @@ DELETE https://katapultpro.com/api/v3/jobs/:job_id/connections/:connection_id
 Route Parameters:
 - `job_id`: Id of the job.
 - `connection_id`: Id of the connection.
+
+Deletes the specified connection (and all of its sections).
 
 ## Sections
 
@@ -292,7 +326,7 @@ POST /v3/jobs/:job_id/connections/:connection_id/sections/:section_id/photos
 DELETE /v3/jobs/:job_id/connections/:connection_id/sections/:section_id
 ```
 
-### List all sections on a connection
+### Get all sections on a connection
 ```sh
 GET https://katapultpro.com/api/v3/jobs/:job_id/connections/:connection_id/sections
 ```
@@ -300,6 +334,8 @@ GET https://katapultpro.com/api/v3/jobs/:job_id/connections/:connection_id/secti
 Route Parameters:
 - `job_id`: Id of the job.
 - `connection_id`: Id of the connection.
+
+Gets all sections on the specified connection.
 
 ### Get a section
 ```sh
@@ -310,6 +346,8 @@ Route Parameters:
 - `job_id`: Id of the job.
 - `connection_id`: Id of the connection.
 - `section_key`: Key of the section.
+
+Gets the specified section.
 
 ### Create a section
 ```sh
@@ -327,6 +365,8 @@ Route Parameters:
 | `longitude` | `number` | | Longitude of the section. |
 | `attributes` | `object` | | Full attributes object for the section. Must be formatted as an [entity attribute list](#nodes-connections-and-sections). |
 | `add_attributes` | `object` | | Attributes to add to the section (instance ids will be created automatically). Must be formatted as a flat map. |
+
+Creates a new section using the provided data.
 
 ### Update a section
 ```sh
@@ -350,6 +390,8 @@ Route Parameters:
 | `attributes` | `object` | | Full attributes object for the section. Must be formatted as an [entity attribute list](#nodes-connections-and-sections). |
 | `add_attributes` | `object` | | Attributes to add to the section (instance ids will be created automatically). Must be formatted as a flat map. |
 
+Updates the specified section with the provided data.
+
 ### Upload a photo to a section
 ```sh
 POST https://katapultpro.com/api/v3/jobs/:job_id/connections/:connection_id/sections/:section_id/photos
@@ -364,6 +406,8 @@ Route Parameters:
 | --- | --- | --- |
 | `association_value` | `string` | Determines how the photo will be associated to the section. Valid values are "main" and "true". The default value is "true" |
 
+Uploads a photo (must be an `image/jpeg` file) and associates it to the specified section.
+
 ### Delete a section
 ```sh
 DELETE https://katapultpro.com/api/v3/jobs/:job_id/connections/:connection_id/sections/:section_key
@@ -373,6 +417,8 @@ Route Parameters:
 - `job_id`: Id of the job.
 - `connection_id`: Id of the connection.
 - `section_key`: Key of the section.
+
+Deletes the specified section.
 
 ## Photos
 
@@ -384,13 +430,15 @@ POST /v3/jobs/:job_id/photos
 POST /v3/jobs/:job_id/photos/:photo_id/associate
 ```
 
-### List all photos
+### Get all photos
 ```sh
 GET https://katapultpro.com/api/v3/jobs/:job_id/photos
 ```
 
 Route Parameters:
 - `job_id`: Id of the job.
+
+Gets all photo records in the specified job.
 
 ### Get a photo
 ```sh
@@ -401,6 +449,8 @@ Route Parameters:
 - `job_id`: Id of the job.
 - `photo_id`: Id of the photo.
 
+Gets the specified photo record.
+
 ### Upload a photo
 ```sh
 POST https://katapultpro.com/api/v3/jobs/:job_id/photos
@@ -408,6 +458,8 @@ POST https://katapultpro.com/api/v3/jobs/:job_id/photos
 
 Route Parameters:
 - `job_id`: Id of the job to upload the photo to.
+
+Uploads a photo (must be an `image/jpeg` file) to the specified job.
 
 ### Associate a photo to an item
 ```sh
@@ -428,6 +480,8 @@ Route Parameters:
 
 ‡ To associate to a section, provide `section_id` and `connection_id` and omit `node_id`.
 
+Associates the specified photo to (or unassociates it from) a node or section.
+
 ## Photo Elements
 
 Note: photo element updates via the API currently do _not_ update effective moves in midspans.
@@ -441,7 +495,7 @@ POST /v3/jobs/:job_id/photos/:photo_id/photo_elements/:element_id
 DELETE /v3/jobs/:job_id/photos/:photo_id/photo_elements/:element_id
 ```
 
-### List all elements on a photo
+### Get all elements on a photo
 ```sh
 GET https://katapultpro.com/api/v3/jobs/:job_id/photos/:photo_id/photo_elements
 ```
@@ -449,6 +503,8 @@ GET https://katapultpro.com/api/v3/jobs/:job_id/photos/:photo_id/photo_elements
 Route Parameters:
 - `job_id`: Id of the job.
 - `photo_id`: Id of the photo.
+
+Gets all elements on the specified photo.
 
 ### Get a photo element
 ```sh
@@ -459,6 +515,8 @@ Route Parameters:
 - `job_id`: Id of the job.
 - `photo_id`: Id of the photo.
 - `element_id`: Id of the element.
+
+Gets the specified photo element.
 
 ### Create a photo element
 ```sh
@@ -477,6 +535,8 @@ Route Parameters:
 | `attributes` | `object` | | Attributes for the element. Must be formatted as a flat map. |
 | `parent_id` | `string` | | Id of the element to make this element a child of. If omitted, this element will not be nested. |
 | `trace_id` | `string` | | Id of the trace to add this element to. |
+
+Creates a new photo element using the provided data.
 
 ### Update a photo element
 ```sh
@@ -501,6 +561,8 @@ Route Parameters:
 | `parent_id` | `string \| null` | | Id of the element to make this element a child of. Set to null to de-nest the element. |
 | `trace_id` | `string` | | Id of the trace to add this element to. |
 
+Updates the specified photo element.
+
 ### Delete a photo element
 ```sh
 DELETE https://katapultpro.com/api/v3/jobs/:job_id/photos/:photo_id/photo_elements/:element_id
@@ -510,6 +572,8 @@ Route Parameters:
 - `job_id`: Id of the job.
 - `photo_id`: Id of the photo.
 - `element_id`: Id of the element.
+
+Deletes the specified photo element.
 
 ## Photo Calibration Anchors
 
@@ -524,13 +588,15 @@ POST /v3/jobs/:job_id/photos/:photo_id/calibration_anchors/:anchor_id
 DELETE /v3/jobs/:job_id/photos/:photo_id/calibration_anchors/:anchor_id
 ```
 
-### List all calibration anchors on a photo
+### Get all calibration anchors on a photo
 ```sh
 GET https://katapultpro.com/api/v3/jobs/:job_id/photos/:photo_id/calibration_anchors
 ```
 Route Parameters:
 - `job_id`: Id of the job.
 - `photo_id`: Id of the photo.
+
+Gets all calibration anchors on the specified photo.
 
 ### Get a photo calibration anchor
 ```sh
@@ -540,6 +606,8 @@ Route Parameters:
 - `job_id`: Id of the job.
 - `photo_id`: Id of the photo.
 - `anchor_id`: Id of the calibration anchor.
+
+Gets the specified photo calibration anchor.
 
 ### Create a photo calibration anchor
 ```sh
@@ -553,6 +621,8 @@ Route Parameters:
 | --- | --- | :---: | --- |
 | `pixel_selection` | `{ percentX: number, percentY: number }` | ✓ | Pixel selection for the calibration anchor. |
 | `height` | `number` | ✓ | Height of the calibration anchor, in decimal feet. |
+
+Creates a new photo calibration anchor using the provided data.
 
 ### Update a photo calibration anchor
 ```sh
@@ -572,6 +642,8 @@ Route Parameters:
 | `pixel_selection` | `{ percentX: number, percentY: number }` | | Pixel selection for the calibration anchor. |
 | `height` | `number` | | Height of the calibration anchor, in decimal feet. |
 
+Updates the specified photo calibration anchor.
+
 ### Delete a photo calibration anchor
 ```sh
 DELETE https://katapultpro.com/api/v3/jobs/:job_id/photos/:photo_id/calibration_anchors/:anchor_id
@@ -580,6 +652,8 @@ Route Parameters:
 - `job_id`: Id of the job.
 - `photo_id`: Id of the photo.
 - `anchor_id`: Id of the calibration anchor.
+
+Deletes the specified photo calibration anchor.
 
 ## Traces
 
@@ -592,13 +666,15 @@ POST /v3/jobs/:job_id/traces/:trace_id
 DELETE /v3/jobs/:job_id/traces/:trace_id
 ```
 
-### List all traces
+### Get all traces
 ```sh
 GET https://katapultpro.com/api/v3/jobs/:job_id/traces
 ```
 
 Route Parameters:
 - `job_id`: Id of the job.
+
+Gets all traces in the specified job.
 
 ### Get a trace
 ```sh
@@ -608,6 +684,8 @@ GET https://katapultpro.com/api/v3/jobs/:job_id/traces/:trace_id
 Route Parameters:
 - `job_id`: Id of the job.
 - `trace_id`: Id of the trace.
+
+Gets the specified trace.
 
 ### Create a trace
 ```sh
@@ -624,6 +702,8 @@ Route Parameters:
 <!-- TODO (04/28/25): Add this back when the call is complete
  | `markers` | `array` | | Array of marker ids to add to the trace. | 
  -->
+
+Creates a new trace using the provided data.
 
 ### Update a trace
 ```sh
@@ -646,6 +726,8 @@ Route Parameters:
  | `markers` | `array` | | Array of marker ids to add to the trace. | 
  -->
 
+Updates the specified trace with the provided data.
+
 ### Delete a trace
 ```sh
 DELETE https://katapultpro.com/api/v3/jobs/:job_id/traces/:trace_id
@@ -655,6 +737,7 @@ Route Parameters:
 - `job_id`: Id of the job.
 - `trace_id`: Id of the trace.
 
+Deletes the specified trace.
 
 <!-- TODO (04/28/25): Add these back when the calls are complete
 ## Users
