@@ -772,9 +772,9 @@ axios(config)
 ```  
 
 # GET Photo URL
-***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photoURL/:photoId?file_size={{full || none}}&api_key={{api-key}}_***
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photoURL/:photoId?file_size={{full || extra_large || large || small || tiny}}&api_key={{api-key}}_***
 
-This GET request will request the download URL link of the photo with a matching Photo ID contained on the server. This requires that a previous request to the job has been made to obtain the photo ID to be used. Anything other than a valid photo ID for that job will be rejected.
+This GET request will return a URL you can use to download the photo with a matching Photo ID contained on the server. This requires that a previous request to the job has been made to obtain the photo ID to be used. Anything other than a valid photo ID for that job will be rejected. You can specify the size of the photo to fetch. If you don't specify, the full size will be used.
 
 
 Visit this link to see the structure for job data: https://katapultpro.com/schema/job.json
@@ -783,7 +783,7 @@ Visit this link to see the structure for job data: https://katapultpro.com/schem
 ***Query Params***
 | Parameter | Value | Description | Required? |
 | --------- | ----------- | ----------- | ----------- |
-| file_size | Set to "full" or "none" | Return the full sized photo link or none | No | 
+| file_size | Set to "full", "extra_large", "large", "small" or "tiny" ("extra_large" is the size typically used when viewing photos in Katapult Pro) | The size of the photo to use when fetching the photo URL. An error will be returned if the photo does not have the specified size. If you don't include the `file_size` query parameter, the "full" size will be used. | No | 
 | api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 
@@ -801,7 +801,7 @@ var axios = require('axios');
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NgVTYY_sWEyFzpLHXWT/photoURL/015eb1ba-e8c9-4824-a721-904785q205vs?filesize=full&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NgVTYY_sWEyFzpLHXWT/photoURL/015eb1ba-e8c9-4824-a721-904785q205vs?file_size=extra_large&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
   headers: { }
 };
 
@@ -818,7 +818,7 @@ axios(config)
 
 ```json
 {
-    "url": "https://firebasestorage.googleapis.com/v0/b/katapult-production.appspot.com/o/photos%2F015eb1bdd-e8c9-4824-a721-9047aeafdee5_full.webp?alt=media&token=6c8f5b2a-c578-4f4b-ba68-ff6674e96f40"
+    "url": "https://firebasestorage.googleapis.com/v0/b/katapult-production.appspot.com/o/photos%2F015eb1bdd-e8c9-4824-a721-9047aeafdee5_extra_large.webp?alt=media&token=6c8f5b2a-c578-4f4b-ba68-ff6674e96f40"
 }
 ```
 
