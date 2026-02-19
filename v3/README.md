@@ -361,12 +361,13 @@ Route Parameters:
 | Body Field | Type | Required | Description |
 | --- | --- | :---: | --- |
 | `make_midpoint` | `boolean` | | If true, the section will be created as a midpoint section. |
+| `error_before_overwriting_existing_sections` | `boolean` | | If true, an error will be thrown and the call will end if attempting to create a section on a connection that already has the same section ID on an existing section. |
 | `latitude` | `number` | | Latitude of the section. |
 | `longitude` | `number` | | Longitude of the section. |
 | `attributes` | `object` | | Full attributes object for the section. Must be formatted as an [entity attribute list](#nodes-connections-and-sections). |
 | `add_attributes` | `object` | | Attributes to add to the section (instance ids will be created automatically). Must be formatted as a flat map. |
 
-Creates a new section using the provided data.
+Creates a new section using the provided data. (Overwrites existing sections on the connections if they have the same ID as the one being created.)
 
 ### Update a section
 ```sh
