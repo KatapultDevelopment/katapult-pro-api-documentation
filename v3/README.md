@@ -360,7 +360,7 @@ Route Parameters:
 
 | Body Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `make_midpoint` | `boolean` | | If true, the section will be created as a midpoint section. |
+| `make_midpoint` | `boolean` | | If true, the section will be created as a midpoint section. **Will overwrite an existing midpoint section, wiping all of its data.** |
 | `latitude` | `number` | | Latitude of the section. |
 | `longitude` | `number` | | Longitude of the section. |
 | `attributes` | `object` | | Full attributes object for the section. Must be formatted as an [entity attribute list](#nodes-connections-and-sections). |
