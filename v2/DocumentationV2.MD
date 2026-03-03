@@ -195,7 +195,7 @@ axios(config)
 # GET Updated Jobs List
 ***Message:*** ***_katapultpro.com/api/v2/updatedjobslist?fromDate={{fromDate}}&toDate={{toDate}}&useToday={{true || false}}&api_key={{api-key}}_***
 
-This GET request uses a specified timeframe (the to and from dates) to return an object containing a list of Job IDs and their timestamps of when they were last updated. Jobs in this list are jobs that have been updated between the start and end dates.  
+This GET request uses a specified timeframe (the to and from dates) to return an object containing a list of Job IDs and their timestamps of when they were last updated. Jobs in this list are jobs that have been updated between the start and end dates. This request only includes jobs that are owned by your company, not jobs that are owned by another company and shared with you.
 
 **** **Important Note** ****
 It is important that the length of the array that is returned from this request is monitored by your calling code routine. If the size of the array is 200, (which is the limit of the query,) then the user should expect that there are more than 200 total updated jobs in the query. If this is the case, you can simply use the last `last_updated` value in the array as the next `{{fromDate}}` to get the next set of jobs within your time frame. Please continue this method repeatedly until the length of the result is less than 200. We do not return the entire list of jobs within the queried time period initially.
