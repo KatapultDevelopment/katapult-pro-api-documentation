@@ -739,7 +739,6 @@ Route Parameters:
 
 Deletes the specified trace.
 
-<!-- TODO (04/28/25): Add these back when the calls are complete
 ## Users
 
 Summary of endpoints:
@@ -753,9 +752,18 @@ GET /v3/users/:user_id
 GET https://katapultpro.com/api/v3/users
 ```
 
-| Query Parameter | Type | Description |
+Gets all users in the caller's active company. Each entry includes core user fields.
+
+Response fields per user:
+
+| Field | Type | Description |
 | --- | --- | --- |
-| `companyId` | `string` | Id of the company to filter by (by default, the requester's root company is used). |
+| `uid` | `string` | The user's unique id. |
+| `email` | `string \| null` | The user's email address. |
+| `name` | `object \| null` | The user's name (contains `first` and `last`). |
+| `employment_status` | `string \| null` | The user's employment status. |
+| `last_active` | `number \| null` | Timestamp (ms) of when the user was last active. |
+| `creation_date` | `number \| null` | Timestamp (ms) of when the user account was created. |
 
 ### Get a user
 ```sh
@@ -764,6 +772,8 @@ GET https://katapultpro.com/api/v3/users/:user_id
 
 Route Parameters:
 - `user_id`: Id of the user.
+
+<!-- TODO (04/28/25): Add these back when the calls are complete
 
 ## Attribute History
 
