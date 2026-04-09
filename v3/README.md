@@ -761,7 +761,6 @@ Response fields per user:
 | `uid` | `string` | The user's unique id. |
 | `email` | `string \| null` | The user's email address. |
 | `name` | `object \| null` | The user's name (contains `first` and `last`). |
-| `employment_status` | `string \| null` | The user's employment status. |
 | `last_active` | `number \| null` | Timestamp (ms) of when the user was last active. |
 | `creation_date` | `number \| null` | Timestamp (ms) of when the user account was created. |
 
