@@ -772,9 +772,9 @@ axios(config)
 ```  
 
 # GET Photo URL
-***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photoURL/:photoId?file_size={{full || extra_large || large || small || tiny}}&api_key={{api-key}}_***
+***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photoURL/:photoId?file_size={{full || extra_large || large || small || tiny}}&file_type={{webp || jpg}}&api_key={{api-key}}_***
 
-This GET request will return a URL you can use to download the photo with a matching Photo ID contained on the server. This requires that a previous request to the job has been made to obtain the photo ID to be used. Anything other than a valid photo ID for that job will be rejected. You can specify the size of the photo to fetch. If you don't specify, the full size will be used.
+This GET request will return a URL you can use to download the photo with a matching Photo ID contained on the server. This requires that a previous request to the job has been made to obtain the photo ID to be used. Anything other than a valid photo ID for that job will be rejected. You can specify the size of the photo to fetch. If you don't specify, the full size will be used. You can also specify the type of photo to fetch. If you don't specify, webp will be used. 
 
 
 Visit this link to see the structure for job data: https://katapultpro.com/schema/job.json
@@ -784,6 +784,7 @@ Visit this link to see the structure for job data: https://katapultpro.com/schem
 | Parameter | Value | Description | Required? |
 | --------- | ----------- | ----------- | ----------- |
 | file_size | Set to "full", "extra_large", "large", "small" or "tiny" ("extra_large" is the size typically used when viewing photos in Katapult Pro) | The size of the photo to use when fetching the photo URL. An error will be returned if the photo does not have the specified size. If you don't include the `file_size` query parameter, the "full" size will be used. | No | 
+| file_type | Set to "webp" or "jpg" | The type of photo to fetch. An error will be returned if the photo does not have the specified type. If you dont include the `file_type` parameter, "webp" will be used. | No |
 | api_key   | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 
