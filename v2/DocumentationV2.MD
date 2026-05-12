@@ -156,7 +156,8 @@ Another example is setting `orderByChild` to "name" and `equalTo` to "Test Job".
 | --------- | ----------- | ----------- | ----------- |
 | orderByChild | Set to "status" or "name" | Select one of these two sorting methods. Order/sort jobs by Job Status or Job Name | No |
 | equalTo | Set to "archived," "active," or the name of the job in place of `job_name` | If "status" is used for `orderByChild`, use "archived" or "active;" if "name" is used for `orderByChild`, use the job name to return items that have matching values | No |
-| `{{metadata_attribute_name}}` | `{{metadata_value_for_filtering}}` | Replace `{{metadata_attribute_name}}` with the name of the metadata attribute you want (in snake case) to filter the list with and the value of the attribute you are looking for; replace `{{metadata_value_for_filtering}}` with the value the filtered attributes should have | No |
+| filter | `{{metadata_attribute_name}}` | Replace `{{metadata_attribute_name}}` with the name of the metadata attribute you want (in snake case) to filter the list with | No |
+| value | `{{metadata_value_for_filtering}}` | Replace `{{metadata_value_for_filtering}}` with the value of the filter attribute that the filtered jobs should have | No |
 | api_key | `{{api-key}}` | Replace `{{api-key}}` with your API key | <mark>Yes</mark> |
 
 ***Example GET Job List Request:***
