@@ -530,7 +530,7 @@ Route Parameters:
 | Body Field | Type | Required | Description |
 | --- | --- | :---: | --- |
 | `element_type` | `string` | ✓ | Type of the element. |
-| `pixel_selection` | `{ percentX: number, percentY: number }` | | Pixel selection for the element. |
+| `pixel_selection` | `{ percentX: number, percentY: number }` | | Pixel selection for the element. Must only be set on top-level elements. |
 | `manual_height` | `string` | | Manual height for the element, in feet-inches notation (i.e. `<feet>-<inches>`). |
 | `attributes` | `object` | | Attributes for the element. Must be formatted as a flat map. |
 | `parent_id` | `string` | | Id of the element to make this element a child of. If omitted, this element will not be nested. |
@@ -555,7 +555,7 @@ Route Parameters:
 | Body Field | Type | Required | Description |
 | --- | --- | :---: | --- |
 | `element_type` | `string` | | Type of the element. Can only be set if the element does not already exist. |
-| `pixel_selection` | `{ percentX: number, percentY: number }` | | Pixel selection for the element. |
+| `pixel_selection` | `{ percentX: number, percentY: number }` | | Pixel selection for the element. Must only be set on top-level elements. |
 | `manual_height` | `string` | | Manual height for the element, in feet-inches notation (i.e. `<feet>-<inches>`). |
 | `attributes` | `object` | | Attributes for the element. Must be formatted as a flat map. |
 | `parent_id` | `string \| null` | | Id of the element to make this element a child of. Set to null to de-nest the element. |
