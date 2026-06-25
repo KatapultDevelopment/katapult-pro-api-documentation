@@ -1,0 +1,1696 @@
+# =============================================================================
+# Katapult Pro API v3 — OpenAPI specification
+#
+# This file is the CANONICAL contract for the v3 API. The human-readable
+# endpoint tables in `reference/*.md` are GENERATED from this file (see
+# `npm run docs:gen` at the repo root). Edit endpoints here, then regenerate —
+# do not hand-edit the generated table blocks.
+#
+# Token costs are encoded per operation with the `x-token-cost` extension.
+# See `../rate-limits.md` for how token costs and the bucket work.
+# =============================================================================
+openapi: 3.1.0
+info:
+  title: Katapult Pro API v3
+  version: '3'
+  description: >
+    REST API for reading and writing Katapult Pro jobs and their contents
+    (nodes, connections, sections, photos, photo elements, calibration anchors,
+    and traces), plus models and users.
+
+
+    All requests are authenticated with an API key passed as the `api_key`
+    query parameter. Every response from a route handler includes a `meta`
+    object describing the caller's token-bucket state. See the rate-limits and
+    concepts docs for details:
+
+
+    - Rate limits & token bucket: `../rate-limits.md`
+
+    - Working with attributes: `../concepts/attributes.md`
+
+    - Resource ID requirements: `../concepts/resource-ids.md`
+
+    - Responses & errors: `../concepts/responses-and-errors.md`
+  contact:
+    name: Katapult Pro API
+    url: https://github.com/KatapultDevelopment/katapult-pro-api-documentation
+
+servers:
+  - url: https://katapultpro.com/api/v3
+    description: Production
+
+security:
+  - apiKeyAuth: []
+
+tags:
+  - name: Root
+    description: Service welcome / health check.
+  - name: Jobs
+    description: Create, read, update, and archive jobs.
+  - name: Nodes
+    description: Nodes within a job.
+  - name: Connections
+    description: Connections (spans) between nodes.
+  - name: Sections
+    description: Sections (midspan points) on a connection.
+  - name: Photos
+    description: Photo records, uploads, signed URLs, and associations.
+  - name: Photo Elements
+    description: Annotated elements placed on a photo.
+  - name: Calibration Anchors
+    description: Photo calibration anchor points.
+  - name: Traces
+    description: Traces grouping photo elements.
+  - name: Models
+    description: Read model options and model data.
+  - name: Users
+    description: Read users in the caller's company.
+  - name: Companies
+    description: Company-scoped data — tracked actions and action models.
+
+paths:
+  /:
+    get:
+      tags: [Root]
+      operationId: getWelcome
+      summary: Welcome message
+      description: >
+        Returns a welcome message. Useful as a quick check that your API key
+        authenticates successfully. This route is not charged tokens, but it is
+        still subject to authentication and the general rate limit.
+      x-token-cost: 0
+      responses:
+        '200':
+          description: Welcome message.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, const: success }
+                  message: { type: string, example: Welcome to the Katapult Pro API V3 }
+        '400': { $ref: '#/components/responses/AuthError' }
+        '401': { $ref: '#/components/responses/AuthError' }
+
+  /jobs:
+    get:
+      tags: [Jobs]
+      operationId: listJobs
+      summary: List all jobs
+      description: >
+        Gets a list of jobs accessible to the requester. List entries do not
+        contain full job data. Results are ordered by `last_updated` descending
+        (most recent first); each entry includes a `last_updated` timestamp when
+        one is available. Use `last_updated` to fetch only jobs changed since a
+        given time, and `limit` to cap the result count.
+      x-token-cost: 1
+      parameters:
+        - name: includeArchived
+          in: query
+          description: If `"true"`, archived jobs are included. By default only active jobs are returned.
+          schema: { type: string, enum: ['true', 'false'] }
+        - name: metadataFilter
+          in: query
+          description: >
+            Metadata filter formatted as `{attribute}:{value}`; separate
+            multiple filters with commas (e.g. `city:Buffalo,status:done`).
+            Ignored when `list=true`.
+          schema: { type: string }
+        - name: list
+          in: query
+          description: If `"true"`, returns lightweight list entries instead of the default permission entries. `metadataFilter` is ignored in this mode.
+          schema: { type: string, enum: ['true', 'false'] }
+        - $ref: '#/components/parameters/LastUpdated'
+        - $ref: '#/components/parameters/ResultLimit'
+      responses:
+        '200':
+          description: Array of jobs.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/JobListItem' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Jobs]
+      operationId: createJob
+      summary: Create a job
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateJobBody' }
+      responses:
+        '200':
+          description: The created job.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/JobResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      tags: [Jobs]
+      operationId: getJob
+      summary: Get a job (partial data)
+      description: Gets partial job data for the specified job.
+      x-token-cost: 1
+      parameters:
+        - name: paths
+          in: query
+          description: >
+            Comma-separated list of data paths to return. Allowed paths:
+            `name`, `job_creator`, `job_owner`, `project_folder`, `project_id`,
+            `status`, `done`, `map_styles`, `metadata`, `sharing`. Omitting this
+            parameter returns only the job `id` (no other data).
+          schema: { type: string }
+      responses:
+        '200':
+          description: The job data at the requested paths.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/JobResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Jobs]
+      operationId: updateJob
+      summary: Update a job
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateJobBody' }
+      responses:
+        '200':
+          description: The updated job.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/JobResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/raw:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    post:
+      tags: [Jobs]
+      operationId: writeRawJobData
+      summary: Raw job write
+      x-restricted: true
+      x-token-cost: 10
+      description: >
+        **Restricted — requires extended API access, which is disabled in
+        production.** Writes raw path/value data directly to a job. Body keys
+        are job-relative paths (e.g. `nodes/{node_id}` or `nodes` for a full
+        replace); values are written as-is, with `null` deleting a path.
+
+
+        Allowed top-level keys: `nodes`, `connections`, `photos`,
+        `photo_summary`, `files`, `traces`, `compatible_units`,
+        `warning_reports`. Reserved keys (`metadata`, `name`, `model`,
+        `map_styles`, `sharing`) must use the non-raw update endpoint.
+
+
+        See `../reference/restricted.md`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+              description: Map of job-relative paths to values (or `null` to delete).
+              example:
+                "nodes/-Nabc.../attributes/note/-Ninst...": "set via raw write"
+      responses:
+        '200':
+          description: Write succeeded (no body data).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EmptyResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/status:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      tags: [Jobs]
+      operationId: getJobStatus
+      summary: Get job status
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The job status.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data: { $ref: '#/components/schemas/JobStatus' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Jobs]
+      operationId: updateJobStatus
+      summary: Update job status
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status: { type: string, enum: [active, archived] }
+      responses:
+        '200':
+          description: The updated job status.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data: { $ref: '#/components/schemas/JobStatus' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/nodes:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      tags: [Nodes]
+      operationId: listNodes
+      summary: Get all nodes
+      description: >
+        Gets all nodes in the job. Results are ordered by `last_updated`
+        descending (most recent first); each node includes a `last_updated`
+        timestamp when one is available. Use `last_updated` to fetch only nodes
+        changed since a given time, and `limit` to cap the result count.
+      x-token-cost: 1
+      parameters:
+        - $ref: '#/components/parameters/LastUpdated'
+        - $ref: '#/components/parameters/ResultLimit'
+      responses:
+        '200':
+          description: Array of nodes.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Node' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Nodes]
+      operationId: createNode
+      summary: Create a node
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateNodeBody' }
+      responses:
+        '200':
+          description: The created node.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NodeResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/nodes/{node_id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/NodeId'
+    get:
+      tags: [Nodes]
+      operationId: getNode
+      summary: Get a node
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The node.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NodeResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Nodes]
+      operationId: updateNode
+      summary: Update a node
+      description: >
+        Updates the node. If the node does not exist, it is created with the
+        specified id (must meet the resource ID requirements) unless
+        `onlyIfExists=true`.
+      x-token-cost: 10
+      parameters:
+        - $ref: '#/components/parameters/OnlyIfExists'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateNodeBody' }
+      responses:
+        '200':
+          description: The updated (or created) node.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NodeResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Nodes]
+      operationId: deleteNode
+      summary: Delete a node
+      x-token-cost: 10
+      responses:
+        '200':
+          description: The id of the deleted node.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IdResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/nodes/{node_id}/photos:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/NodeId'
+    post:
+      tags: [Nodes]
+      operationId: uploadPhotoToNode
+      summary: Upload a photo to a node
+      description: Uploads a JPEG and associates it to the specified node.
+      x-token-cost: 10
+      parameters:
+        - $ref: '#/components/parameters/AssociationValueQuery'
+      requestBody:
+        required: true
+        content:
+          image/jpeg:
+            schema: { type: string, format: binary }
+      responses:
+        '200':
+          description: The id of the uploaded photo.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IdResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/connections:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      tags: [Connections]
+      operationId: listConnections
+      summary: Get all connections
+      description: Gets all connections (and their sections) in the job.
+      x-token-cost: 1
+      responses:
+        '200':
+          description: Array of connections.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Connection' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Connections]
+      operationId: createConnection
+      summary: Create a connection
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateConnectionBody' }
+      responses:
+        '200':
+          description: The created connection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConnectionResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/connections/{connection_id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/ConnectionId'
+    get:
+      tags: [Connections]
+      operationId: getConnection
+      summary: Get a connection
+      description: Gets the connection and its sections.
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The connection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConnectionResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Connections]
+      operationId: updateConnection
+      summary: Update a connection
+      x-token-cost: 10
+      parameters:
+        - $ref: '#/components/parameters/OnlyIfExists'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateConnectionBody' }
+      responses:
+        '200':
+          description: The updated (or created) connection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConnectionResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Connections]
+      operationId: deleteConnection
+      summary: Delete a connection
+      description: Deletes the connection and all of its sections.
+      x-token-cost: 10
+      responses:
+        '200':
+          description: The id of the deleted connection.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IdResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/connections/{connection_id}/sections:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/ConnectionId'
+    get:
+      tags: [Sections]
+      operationId: listSections
+      summary: Get all sections on a connection
+      x-token-cost: 1
+      responses:
+        '200':
+          description: Array of sections.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Section' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Sections]
+      operationId: createSection
+      summary: Create a section
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateSectionBody' }
+      responses:
+        '200':
+          description: The created section.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SectionResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/connections/{connection_id}/sections/{section_id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/ConnectionId'
+      - $ref: '#/components/parameters/SectionId'
+    get:
+      tags: [Sections]
+      operationId: getSection
+      summary: Get a section
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The section.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SectionResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Sections]
+      operationId: updateSection
+      summary: Update a section
+      x-token-cost: 10
+      parameters:
+        - $ref: '#/components/parameters/OnlyIfExists'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateSectionBody' }
+      responses:
+        '200':
+          description: The updated (or created) section.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SectionResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Sections]
+      operationId: deleteSection
+      summary: Delete a section
+      x-token-cost: 10
+      responses:
+        '200':
+          description: The id of the deleted section.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IdResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/connections/{connection_id}/sections/{section_id}/photos:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/ConnectionId'
+      - $ref: '#/components/parameters/SectionId'
+    post:
+      tags: [Sections]
+      operationId: uploadPhotoToSection
+      summary: Upload a photo to a section
+      description: Uploads a JPEG and associates it to the specified section.
+      x-token-cost: 10
+      parameters:
+        - $ref: '#/components/parameters/AssociationValueQuery'
+      requestBody:
+        required: true
+        content:
+          image/jpeg:
+            schema: { type: string, format: binary }
+      responses:
+        '200':
+          description: The id of the uploaded photo.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IdResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/photos:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      tags: [Photos]
+      operationId: listPhotos
+      summary: Get all photos
+      x-token-cost: 1
+      responses:
+        '200':
+          description: Array of photo records.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Photo' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Photos]
+      operationId: uploadPhoto
+      summary: Upload a photo
+      description: Uploads a JPEG to the job (without associating it to an item).
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          image/jpeg:
+            schema: { type: string, format: binary }
+      responses:
+        '200':
+          description: The id of the uploaded photo.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IdResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/photos/{photo_id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/PhotoId'
+    get:
+      tags: [Photos]
+      operationId: getPhoto
+      summary: Get a photo
+      description: Gets the photo record (metadata, not the image bytes — use the `/url` endpoint for a download link).
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The photo record.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data: { $ref: '#/components/schemas/Photo' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/photos/{photo_id}/url:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/PhotoId'
+    get:
+      tags: [Photos]
+      operationId: getPhotoUrl
+      summary: Get a photo download URL
+      description: >
+        Returns a signed URL for downloading the photo image. The URL expires
+        7 days after it is generated.
+      x-token-cost: 1
+      parameters:
+        - name: file_size
+          in: query
+          description: Image size variant. Defaults to `full`.
+          schema: { type: string, default: full }
+        - name: file_type
+          in: query
+          description: Image file type. Defaults to `webp`.
+          schema: { type: string, default: webp }
+      responses:
+        '200':
+          description: A signed, time-limited download URL.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: object
+                        properties:
+                          url: { type: string, format: uri }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/photos/{photo_id}/associate:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/PhotoId'
+    post:
+      tags: [Photos]
+      operationId: associatePhoto
+      summary: Associate a photo to an item
+      description: >
+        Associates the photo to (or unassociates it from) a node or a section.
+        Provide `node_id` for a node, or both `connection_id` and `section_id`
+        for a section. Set `association_value` to `null` to unassociate.
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AssociatePhotoBody' }
+      responses:
+        '200':
+          description: Association succeeded (no body data).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EmptyResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/photos/{photo_id}/photo_elements:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/PhotoId'
+    get:
+      tags: [Photo Elements]
+      operationId: listPhotoElements
+      summary: Get all elements on a photo
+      x-token-cost: 1
+      responses:
+        '200':
+          description: Array of photo elements.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/PhotoElement' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Photo Elements]
+      operationId: createPhotoElement
+      summary: Create a photo element
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreatePhotoElementBody' }
+      responses:
+        '200':
+          description: The created photo element.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PhotoElementResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/PhotoId'
+      - $ref: '#/components/parameters/ElementId'
+    get:
+      tags: [Photo Elements]
+      operationId: getPhotoElement
+      summary: Get a photo element
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The photo element.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PhotoElementResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Photo Elements]
+      operationId: updatePhotoElement
+      summary: Update a photo element
+      description: >
+        Updates the element. If no element with the id exists, one is created
+        (unless `onlyIfExists=true`). `element_type` may only be set on create.
+      x-token-cost: 10
+      parameters:
+        - $ref: '#/components/parameters/OnlyIfExists'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdatePhotoElementBody' }
+      responses:
+        '200':
+          description: The updated (or created) photo element.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PhotoElementResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Photo Elements]
+      operationId: deletePhotoElement
+      summary: Delete a photo element
+      x-token-cost: 10
+      responses:
+        '200':
+          description: The id of the deleted element.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IdResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/photos/{photo_id}/calibration_anchors:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/PhotoId'
+    get:
+      tags: [Calibration Anchors]
+      operationId: listCalibrationAnchors
+      summary: Get all calibration anchors on a photo
+      x-token-cost: 1
+      responses:
+        '200':
+          description: Array of calibration anchors.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/CalibrationAnchor' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Calibration Anchors]
+      operationId: createCalibrationAnchor
+      summary: Create a calibration anchor
+      description: >
+        Adding or modifying anchor calibration points always un-calibrates the
+        photo (removes `stick_align`). Viewing the photo in Katapult Pro
+        recalibrates it from the updated points.
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCalibrationAnchorBody' }
+      responses:
+        '200':
+          description: The created calibration anchor.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CalibrationAnchorResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/PhotoId'
+      - $ref: '#/components/parameters/AnchorId'
+    get:
+      tags: [Calibration Anchors]
+      operationId: getCalibrationAnchor
+      summary: Get a calibration anchor
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The calibration anchor.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CalibrationAnchorResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Calibration Anchors]
+      operationId: updateCalibrationAnchor
+      summary: Update a calibration anchor
+      x-token-cost: 10
+      parameters:
+        - $ref: '#/components/parameters/OnlyIfExists'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateCalibrationAnchorBody' }
+      responses:
+        '200':
+          description: The updated (or created) calibration anchor.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CalibrationAnchorResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Calibration Anchors]
+      operationId: deleteCalibrationAnchor
+      summary: Delete a calibration anchor
+      x-token-cost: 10
+      responses:
+        '200':
+          description: The id of the deleted anchor.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data: { $ref: '#/components/schemas/IdData' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/traces:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+    get:
+      tags: [Traces]
+      operationId: listTraces
+      summary: Get all traces
+      x-token-cost: 1
+      responses:
+        '200':
+          description: Array of traces.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/Trace' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Traces]
+      operationId: createTrace
+      summary: Create a trace
+      x-token-cost: 10
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateTraceBody' }
+      responses:
+        '200':
+          description: The created trace.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TraceResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /jobs/{job_id}/traces/{trace_id}:
+    parameters:
+      - $ref: '#/components/parameters/JobId'
+      - $ref: '#/components/parameters/TraceId'
+    get:
+      tags: [Traces]
+      operationId: getTrace
+      summary: Get a trace
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The trace.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TraceResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Traces]
+      operationId: updateTrace
+      summary: Update a trace
+      x-token-cost: 10
+      parameters:
+        - $ref: '#/components/parameters/OnlyIfExists'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UpdateTraceBody' }
+      responses:
+        '200':
+          description: The updated (or created) trace.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TraceResponse' }
+        default: { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Traces]
+      operationId: deleteTrace
+      summary: Delete a trace
+      x-token-cost: 10
+      responses:
+        '200':
+          description: The id of the deleted trace.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/IdResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /models:
+    get:
+      tags: [Models]
+      operationId: listModels
+      summary: Get model options
+      description: Returns the caller's available model keys/options.
+      x-token-cost: 100
+      responses:
+        '200':
+          description: Model options.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/GenericDataResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /models/{modelKey}:
+    parameters:
+      - name: modelKey
+        in: path
+        required: true
+        description: The model key. Must not contain `/`.
+        schema: { type: string }
+    get:
+      tags: [Models]
+      operationId: getModel
+      summary: Get model data
+      description: >
+        Returns model data. With `paths`, only the requested sub-paths are
+        returned and the request costs 1000 tokens per path (maximum 10 paths).
+        With no `paths`, the full model is returned — this requires extended API
+        access (otherwise 403 `extended_access_required`) and, since extended
+        access is off in production, is unavailable on katapultpro.com; request
+        `paths` instead. See `../rate-limits.md` and `../reference/restricted.md`.
+      x-token-cost: "9900 (full) | 1000 per path (max 10)"
+      parameters:
+        - name: paths
+          in: query
+          description: Comma-separated list of sub-paths to return (maximum 10).
+          schema: { type: string }
+      responses:
+        '200':
+          description: Full model data, or the data at the requested paths.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/GenericDataResponse' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /users:
+    get:
+      tags: [Users]
+      operationId: listUsers
+      summary: List all users
+      description: Lists all users (including external users) in the caller's active company.
+      x-token-cost: 1
+      responses:
+        '200':
+          description: Array of users.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/UserListItem' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /users/{user_id}:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Users]
+      operationId: getUser
+      summary: Get a user
+      description: Returns a user's core fields plus their attributes (`metadata`).
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The user.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data: { $ref: '#/components/schemas/User' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /companies/{company_id}/tracked_actions:
+    parameters:
+      - $ref: '#/components/parameters/CompanyId'
+    get:
+      tags: [Companies]
+      operationId: listTrackedActions
+      summary: List tracked actions
+      description: >
+        Returns a paginated list of tracked-action records for your company,
+        newest first (ordered by `timestamp` descending). All filters are
+        optional and combine with AND. `action_id`/`action_name` come from the
+        action models endpoint; `uid` is the User ID shown in the API Key widget.
+      x-token-cost: 1
+      parameters:
+        - name: uid
+          in: query
+          description: Filter by the user id that recorded the action.
+          schema: { type: string }
+        - name: job_id
+          in: query
+          description: Filter by job id.
+          schema: { type: string }
+        - name: action_id
+          in: query
+          description: Filter by action id (see `action_models`).
+          schema: { type: string }
+        - name: action_name
+          in: query
+          description: Filter by action name (see `action_models`).
+          schema: { type: string }
+        - name: value
+          in: query
+          description: Filter by the recorded value.
+          schema: { type: string }
+        - name: start_time
+          in: query
+          description: Inclusive lower bound on `timestamp`. ISO-8601 (e.g. `2026-06-01T00:00:00Z`) or Unix seconds.
+          schema: { type: string }
+        - name: end_time
+          in: query
+          description: Inclusive upper bound on `timestamp`. ISO-8601 or Unix seconds.
+          schema: { type: string }
+        - name: limit
+          in: query
+          description: Maximum records to return. Capped at 200.
+          schema: { type: integer, default: 200, minimum: 1, maximum: 200 }
+      responses:
+        '200':
+          description: Array of tracked-action records, newest first.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/TrackedActionRecord' }
+        default: { $ref: '#/components/responses/Error' }
+
+  /companies/{company_id}/action_models:
+    parameters:
+      - $ref: '#/components/parameters/CompanyId'
+    get:
+      tags: [Companies]
+      operationId: getActionModels
+      summary: List action models
+      description: >
+        Returns your company's action-tracking configuration: the action groups
+        and the individual actions within each. Use the returned `action_id` /
+        `action_name` values to filter the tracked actions endpoint.
+      x-token-cost: 1
+      responses:
+        '200':
+          description: Array of action groups.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        type: array
+                        items: { $ref: '#/components/schemas/ActionModelGroup' }
+        default: { $ref: '#/components/responses/Error' }
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: query
+      name: api_key
+      description: API key generated from the API Key widget in Katapult Pro.
+
+  parameters:
+    JobId:
+      name: job_id
+      in: path
+      required: true
+      description: Id of the job.
+      schema: { type: string }
+    NodeId:
+      name: node_id
+      in: path
+      required: true
+      description: Id of the node.
+      schema: { type: string }
+    ConnectionId:
+      name: connection_id
+      in: path
+      required: true
+      description: Id of the connection.
+      schema: { type: string }
+    SectionId:
+      name: section_id
+      in: path
+      required: true
+      description: Id of the section.
+      schema: { type: string }
+    PhotoId:
+      name: photo_id
+      in: path
+      required: true
+      description: Id of the photo.
+      schema: { type: string }
+    ElementId:
+      name: element_id
+      in: path
+      required: true
+      description: Id of the photo element.
+      schema: { type: string }
+    AnchorId:
+      name: anchor_id
+      in: path
+      required: true
+      description: Id of the calibration anchor.
+      schema: { type: string }
+    TraceId:
+      name: trace_id
+      in: path
+      required: true
+      description: Id of the trace.
+      schema: { type: string }
+    OnlyIfExists:
+      name: onlyIfExists
+      in: query
+      description: If `"true"`, the resource is only updated if it exists (no creation).
+      schema: { type: string, enum: ['true', 'false'] }
+    AssociationValueQuery:
+      name: association_value
+      in: query
+      description: How to associate the uploaded photo. Defaults to `true`.
+      schema: { type: string, enum: ['true', 'main'], default: 'true' }
+    CompanyId:
+      name: company_id
+      in: path
+      required: true
+      description: Your company id. Must match your own user group; other companies return 403.
+      schema: { type: string }
+    LastUpdated:
+      name: last_updated
+      in: query
+      description: >
+        ISO-8601 date/time. Returns only records updated **strictly after** this
+        time. Results are ordered by `last_updated` descending (most recent
+        first). Invalid values return `invalid_request`.
+      schema: { type: string, format: date-time }
+    ResultLimit:
+      name: limit
+      in: query
+      description: Maximum number of records to return (positive integer; no upper cap). Invalid values return `invalid_request`.
+      schema: { type: integer, minimum: 1 }
+
+  schemas:
+    Meta:
+      type: object
+      description: Token-bucket state after the request.
+      properties:
+        token_count:
+          type: integer
+          description: Tokens remaining after the request.
+        last_refill_time:
+          type: integer
+          description: Epoch milliseconds of the last token-bucket refill.
+    SuccessEnvelope:
+      type: object
+      required: [status, data, meta]
+      properties:
+        status: { type: string, const: success }
+        data: { type: object }
+        meta: { $ref: '#/components/schemas/Meta' }
+    EmptyResponse:
+      type: object
+      properties:
+        status: { type: string, const: success }
+        data: { type: object }
+        meta: { $ref: '#/components/schemas/Meta' }
+    IdData:
+      type: object
+      properties:
+        id: { type: string }
+    IdResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data: { $ref: '#/components/schemas/IdData' }
+    GenericDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data:
+              type: object
+              additionalProperties: true
+    ErrorEnvelope:
+      type: object
+      required: [status, message, type, meta]
+      properties:
+        status: { type: string, const: error }
+        message: { type: string, description: Human-readable error message. }
+        type:
+          type: string
+          description: Machine-readable error type.
+          enum:
+            - missing_parameter
+            - missing_required_field
+            - invalid_field
+            - invalid_id
+            - invalid_file_type
+            - invalid_request
+            - invalid_timestamp
+            - invalid_limit
+            - not_found
+            - forbidden
+            - token_rate_limit_exceeded
+            - extended_access_required
+            - internal_error
+        meta: { $ref: '#/components/schemas/Meta' }
+    AuthErrorEnvelope:
+      type: object
+      description: >
+        Shape returned by authentication / middleware failures (before a route
+        handler runs). Note this differs from the standard error envelope: it
+        has only an `error` field and no `meta`.
+      properties:
+        error:
+          type: string
+          enum:
+            - MISSING API KEY
+            - INVALID API KEY
+            - INVALID USER
+            - PERMISSION DENIED
+            - GENERAL RATE LIMIT EXCEEDED
+            - INTERNAL ERROR
+
+    TrackedActionRecord:
+      type: object
+      description: >
+        One action-tracking record. Additional fields beyond those listed may be
+        present. `timestamp` is returned in the underlying store's serialized form.
+      additionalProperties: true
+      properties:
+        id: { type: string, description: Record id. }
+        job_id: { type: string }
+        node_id: { type: string }
+        uid: { type: string, description: User id that recorded the action. }
+        user_group: { type: string }
+        action_id: { type: string }
+        action_name: { type: string }
+        value: { description: Recorded value (type varies by action). }
+        order: { type: integer }
+        timestamp: { description: When the action was recorded. }
+    ActionModelGroup:
+      type: object
+      description: An action-tracking group and the actions configured within it.
+      properties:
+        id: { type: string, description: Group id. }
+        name: { type: string }
+        actions:
+          type: array
+          items:
+            type: object
+            properties:
+              action_id: { type: string }
+              action_name: { type: string }
+
+    EntityAttributeList:
+      type: object
+      description: >
+        Map of attribute names to a map of instance ids to values. See
+        `../concepts/attributes.md`.
+      additionalProperties:
+        type: object
+        additionalProperties: true
+      example:
+        node_type: { "-OPWRGCw7wC7DA3Lt6SX": pole }
+        scid: { "-OPWRQOwUdDU4X4f_-8u": "001" }
+    FlatAttributeMap:
+      type: object
+      description: Flat map of attribute names to single values.
+      additionalProperties: true
+      example: { node_type: pole, scid: "001" }
+    PixelSelection:
+      type: object
+      properties:
+        percentX: { type: number }
+        percentY: { type: number }
+
+    JobListItem:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+        status: { type: string, enum: [active, archived] }
+        metadata: { type: object, additionalProperties: true }
+        last_updated: { type: string, format: date-time, description: When the job was last updated (present when available). }
+    JobStatus:
+      type: object
+      properties:
+        id: { type: string }
+        status: { type: string, enum: [active, archived] }
+    Job:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+        name: { type: string }
+        metadata: { type: object, additionalProperties: true }
+    JobResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data: { $ref: '#/components/schemas/Job' }
+    CreateJobBody:
+      type: object
+      required: [name, model]
+      properties:
+        name: { type: string, description: Name of the job. }
+        model: { type: string, description: Model of the job (stored on `job_creator`). }
+        map_styles: { type: string }
+        metadata: { type: object, additionalProperties: true, description: Flat map of job metadata. }
+        sharing: { type: object, additionalProperties: true, description: Flat map of sharing settings; owner company is added automatically. }
+    UpdateJobBody:
+      type: object
+      properties:
+        name: { type: string }
+        model: { type: string }
+        map_styles: { type: string }
+        metadata: { type: object, additionalProperties: true }
+        sharing: { type: object, additionalProperties: true }
+
+    Node:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+        latitude: { type: number }
+        longitude: { type: number }
+        attributes: { $ref: '#/components/schemas/EntityAttributeList' }
+        last_updated: { type: string, format: date-time, description: When the node was last updated (present when available). }
+    NodeResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data: { $ref: '#/components/schemas/Node' }
+    CreateNodeBody:
+      type: object
+      required: [latitude, longitude]
+      properties:
+        latitude: { type: number }
+        longitude: { type: number }
+        attributes: { $ref: '#/components/schemas/EntityAttributeList' }
+        add_attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+    UpdateNodeBody:
+      type: object
+      properties:
+        latitude: { type: number }
+        longitude: { type: number }
+        attributes: { $ref: '#/components/schemas/EntityAttributeList' }
+        add_attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+        remove_attributes:
+          type: array
+          items: { type: string }
+
+    Breakpoints:
+      type: array
+      description: Polyline geometry — array of [latitude, longitude] pairs between the two endpoint nodes.
+      items:
+        type: array
+        minItems: 2
+        maxItems: 2
+        items: { type: number }
+    Connection:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+        node_id_1: { type: string }
+        node_id_2: { type: string }
+        attributes: { $ref: '#/components/schemas/EntityAttributeList' }
+        breakpoints:
+          $ref: '#/components/schemas/Breakpoints'
+          description: 'Polyline geometry (present when set): array of [latitude, longitude] pairs.'
+        sections: { type: object, additionalProperties: true }
+    ConnectionResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data: { $ref: '#/components/schemas/Connection' }
+    CreateConnectionBody:
+      type: object
+      required: [node_id_1, node_id_2]
+      properties:
+        node_id_1: { type: string }
+        node_id_2: { type: string }
+        attributes: { $ref: '#/components/schemas/EntityAttributeList' }
+        add_attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+        breakpoints:
+          $ref: '#/components/schemas/Breakpoints'
+          description: 'Optional polyline geometry: array of [latitude, longitude] pairs. Omit or [] for none.'
+    UpdateConnectionBody:
+      type: object
+      properties:
+        node_id_1: { type: string }
+        node_id_2: { type: string }
+        attributes: { $ref: '#/components/schemas/EntityAttributeList' }
+        add_attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+        remove_attributes:
+          type: array
+          items: { type: string }
+        breakpoints:
+          $ref: '#/components/schemas/Breakpoints'
+          description: 'Polyline geometry: array of [latitude, longitude] pairs. Send null or [] to clear; omit to leave unchanged.'
+
+    Section:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+        latitude: { type: number }
+        longitude: { type: number }
+    SectionResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data: { $ref: '#/components/schemas/Section' }
+    CreateSectionBody:
+      type: object
+      properties:
+        make_midpoint:
+          type: boolean
+          description: If true, creates the section at the connection's midpoint. **Overwrites an existing midpoint section, deleting its data.**
+        latitude: { type: number }
+        longitude: { type: number }
+        attributes: { $ref: '#/components/schemas/EntityAttributeList' }
+        add_attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+    UpdateSectionBody:
+      type: object
+      properties:
+        latitude: { type: number }
+        longitude: { type: number }
+        attributes: { $ref: '#/components/schemas/EntityAttributeList' }
+        add_attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+        remove_attributes:
+          type: array
+          items: { type: string }
+
+    Photo:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+    AssociatePhotoBody:
+      type: object
+      required: [association_value]
+      description: >
+        Provide `node_id` (to associate to a node) OR both `connection_id` and
+        `section_id` (to associate to a section). `association_value` of `null`
+        unassociates the photo.
+      properties:
+        node_id: { type: string, description: Id of the node (omit `connection_id`/`section_id`). }
+        connection_id: { type: string, description: Connection the section is on (with `section_id`). }
+        section_id: { type: string, description: Id of the section (with `connection_id`). }
+        association_value:
+          description: "`'main'`, `true`, or `null` (to unassociate). Note: `false` is not accepted."
+          oneOf:
+            - { type: string, enum: [main] }
+            - { type: boolean, enum: [true] }
+            - { type: 'null' }
+
+    PhotoElement:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+    PhotoElementResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data: { $ref: '#/components/schemas/PhotoElement' }
+    CreatePhotoElementBody:
+      type: object
+      required: [element_type]
+      properties:
+        element_type: { type: string }
+        pixel_selection: { $ref: '#/components/schemas/PixelSelection' }
+        manual_height: { type: string, description: "Feet-inches notation, e.g. `25-6`." }
+        attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+        parent_id: { type: string }
+        trace_id: { type: string }
+    UpdatePhotoElementBody:
+      type: object
+      properties:
+        element_type: { type: string, description: Only settable when creating a new element. }
+        pixel_selection: { $ref: '#/components/schemas/PixelSelection' }
+        manual_height: { type: string }
+        attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+        parent_id: { type: [string, 'null'], description: Set to null to de-nest. }
+        trace_id: { type: string }
+
+    CalibrationAnchor:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+    CalibrationAnchorResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data: { $ref: '#/components/schemas/CalibrationAnchor' }
+    CreateCalibrationAnchorBody:
+      type: object
+      required: [pixel_selection, height]
+      properties:
+        pixel_selection: { $ref: '#/components/schemas/PixelSelection' }
+        height: { type: number, description: Height in decimal feet. }
+    UpdateCalibrationAnchorBody:
+      type: object
+      properties:
+        pixel_selection: { $ref: '#/components/schemas/PixelSelection' }
+        height: { type: number }
+
+    Trace:
+      type: object
+      additionalProperties: true
+      properties:
+        id: { type: string }
+        _trace_type: { type: string }
+        items: { type: object, additionalProperties: true }
+    TraceResponse:
+      allOf:
+        - $ref: '#/components/schemas/SuccessEnvelope'
+        - properties:
+            data: { $ref: '#/components/schemas/Trace' }
+    CreateTraceBody:
+      type: object
+      required: [trace_type]
+      properties:
+        trace_type: { type: string }
+        attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+    UpdateTraceBody:
+      type: object
+      properties:
+        trace_type: { type: string }
+        attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+
+    UserListItem:
+      type: object
+      properties:
+        uid: { type: string }
+        email: { type: [string, 'null'] }
+        name: { type: [object, 'null'], additionalProperties: true }
+        last_active: { type: [integer, 'null'] }
+        creation_date: { type: [integer, 'null'] }
+    User:
+      allOf:
+        - $ref: '#/components/schemas/UserListItem'
+        - properties:
+            metadata: { type: [object, 'null'], additionalProperties: true }
+
+  responses:
+    Error:
+      description: Error response (standard envelope from a route handler).
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    AuthError:
+      description: Authentication / middleware error (non-standard `{ error }` shape, no `meta`).
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/AuthErrorEnvelope' }
