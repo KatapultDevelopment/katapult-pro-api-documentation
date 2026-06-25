@@ -1,5 +1,17 @@
 {
+  "name": "katapult-pro-api-documentation",
+  "private": true,
+  "description": "Katapult Pro API documentation. The v3 endpoint reference tables are generated from v3/openapi.yaml.",
+  "scripts": {
+    "docs:validate": "redocly lint v3/openapi.yaml",
+    "docs:gen:md": "node scripts/generate-md-tables.js",
+    "docs:gen": "npm run docs:gen:md"
+  },
   "dependencies": {
     "axios": "^1.11.0"
+  },
+  "devDependencies": {
+    "@redocly/cli": "^1.25.0",
+    "js-yaml": "^4.1.0"
   }
 }

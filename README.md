@@ -3,9 +3,15 @@
 Welcome to the Katapult Pro API!
 
 ## Versions
-- (Preview) [Katapult Pro API v3](v3/README.md)
-- [Katapult Pro API v2](v2/DocumentationV2.MD)
-- [Katapult Pro API v1](https://documenter.getpostman.com/view/9081167/SVtVV93W)
+- **[Katapult Pro API v3](v3/README.md) — current, recommended for new integrations**
+- [Katapult Pro API v2](v2/DocumentationV2.MD) — legacy (supported)
+- [Katapult Pro API v1](https://documenter.getpostman.com/view/9081167/SVtVV93W) — legacy
+
+New integrations should use **v3**. It adds a token-based rate limit with
+published per-call costs, consistent response/error envelopes, granular
+per-entity endpoints, new resources (photo elements, calibration anchors,
+traces, models, users), and a machine-readable OpenAPI spec. See the
+[v3 docs](v3/README.md).
 
 ## Introduction
 
@@ -18,7 +24,7 @@ The Katapult Pro API is a [RESTful](https://en.wikipedia.org/wiki/REST) API that
 ### Authentication
 
 To get started with the Katapult Pro API, you will need to obtain an API key. This key is used to authenticate your requests and ensure that only authorized users can access your data. Obtaining an API is done in different ways depending on the version of the API you are using.
-- For v2 (and v3 preview), see the [v2 API Key generation guide](v2/DocumentationV2.MD#api-key-generation).
+- For v2 and v3, see the [API Key generation guide](v2/DocumentationV2.MD#api-key-generation).
 - For v1, contact [Katapult Pro support](mailto:support@katapultengineering.com).
 
 ### Usage
@@ -32,7 +38,7 @@ https://katapultpro.com/api/v1
 
 Private server users should use their private server domain instead of katapultpro.com.
 
-To interact with the API, send HTTP requests to the appropriate endpoint (see respective API documentation for details on endpoints). The API will respond with JSON data, which you can parse and use in your application. To get started making request, you can use an interactive tool like [Postman](https://www.postman.com/) or a command line tool like [cURL](https://curl.se/).
+To interact with the API, send HTTP requests to the appropriate endpoint (see respective API documentation for details on endpoints). The API will respond with JSON data, which you can parse and use in your application. To get started making request, you can use a command line tool like [cURL](https://curl.se/).
 
 Programming languages like Python, JavaScript, and Ruby have methods and libraries for making HTTP requests and parsing JSON data. Here are some recommendations and resources for popular programming languages (be sure to check the documentation for your specific version of the language and determine the appropriateness of the library for your use case):
 

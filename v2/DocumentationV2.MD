@@ -1,5 +1,27 @@
 # Katapult Pro V2 Documentation
 
+> ## 🚀 A newer API is available — use [Katapult Pro API v3](../v3/README.md)
+>
+> **v3 is the actively developed, recommended API for all new integrations.**
+> v2 remains supported as a legacy version but is no longer receiving new
+> features. Compared with v2, v3 adds:
+>
+> - A **token-bucket rate limit** with published per-call costs and a token
+>   balance (`meta`) on every response — instead of v2's fixed throttle — so you
+>   can budget and pace your requests. See [Rate limits & the token bucket](../v3/rate-limits.md).
+> - **Consistent success/error envelopes** (`status` / `data` / `meta`, with
+>   typed error `type`s) that are easier and more reliable to parse.
+> - **Granular per-entity REST endpoints** for nodes, connections, sections, and
+>   photos — create, update, and delete individual items without rewriting whole
+>   jobs.
+> - **New resources** not available in v2: photo elements, calibration anchors,
+>   traces, models, and users.
+> - A machine-readable **[OpenAPI 3.1 spec](../v3/openapi.yaml)**, plus **Node and
+>   Python examples** and a **Postman collection**.
+>
+> New to the API? **Start with [v3](../v3/README.md).** The rest of this page
+> documents the legacy v2 API.
+
 ## API Key Generation
 The Katapult Pro API key is available for users to generate locally. To generate your own user authenticated API Key, you must have permissions setup to do so by your company Admin. Your company Admin should visit the Admin page in Katapult Pro, click on your user, click "Roles," and grant you API Access.
 
