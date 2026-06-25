@@ -1,0 +1,6 @@
+# Redocly config for linting v3/openapi.yaml (`npm run docs:validate`).
+# The v3 API returns errors via a single shared `default` response (the
+# standard error envelope), so the explicit-4XX rule is intentionally disabled.
+rules:
+  operation-4xx-response: off
+  no-server-example.com: off
