@@ -7,9 +7,11 @@ call them. Attempting to without extended access returns HTTP `403` with type
 
 ## Extended API access
 
-Extended API access removes token costs (calls are charged 0 tokens), unlocks
-the raw write endpoint, and permits full model fetches (see below). It is
-granted only when **both** are true:
+Extended API access exempts calls from token costs — instead of deducting the
+call's cost, the bucket is reset to full on every call, so it never depletes —
+and unlocks the raw write endpoint and full model fetches (see below). Every
+response's `meta.token_count` reports the string `"Unlimited"` instead of a
+number for these callers. It is granted only when **both** are true:
 
 - The caller's company has the `can_grant_extended_api_access` feature enabled.
 - The caller's user has the `extended_api_access` role.
@@ -22,7 +24,7 @@ It is always off in the production environment (`katapultpro.com`).
 POST https://katapultpro.com/api/v3/jobs/{job_id}/raw
 ```
 
-**Token cost:** 10 (0 with extended access) · **Requires extended API access**
+**Token cost:** 10 (exempt with extended access) · **Requires extended API access**
 
 Writes raw path/value data directly to a job, bypassing the higher-level
 create/update helpers. Body keys are job-relative paths; values are written
@@ -65,3 +67,36 @@ supported way to read model data.
 Because extended access is off in production, request `?paths=...` on
 `katapultpro.com`. See [Models](models.md) and
 [Rate limits & the token bucket](../rate-limits.md#token-costs).
+
+## User active state
+
+```sh
+GET  https://katapultpro.com/api/v3/users/{user_id}/active_state
+POST https://katapultpro.com/api/v3/users/{user_id}/active_state
+```
+
+**Token cost:** 1 · **Requires extended API access** · **Requires `enable_api_user_state_calls` feature flag**
+
+### GET — Get user active state
+
+Returns the active state of a specific user. The response `data` is `null` if
+no active state has been recorded, otherwise an object with:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `last_updated` | integer | Unix timestamp (ms) of the last activity. |
+| `source` | `"client"` \| `"api"` | Whether the activity originated from the client app or the API. |
+| `path` | string | The path of the last activity. |
+
+### POST — Set user active state
+
+Sets the active state for a specific user. `source` is always set to `"api"`
+and `last_updated` is set to the current server time.
+
+Body fields:
+
+| Field | Type | Required | Description |
+| --- | --- | :---: | --- |
+| `path` | string | ✓ | The path to record as the user's last activity. |
+
+Returns the new active state in the same shape as the GET response.
