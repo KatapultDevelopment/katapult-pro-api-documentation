@@ -65,3 +65,36 @@ supported way to read model data.
 Because extended access is off in production, request `?paths=...` on
 `katapultpro.com`. See [Models](models.md) and
 [Rate limits & the token bucket](../rate-limits.md#token-costs).
+
+## User active state
+
+```sh
+GET  https://katapultpro.com/api/v3/users/{user_id}/active_state
+POST https://katapultpro.com/api/v3/users/{user_id}/active_state
+```
+
+**Token cost:** 1 · **Requires extended API access** · **Requires `enable_api_user_state_calls` feature flag**
+
+### GET — Get user active state
+
+Returns the active state of a specific user. The response `data` is `null` if
+no active state has been recorded, otherwise an object with:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `last_updated` | integer | Unix timestamp (ms) of the last activity. |
+| `source` | `"client"` \| `"api"` | Whether the activity originated from the client app or the API. |
+| `path` | string | The path of the last activity. |
+
+### POST — Set user active state
+
+Sets the active state for a specific user. `source` is always set to `"api"`
+and `last_updated` is set to the current server time.
+
+Body fields:
+
+| Field | Type | Required | Description |
+| --- | --- | :---: | --- |
+| `path` | string | ✓ | The path to record as the user's last activity. |
+
+Returns the new active state in the same shape as the GET response.

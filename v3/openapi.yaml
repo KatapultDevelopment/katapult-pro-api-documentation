@@ -1104,6 +1104,72 @@ paths:
                       data: { $ref: '#/components/schemas/User' }
         default: { $ref: '#/components/responses/Error' }
 
+  /users/{user_id}/active_state:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema: { type: string }
+    get:
+      tags: [Users]
+      operationId: getUserActiveState
+      summary: Get user active state
+      x-restricted: true
+      x-token-cost: 1
+      description: >
+        Returns the active state of a specific user, including their last
+        updated timestamp, the source of activity (`client` or `api`), and the
+        path of the last activity. Returns `null` if no active state has been
+        recorded. Requires extended API access and the
+        `enable_api_user_state_calls` feature flag.
+      responses:
+        '200':
+          description: The user's active state, or `null` if none exists.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data:
+                        oneOf:
+                          - $ref: '#/components/schemas/ActiveState'
+                          - type: 'null'
+        default: { $ref: '#/components/responses/Error' }
+    post:
+      tags: [Users]
+      operationId: setUserActiveState
+      summary: Set user active state
+      x-restricted: true
+      x-token-cost: 1
+      description: >
+        Sets the active state for a specific user. Sets `source` to `api` and
+        `last_updated` to the current server time. Returns the new active state.
+        Requires extended API access and the `enable_api_user_state_calls`
+        feature flag.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [path]
+              properties:
+                path:
+                  type: string
+                  description: The path to record as the user's last activity.
+      responses:
+        '200':
+          description: The updated active state.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data: { $ref: '#/components/schemas/ActiveState' }
+        default: { $ref: '#/components/responses/Error' }
+
   /companies/{company_id}/tracked_actions:
     parameters:
       - $ref: '#/components/parameters/CompanyId'
@@ -1668,6 +1734,20 @@ components:
       properties:
         trace_type: { type: string }
         attributes: { $ref: '#/components/schemas/FlatAttributeMap' }
+
+    ActiveState:
+      type: object
+      properties:
+        last_updated:
+          type: integer
+          description: Unix timestamp (ms) of the last activity.
+        source:
+          type: string
+          enum: [client, api]
+          description: Whether the activity originated from the client app or the API.
+        path:
+          type: string
+          description: The path of the last activity.
 
     UserListItem:
       type: object
