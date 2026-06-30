@@ -17,11 +17,14 @@ type EntityResponse = {
     // ...other resource fields
   },
   meta: {
-    token_count: number,      // Tokens remaining after the request
-    last_refill_time: number, // Epoch ms of the last token refill
+    token_count: number | "Unlimited", // Tokens remaining after the request
+    last_refill_time: number,         // Epoch ms of the last token refill
   }
 }
 ```
+
+> `token_count` is the literal string `"Unlimited"` instead of a number for
+> callers with [extended API access](../reference/restricted.md#extended-api-access).
 
 For a list, `data` is an array of resources:
 
@@ -29,7 +32,7 @@ For a list, `data` is an array of resources:
 type ListResponse = {
   status: "success",
   data: Array<{ id: string, /* ...fields */ }>,
-  meta: { token_count: number, last_refill_time: number }
+  meta: { token_count: number | "Unlimited", last_refill_time: number }
 }
 ```
 
@@ -45,7 +48,7 @@ type ErrorResponse = {
   status: "error",
   message: string, // Human-readable message
   type: string,    // Machine-readable type (see table below)
-  meta: { token_count: number, last_refill_time: number }
+  meta: { token_count: number | "Unlimited", last_refill_time: number }
 }
 ```
 

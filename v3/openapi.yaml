@@ -1349,8 +1349,13 @@ components:
       description: Token-bucket state after the request.
       properties:
         token_count:
-          type: integer
-          description: Tokens remaining after the request.
+          oneOf:
+            - type: integer
+            - type: string
+              enum: [Unlimited]
+          description: >-
+            Tokens remaining after the request. Returns the string `"Unlimited"`
+            instead of a number for callers with extended API access.
         last_refill_time:
           type: integer
           description: Epoch milliseconds of the last token-bucket refill.

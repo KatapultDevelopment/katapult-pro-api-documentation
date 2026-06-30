@@ -7,9 +7,11 @@ call them. Attempting to without extended access returns HTTP `403` with type
 
 ## Extended API access
 
-Extended API access removes token costs (calls are charged 0 tokens), unlocks
-the raw write endpoint, and permits full model fetches (see below). It is
-granted only when **both** are true:
+Extended API access exempts calls from token costs — instead of deducting the
+call's cost, the bucket is reset to full on every call, so it never depletes —
+and unlocks the raw write endpoint and full model fetches (see below). Every
+response's `meta.token_count` reports the string `"Unlimited"` instead of a
+number for these callers. It is granted only when **both** are true:
 
 - The caller's company has the `can_grant_extended_api_access` feature enabled.
 - The caller's user has the `extended_api_access` role.
@@ -22,7 +24,7 @@ It is always off in the production environment (`katapultpro.com`).
 POST https://katapultpro.com/api/v3/jobs/{job_id}/raw
 ```
 
-**Token cost:** 10 (0 with extended access) · **Requires extended API access**
+**Token cost:** 10 (exempt with extended access) · **Requires extended API access**
 
 Writes raw path/value data directly to a job, bypassing the higher-level
 create/update helpers. Body keys are job-relative paths; values are written
