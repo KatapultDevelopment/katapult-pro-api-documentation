@@ -1118,10 +1118,10 @@ paths:
       x-token-cost: 1
       description: >
         Returns the active state of a specific user, including their last
-        updated timestamp, the source of activity (`client` or `api`), and the
-        path of the last activity. Returns `null` if no active state has been
-        recorded. Requires extended API access and the
-        `enable_api_user_state_calls` feature flag.
+        updated timestamp, the source of activity (`client` or `api`), the
+        path of the last activity, and the page (`map` or `photos`). Returns
+        `null` if no active state has been recorded. Requires extended API
+        access and the `enable_api_user_state_calls` feature flag.
       responses:
         '200':
           description: The user's active state, or `null` if none exists.
@@ -1141,23 +1141,32 @@ paths:
       operationId: setUserActiveState
       summary: Set user active state
       x-restricted: true
-      x-token-cost: 1
+      x-token-cost: 10
       description: >
         Sets the active state for a specific user. Sets `source` to `api` and
         `last_updated` to the current server time. Returns the new active state.
         Requires extended API access and the `enable_api_user_state_calls`
-        feature flag.
+        feature flag. The caller must either be the user being updated or a
+        company admin (otherwise 403 `forbidden`); the target user must exist
+        (otherwise 404 `not_found`). Note that the target user's client only
+        visually applies the new state if they have opted in to
+        `allow_api_active_state` in their account settings — the first
+        API-driven change prompts them to accept or deny.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [path]
+              required: [path, page]
               properties:
                 path:
                   type: string
                   description: The path to record as the user's last activity.
+                page:
+                  type: string
+                  enum: [map, photos]
+                  description: Which page the activity occurred on.
       responses:
         '200':
           description: The updated active state.
@@ -1349,13 +1358,12 @@ components:
       description: Token-bucket state after the request.
       properties:
         token_count:
-          oneOf:
-            - type: integer
-            - type: string
-              enum: [Unlimited]
+          type: integer
           description: >-
-            Tokens remaining after the request. Returns the string `"Unlimited"`
-            instead of a number for callers with extended API access.
+            Tokens remaining after the request. For callers with extended API
+            access, this is always the fixed placeholder value `9999999999`
+            (their bucket is reset to full on every call, so it never
+            meaningfully depletes) rather than a literal remaining count.
         last_refill_time:
           type: integer
           description: Epoch milliseconds of the last token-bucket refill.
@@ -1446,6 +1454,12 @@ components:
         value: { description: Recorded value (type varies by action). }
         order: { type: integer }
         timestamp: { description: When the action was recorded. }
+        source:
+          type: string
+          enum: [desktop, mobile, api]
+          description: >-
+            Which client recorded the action. Absent on older records that
+            predate source tracking.
     ActionModelGroup:
       type: object
       description: An action-tracking group and the actions configured within it.
@@ -1753,6 +1767,10 @@ components:
         path:
           type: string
           description: The path of the last activity.
+        page:
+          type: string
+          enum: [map, photos]
+          description: Which page the activity occurred on.
 
     UserListItem:
       type: object

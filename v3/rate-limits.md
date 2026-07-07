@@ -82,15 +82,15 @@ Every route-handler response (success **and** error) includes a `meta` object:
 
 - `token_count` — tokens remaining **after** this request. For callers with
   [extended API access](reference/restricted.md#extended-api-access), this is
-  the literal string `"Unlimited"` instead of a number, since their bucket
-  never depletes.
+  always the fixed placeholder integer `9999999999`, since their bucket never
+  meaningfully depletes.
 - `last_refill_time` — epoch milliseconds of the bucket's last refill.
 
 Your bucket refills 60 seconds after `last_refill_time`, so the next refill is
 at `last_refill_time + 60000`.
 
-> Clients should treat `token_count` as `number | "Unlimited"` and check for
-> the string before doing arithmetic on it.
+> `token_count` is always a plain integer. Extended API access callers simply
+> see the fixed placeholder `9999999999` rather than a real remaining count.
 
 ### When you run out of tokens
 

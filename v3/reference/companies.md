@@ -24,6 +24,10 @@ How the two endpoints fit together:
 costs and the per-minute bucket are described in
 [Rate limits & the token bucket](../rate-limits.md).
 
+Each tracked-action record may include a `source` field (`desktop`, `mobile`,
+or `api`) identifying which client recorded the action. It is absent on older
+records that predate source tracking.
+
 <!-- BEGIN GENERATED: Companies -->
 <!-- Do not edit by hand. Generated from ../openapi.yaml by `npm run docs:gen:md`. -->
 
