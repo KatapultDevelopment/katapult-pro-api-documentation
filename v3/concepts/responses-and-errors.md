@@ -23,6 +23,10 @@ type EntityResponse = {
 }
 ```
 
+> For callers with [extended API access](../reference/restricted.md#extended-api-access),
+> `token_count` is always the fixed placeholder integer `9999999999` instead of
+> a real remaining count.
+
 For a list, `data` is an array of resources:
 
 ```ts
