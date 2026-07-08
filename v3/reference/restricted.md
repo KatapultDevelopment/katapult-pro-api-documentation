@@ -25,7 +25,7 @@ It is always off in the production environment (`katapultpro.com`).
 POST https://katapultpro.com/api/v3/jobs/{job_id}/raw
 ```
 
-**Token cost:** 10 (exempt with extended access) · **Requires extended API access**
+**Requires extended API access**
 
 Writes raw path/value data directly to a job, bypassing the higher-level
 create/update helpers. Body keys are job-relative paths; values are written

@@ -17,8 +17,8 @@ type EntityResponse = {
     // ...other resource fields
   },
   meta: {
-    token_count: number, // Tokens remaining after the request
-    last_refill_time: number,         // Epoch ms of the last token refill
+    token_count: number,      // Tokens remaining after the request
+    last_refill_time: number, // Epoch ms of the last token refill
   }
 }
 ```
