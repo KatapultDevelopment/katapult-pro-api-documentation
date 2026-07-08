@@ -78,7 +78,7 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `path` | string | ✓ | The path to record as the user's last activity. |
+| `path` | string | ✓ | The path to record as the user's last activity. Must start with `jobs/...`. |
 | `page` | `map` \| `photos` | ✓ | Which page the activity occurred on. |
 
 <!-- END GENERATED: Users -->

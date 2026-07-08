@@ -89,7 +89,7 @@ no active state has been recorded, otherwise an object with:
 | --- | --- | --- |
 | `last_updated` | integer | Unix timestamp (ms) of the last activity. |
 | `source` | `"client"` \| `"api"` | Whether the activity originated from the client app or the API. |
-| `path` | string | The path of the last activity. |
+| `path` | string | The path of the last activity. Starts with `jobs/...`. |
 | `page` | `"map"` \| `"photos"` | Which page the activity occurred on. |
 
 Returns `404` (`not_found`) if `user_id` does not exist.
@@ -105,7 +105,7 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `path` | string | ✓ | The path to record as the user's last activity. |
+| `path` | string | ✓ | The path to record as the user's last activity. Must start with `jobs/...`. |
 | `page` | `"map"` \| `"photos"` | ✓ | Which page the activity occurred on. |
 
 Returns the new active state in the same shape as the GET response.
