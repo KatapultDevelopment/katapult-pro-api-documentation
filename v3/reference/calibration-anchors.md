@@ -53,7 +53,7 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `pixel_selection` | { percentX, percentY } | ✓ |  |
+| `pixel_selection` | { percentX, percentY } | ✓ | Position on the photo as fractions of the image: `percentX`/`percentY`, each 0–1. |
 | `height` | number | ✓ | Height in decimal feet. |
 
 ### Get a calibration anchor
@@ -98,8 +98,8 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `pixel_selection` | { percentX, percentY } |  |  |
-| `height` | number |  |  |
+| `pixel_selection` | { percentX, percentY } |  | Position on the photo as fractions of the image: `percentX`/`percentY`, each 0–1. |
+| `height` | number |  | Height in decimal feet. |
 
 ### Delete a calibration anchor
 

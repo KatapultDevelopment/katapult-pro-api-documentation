@@ -55,10 +55,10 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `latitude` | number | ✓ |  |
-| `longitude` | number | ✓ |  |
-| `attributes` | object (entity attribute list) |  |  |
-| `add_attributes` | object (flat map) |  |  |
+| `latitude` | number | ✓ | Latitude of the node in decimal degrees. |
+| `longitude` | number | ✓ | Longitude of the node in decimal degrees. |
+| `attributes` | object (entity attribute list) |  | Entity attribute list: maps each attribute name to its instance ids and values. Set an attribute or instance to `null` to remove it. See [Working with attributes](../concepts/attributes.md). |
+| `add_attributes` | object (flat map) |  | Flat map of attribute name to value; the API generates instance ids for you. See [Working with attributes](../concepts/attributes.md). |
 
 ### Get a node
 
@@ -102,11 +102,11 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `latitude` | number |  |  |
-| `longitude` | number |  |  |
-| `attributes` | object (entity attribute list) |  |  |
-| `add_attributes` | object (flat map) |  |  |
-| `remove_attributes` | array<string> |  |  |
+| `latitude` | number |  | Latitude of the node in decimal degrees. |
+| `longitude` | number |  | Longitude of the node in decimal degrees. |
+| `attributes` | object (entity attribute list) |  | Entity attribute list: maps each attribute name to its instance ids and values. Set an attribute or instance to `null` to remove it. See [Working with attributes](../concepts/attributes.md). |
+| `add_attributes` | object (flat map) |  | Flat map of attribute name to value; the API generates instance ids for you. See [Working with attributes](../concepts/attributes.md). |
+| `remove_attributes` | array<string> |  | List of attribute names to remove; all instances of each are removed. See [Working with attributes](../concepts/attributes.md). |
 
 ### Delete a node
 

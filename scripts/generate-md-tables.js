@@ -102,8 +102,8 @@ function getRequestBody(op) {
 
 const METHODS = ['get', 'post', 'put', 'patch', 'delete'];
 
-/** Build the generated markdown block for one tag. */
-function buildTagMarkdown(tagName) {
+/** Collect all operations tagged with tagName, in spec-path order. */
+function collectOps(tagName) {
   const ops = [];
   for (const [p, pathItem] of Object.entries(spec.paths)) {
     for (const method of METHODS) {
@@ -112,6 +112,24 @@ function buildTagMarkdown(tagName) {
       ops.push({ p, method, pathItem, op });
     }
   }
+  return ops;
+}
+
+/**
+ * Build one summary-table row for an operation. `hrefBase` prefixes the anchor:
+ * '' -> "#anchor" (same-page, used on reference pages); 'reference/jobs.md' ->
+ * "reference/jobs.md#anchor" (cross-page, used in the README index).
+ */
+function summaryRow(p, method, op, hrefBase = '') {
+  const cost = op['x-token-cost'];
+  const restricted = op['x-restricted'] ? ' 🔒' : '';
+  const href = `${hrefBase}#${anchor(op.summary)}`;
+  return `| \`${method.toUpperCase()}\` | [\`${p}\`](${href})${restricted} | ${esc(cost)} | ${esc(op.summary)} |`;
+}
+
+/** Build the generated markdown block for one tag. */
+function buildTagMarkdown(tagName) {
+  const ops = collectOps(tagName);
   if (ops.length === 0) return '';
 
   const lines = [];
@@ -120,11 +138,7 @@ function buildTagMarkdown(tagName) {
   lines.push('| Method | Endpoint | Token cost | Description |');
   lines.push('| --- | --- | --- | --- |');
   for (const { p, method, op } of ops) {
-    const cost = op['x-token-cost'];
-    const restricted = op['x-restricted'] ? ' 🔒' : '';
-    lines.push(
-      `| \`${method.toUpperCase()}\` | [\`${p}\`](#${anchor(op.summary)})${restricted} | ${esc(cost)} | ${esc(op.summary)} |`
-    );
+    lines.push(summaryRow(p, method, op));
   }
   lines.push('');
 
@@ -197,6 +211,30 @@ function buildTagMarkdown(tagName) {
   return lines.join('\n').trimEnd();
 }
 
+/**
+ * Build the consolidated endpoint index for the README: every tagged operation,
+ * grouped by resource in SLUGS order, under an H3 that links to the resource's
+ * reference page. Endpoint links point cross-page into reference/{slug}.md so the
+ * index works from the README's location. The `Root` welcome op (not in SLUGS) is
+ * intentionally excluded; it lives in the README's Quick start section.
+ */
+function buildEndpointIndex() {
+  const lines = [];
+  for (const [tagName, slug] of Object.entries(SLUGS)) {
+    const ops = collectOps(tagName);
+    if (ops.length === 0) continue;
+    lines.push(`### [${tagName}](reference/${slug}.md)`);
+    lines.push('');
+    lines.push('| Method | Endpoint | Token cost | Description |');
+    lines.push('| --- | --- | --- | --- |');
+    for (const { p, method, op } of ops) {
+      lines.push(summaryRow(p, method, op, `reference/${slug}.md`));
+    }
+    lines.push('');
+  }
+  return lines.join('\n').trimEnd();
+}
+
 function anchor(text) {
   return String(text || '')
     .toLowerCase()
@@ -220,18 +258,26 @@ const SLUGS = {
   Companies: 'companies'
 };
 
-function injectIntoFile(file, tagName, generated) {
+function injectIntoFile(file, tagName, generated, appendIfMissing = true) {
   const begin = `<!-- BEGIN GENERATED: ${tagName} -->`;
   const end = `<!-- END GENERATED: ${tagName} -->`;
-  const block = `${begin}\n<!-- Do not edit by hand. Generated from ../openapi.yaml by \`npm run docs:gen:md\`. -->\n\n${generated}\n\n${end}`;
+  // Path to the spec relative to this file's directory, with forward slashes on
+  // any OS: '../openapi.yaml' for reference pages, 'openapi.yaml' for the README.
+  const specRel = path.relative(path.dirname(file), SPEC_PATH).split(path.sep).join('/');
+  const block = `${begin}\n<!-- Do not edit by hand. Generated from ${specRel} by \`npm run docs:gen:md\`. -->\n\n${generated}\n\n${end}`;
 
   if (fs.existsSync(file)) {
     let content = fs.readFileSync(file, 'utf8');
     const re = new RegExp(`${escapeRe(begin)}[\\s\\S]*?${escapeRe(end)}`);
     if (re.test(content)) {
       content = content.replace(re, block);
-    } else {
+    } else if (appendIfMissing) {
       content = `${content.trimEnd()}\n\n${block}\n`;
+    } else {
+      throw new Error(
+        `Markers for "${tagName}" not found in ${file}. Pre-place the ` +
+        `"${begin}" / "${end}" marker pair once, then re-run.`
+      );
     }
     fs.writeFileSync(file, content);
     return 'updated';
@@ -259,4 +305,13 @@ for (const [tagName, slug] of Object.entries(SLUGS)) {
   else updated++;
   console.log(`  ${result}: reference/${slug}.md`);
 }
+
+// Consolidated endpoint index on the landing README. Markers must already exist
+// (appendIfMissing=false), so a missing pair throws instead of dumping the block
+// at end of file.
+const readmeFile = path.join(ROOT, 'v3', 'README.md');
+injectIntoFile(readmeFile, 'Endpoint Index', buildEndpointIndex(), false);
+updated++;
+console.log('  updated: README.md');
+
 console.log(`Done. ${created} created, ${updated} updated.`);

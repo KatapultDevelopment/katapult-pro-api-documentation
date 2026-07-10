@@ -36,7 +36,7 @@ Path parameters:
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `user_id` | string |  |
+| `user_id` | string | Id of the user. |
 
 ### Get user active state
 
@@ -54,7 +54,7 @@ Path parameters:
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `user_id` | string |  |
+| `user_id` | string | Id of the user. |
 
 ### Set user active state
 
@@ -72,13 +72,13 @@ Path parameters:
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `user_id` | string |  |
+| `user_id` | string | Id of the user. |
 
 Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
 | `path` | string | ✓ | The path to record as the user's last activity. Must start with `jobs/...`. |
-| `page` | `map` \| `photos` | ✓ | Which page the activity occurred on. |
+| `page` | `map` \| `photos` | ✓ | The page to apply the user state change to. |
 
 <!-- END GENERATED: Users -->

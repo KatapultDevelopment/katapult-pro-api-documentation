@@ -39,21 +39,126 @@ for runnable Node and Python examples.
 
 ## Endpoint reference
 
-| Resource | Page |
-| --- | --- |
-| Jobs | [reference/jobs.md](reference/jobs.md) |
-| Nodes | [reference/nodes.md](reference/nodes.md) |
-| Connections | [reference/connections.md](reference/connections.md) |
-| Sections | [reference/sections.md](reference/sections.md) |
-| Photos | [reference/photos.md](reference/photos.md) |
-| Photo Elements | [reference/photo-elements.md](reference/photo-elements.md) |
-| Calibration Anchors | [reference/calibration-anchors.md](reference/calibration-anchors.md) |
-| Traces | [reference/traces.md](reference/traces.md) |
-| Models | [reference/models.md](reference/models.md) |
-| Users | [reference/users.md](reference/users.md) |
-| Companies | [reference/companies.md](reference/companies.md) |
-| Restricted (not in production) | [reference/restricted.md](reference/restricted.md) |
-| Coming soon | [reference/coming-soon.md](reference/coming-soon.md) |
+Every endpoint, grouped by resource, generated from [`openapi.yaml`](openapi.yaml).
+Each heading links to that resource's full reference page. 🔒 marks restricted
+endpoints (disabled in production). The service welcome endpoint `GET /` is covered
+in [Quick start](#quick-start) above.
+
+<!-- BEGIN GENERATED: Endpoint Index -->
+<!-- Do not edit by hand. Generated from openapi.yaml by `npm run docs:gen:md`. -->
+
+### [Jobs](reference/jobs.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/jobs`](reference/jobs.md#list-all-jobs) | 1 | List all jobs |
+| `POST` | [`/jobs`](reference/jobs.md#create-a-job) | 10 | Create a job |
+| `GET` | [`/jobs/{job_id}`](reference/jobs.md#get-a-job-partial-data) | 1 | Get a job (partial data) |
+| `POST` | [`/jobs/{job_id}`](reference/jobs.md#update-a-job) | 10 | Update a job |
+| `POST` | [`/jobs/{job_id}/raw`](reference/jobs.md#raw-job-write) 🔒 | 10 | Raw job write |
+| `GET` | [`/jobs/{job_id}/status`](reference/jobs.md#get-job-status) | 1 | Get job status |
+| `POST` | [`/jobs/{job_id}/status`](reference/jobs.md#update-job-status) | 10 | Update job status |
+
+### [Nodes](reference/nodes.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/jobs/{job_id}/nodes`](reference/nodes.md#get-all-nodes) | 1 | Get all nodes |
+| `POST` | [`/jobs/{job_id}/nodes`](reference/nodes.md#create-a-node) | 10 | Create a node |
+| `GET` | [`/jobs/{job_id}/nodes/{node_id}`](reference/nodes.md#get-a-node) | 1 | Get a node |
+| `POST` | [`/jobs/{job_id}/nodes/{node_id}`](reference/nodes.md#update-a-node) | 10 | Update a node |
+| `DELETE` | [`/jobs/{job_id}/nodes/{node_id}`](reference/nodes.md#delete-a-node) | 10 | Delete a node |
+| `POST` | [`/jobs/{job_id}/nodes/{node_id}/photos`](reference/nodes.md#upload-a-photo-to-a-node) | 10 | Upload a photo to a node |
+
+### [Connections](reference/connections.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/jobs/{job_id}/connections`](reference/connections.md#get-all-connections) | 1 | Get all connections |
+| `POST` | [`/jobs/{job_id}/connections`](reference/connections.md#create-a-connection) | 10 | Create a connection |
+| `GET` | [`/jobs/{job_id}/connections/{connection_id}`](reference/connections.md#get-a-connection) | 1 | Get a connection |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}`](reference/connections.md#update-a-connection) | 10 | Update a connection |
+| `DELETE` | [`/jobs/{job_id}/connections/{connection_id}`](reference/connections.md#delete-a-connection) | 10 | Delete a connection |
+
+### [Sections](reference/sections.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/jobs/{job_id}/connections/{connection_id}/sections`](reference/sections.md#get-all-sections-on-a-connection) | 1 | Get all sections on a connection |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections`](reference/sections.md#create-a-section) | 10 | Create a section |
+| `GET` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](reference/sections.md#get-a-section) | 1 | Get a section |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](reference/sections.md#update-a-section) | 10 | Update a section |
+| `DELETE` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](reference/sections.md#delete-a-section) | 10 | Delete a section |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}/photos`](reference/sections.md#upload-a-photo-to-a-section) | 10 | Upload a photo to a section |
+
+### [Photos](reference/photos.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/jobs/{job_id}/photos`](reference/photos.md#get-all-photos) | 1 | Get all photos |
+| `POST` | [`/jobs/{job_id}/photos`](reference/photos.md#upload-a-photo) | 10 | Upload a photo |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}`](reference/photos.md#get-a-photo) | 1 | Get a photo |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/url`](reference/photos.md#get-a-photo-download-url) | 1 | Get a photo download URL |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/associate`](reference/photos.md#associate-a-photo-to-an-item) | 10 | Associate a photo to an item |
+
+### [Photo Elements](reference/photo-elements.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements`](reference/photo-elements.md#get-all-elements-on-a-photo) | 1 | Get all elements on a photo |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements`](reference/photo-elements.md#create-a-photo-element) | 10 | Create a photo element |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](reference/photo-elements.md#get-a-photo-element) | 1 | Get a photo element |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](reference/photo-elements.md#update-a-photo-element) | 10 | Update a photo element |
+| `DELETE` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](reference/photo-elements.md#delete-a-photo-element) | 10 | Delete a photo element |
+
+### [Calibration Anchors](reference/calibration-anchors.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors`](reference/calibration-anchors.md#get-all-calibration-anchors-on-a-photo) | 1 | Get all calibration anchors on a photo |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors`](reference/calibration-anchors.md#create-a-calibration-anchor) | 10 | Create a calibration anchor |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](reference/calibration-anchors.md#get-a-calibration-anchor) | 1 | Get a calibration anchor |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](reference/calibration-anchors.md#update-a-calibration-anchor) | 10 | Update a calibration anchor |
+| `DELETE` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](reference/calibration-anchors.md#delete-a-calibration-anchor) | 10 | Delete a calibration anchor |
+
+### [Traces](reference/traces.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/jobs/{job_id}/traces`](reference/traces.md#get-all-traces) | 1 | Get all traces |
+| `POST` | [`/jobs/{job_id}/traces`](reference/traces.md#create-a-trace) | 10 | Create a trace |
+| `GET` | [`/jobs/{job_id}/traces/{trace_id}`](reference/traces.md#get-a-trace) | 1 | Get a trace |
+| `POST` | [`/jobs/{job_id}/traces/{trace_id}`](reference/traces.md#update-a-trace) | 10 | Update a trace |
+| `DELETE` | [`/jobs/{job_id}/traces/{trace_id}`](reference/traces.md#delete-a-trace) | 10 | Delete a trace |
+
+### [Models](reference/models.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/models`](reference/models.md#get-model-options) | 100 | Get model options |
+| `GET` | [`/models/{modelKey}`](reference/models.md#get-model-data) | 9900 (full) \| 1000 per path (max 10) | Get model data |
+
+### [Users](reference/users.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/users`](reference/users.md#list-all-users) | 1 | List all users |
+| `GET` | [`/users/{user_id}`](reference/users.md#get-a-user) | 1 | Get a user |
+| `GET` | [`/users/{user_id}/active_state`](reference/users.md#get-user-active-state) 🔒 | 1 | Get user active state |
+| `POST` | [`/users/{user_id}/active_state`](reference/users.md#set-user-active-state) 🔒 | 10 | Set user active state |
+
+### [Companies](reference/companies.md)
+
+| Method | Endpoint | Token cost | Description |
+| --- | --- | --- | --- |
+| `GET` | [`/companies/{company_id}/tracked_actions`](reference/companies.md#list-tracked-actions) | 1 | List tracked actions |
+| `GET` | [`/companies/{company_id}/action_models`](reference/companies.md#list-action-models) | 1 | List action models |
+
+<!-- END GENERATED: Endpoint Index -->
+
+**Other pages** (hand-maintained, not in the generated index):
+
+- [Restricted endpoints](reference/restricted.md) — in the spec but disabled in production (the 🔒 rows above).
 
 ## Concepts
 
@@ -81,5 +186,9 @@ npm run docs:gen        # regenerate reference tables
 ```
 
 The generated endpoint tables live between `<!-- BEGIN GENERATED -->` /
-`<!-- END GENERATED -->` markers on each reference page; prose outside those
-markers is preserved. The code examples in `ApiExamples/` are hand-maintained.
+`<!-- END GENERATED -->` markers on each reference page, and the consolidated
+[Endpoint reference](#endpoint-reference) index on this page lives between
+`<!-- BEGIN GENERATED: Endpoint Index -->` / `<!-- END GENERATED: Endpoint Index -->`.
+`npm run docs:gen` regenerates all of them. Prose outside those markers — including
+the **Other pages** list above and the Quick start welcome example — is preserved
+and hand-maintained, as are the code examples in `ApiExamples/`.
