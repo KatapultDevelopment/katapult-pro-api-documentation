@@ -53,12 +53,12 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `element_type` | string | ✓ |  |
-| `pixel_selection` | { percentX, percentY } |  |  |
+| `element_type` | string | ✓ | Type of photo element, e.g. `attachment` (an annotation, measurement, or marked point). |
+| `pixel_selection` | { percentX, percentY } |  | Position on the photo as fractions of the image: `percentX`/`percentY`, each 0–1. |
 | `manual_height` | string |  | Feet-inches notation, e.g. `25-6`. |
-| `attributes` | object (flat map) |  |  |
-| `parent_id` | string |  |  |
-| `trace_id` | string |  |  |
+| `attributes` | object (flat map) |  | Flat map of attributes stored directly on the element (attribute name to value). See [Working with attributes](../concepts/attributes.md). |
+| `parent_id` | string |  | Id of another photo element to nest this element under. See [complex parameters](../concepts/complex-parameters.md). |
+| `trace_id` | string |  | Id of the trace to add this element to. See [complex parameters](../concepts/complex-parameters.md). |
 
 ### Get a photo element
 
@@ -104,12 +104,12 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `element_type` | string |  | Only settable when creating a new element. |
-| `pixel_selection` | { percentX, percentY } |  |  |
-| `manual_height` | string |  |  |
-| `attributes` | object (flat map) |  |  |
-| `parent_id` | string \| null |  | Set to null to de-nest. |
-| `trace_id` | string |  |  |
+| `element_type` | string |  | Type of the element. Can only be set at creation; cannot be changed on update. |
+| `pixel_selection` | { percentX, percentY } |  | Position on the photo as fractions of the image: `percentX`/`percentY`, each 0–1. |
+| `manual_height` | string |  | Feet-inches notation, e.g. `25-6`. |
+| `attributes` | object (flat map) |  | Flat map of attributes stored directly on the element (attribute name to value). See [Working with attributes](../concepts/attributes.md). |
+| `parent_id` | string \| null |  | Id of another photo element to nest this element under; set to `null` to de-nest. See [complex parameters](../concepts/complex-parameters.md). |
+| `trace_id` | string |  | Id of the trace to add this element to. See [complex parameters](../concepts/complex-parameters.md). |
 
 ### Delete a photo element
 

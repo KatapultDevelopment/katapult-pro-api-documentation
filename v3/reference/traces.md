@@ -4,7 +4,6 @@ Traces grouping photo elements.
 
 Trace attributes are stored as a flat map directly on the trace — see
 [Working with attributes](../concepts/attributes.md#photo-elements-and-traces).
-A `markers` field is [coming soon](coming-soon.md#trace-markers).
 
 <!-- BEGIN GENERATED: Traces -->
 <!-- Do not edit by hand. Generated from ../openapi.yaml by `npm run docs:gen:md`. -->
@@ -49,8 +48,8 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `trace_type` | string | ✓ |  |
-| `attributes` | object (flat map) |  |  |
+| `trace_type` | string | ✓ | Type of the trace. |
+| `attributes` | object (flat map) |  | Flat map of attributes stored directly on the trace (attribute name to value). See [Working with attributes](../concepts/attributes.md#photo-elements-and-traces). |
 
 ### Get a trace
 
@@ -92,8 +91,8 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `trace_type` | string |  |  |
-| `attributes` | object (flat map) |  |  |
+| `trace_type` | string |  | Type of the trace. |
+| `attributes` | object (flat map) |  | Flat map of attributes stored directly on the trace (attribute name to value). See [Working with attributes](../concepts/attributes.md#photo-elements-and-traces). |
 
 ### Delete a trace
 

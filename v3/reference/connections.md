@@ -47,10 +47,10 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `node_id_1` | string | ✓ |  |
-| `node_id_2` | string | ✓ |  |
-| `attributes` | object (entity attribute list) |  |  |
-| `add_attributes` | object (flat map) |  |  |
+| `node_id_1` | string | ✓ | Id of the first node the connection joins. |
+| `node_id_2` | string | ✓ | Id of the second node the connection joins. |
+| `attributes` | object (entity attribute list) |  | Entity attribute list: maps each attribute name to its instance ids and values. Set an attribute or instance to `null` to remove it. See [Working with attributes](../concepts/attributes.md). |
+| `add_attributes` | object (flat map) |  | Flat map of attribute name to value; the API generates instance ids for you. See [Working with attributes](../concepts/attributes.md). |
 | `breakpoints` | array of [lat, lon] |  | Optional polyline geometry: array of [latitude, longitude] pairs. Omit or [] for none. |
 
 ### Get a connection
@@ -95,11 +95,11 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `node_id_1` | string |  |  |
-| `node_id_2` | string |  |  |
-| `attributes` | object (entity attribute list) |  |  |
-| `add_attributes` | object (flat map) |  |  |
-| `remove_attributes` | array<string> |  |  |
+| `node_id_1` | string |  | Id of the first node the connection joins. |
+| `node_id_2` | string |  | Id of the second node the connection joins. |
+| `attributes` | object (entity attribute list) |  | Entity attribute list: maps each attribute name to its instance ids and values. Set an attribute or instance to `null` to remove it. See [Working with attributes](../concepts/attributes.md). |
+| `add_attributes` | object (flat map) |  | Flat map of attribute name to value; the API generates instance ids for you. See [Working with attributes](../concepts/attributes.md). |
+| `remove_attributes` | array<string> |  | List of attribute names to remove; all instances of each are removed. See [Working with attributes](../concepts/attributes.md). |
 | `breakpoints` | array of [lat, lon] |  | Polyline geometry: array of [latitude, longitude] pairs. Send null or [] to clear; omit to leave unchanged. |
 
 ### Delete a connection

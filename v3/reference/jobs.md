@@ -49,7 +49,7 @@ Body fields:
 | --- | --- | :---: | --- |
 | `name` | string | ✓ | Name of the job. |
 | `model` | string | ✓ | Model of the job (stored on `job_creator`). |
-| `map_styles` | string |  |  |
+| `map_styles` | string |  | Map style for the job (e.g. `default`). |
 | `metadata` | object |  | Flat map of job metadata. |
 | `sharing` | object |  | Flat map of sharing settings; owner company is added automatically. |
 
@@ -93,11 +93,11 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `name` | string |  |  |
-| `model` | string |  |  |
-| `map_styles` | string |  |  |
-| `metadata` | object |  |  |
-| `sharing` | object |  |  |
+| `name` | string |  | Name of the job. |
+| `model` | string |  | Model of the job. |
+| `map_styles` | string |  | Map style for the job (e.g. `default`). |
+| `metadata` | object |  | Flat map of job metadata. |
+| `sharing` | object |  | Flat map of sharing settings. |
 
 ### Raw job write
 
@@ -141,6 +141,8 @@ POST https://katapultpro.com/api/v3/jobs/{job_id}/status
 
 **Token cost:** 10
 
+Updates a job's status. Set `status` to `archived` to archive the job, or `active` to restore an archived job.
+
 Path parameters:
 
 | Parameter | Type | Description |
@@ -151,7 +153,7 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `status` | `active` \| `archived` | ✓ |  |
+| `status` | `active` \| `archived` | ✓ | New status for the job. |
 
 <!-- END GENERATED: Jobs -->
 

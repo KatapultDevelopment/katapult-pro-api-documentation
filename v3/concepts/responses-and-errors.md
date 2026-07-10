@@ -91,4 +91,4 @@ only an `error` field and **no `meta`**:
 ## Not implemented
 
 Some endpoints are reserved but not yet available; they return HTTP `501` with
-`{ "error": "NOT IMPLEMENTED" }`. See [Coming soon](../reference/coming-soon.md).
+`{ "error": "NOT IMPLEMENTED" }`.
