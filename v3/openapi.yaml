@@ -1157,7 +1157,7 @@ paths:
               properties:
                 path:
                   type: string
-                  description: The path to record as the user's last activity. Must start with `jobs/...`.
+                  description: 'The path to record as the user''s last activity. Always starts with `jobs/{job_id}/`; the exact shape depends on the entity. See [Activity paths](#activity-paths).'
                 page:
                   type: string
                   enum: [map, photos]

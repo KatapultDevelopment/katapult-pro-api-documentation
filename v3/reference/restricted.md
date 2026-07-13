@@ -89,7 +89,7 @@ no active state has been recorded, otherwise an object with:
 | --- | --- | --- |
 | `last_updated` | integer | Unix timestamp (ms) of the last activity. |
 | `source` | `"client"` \| `"api"` | Whether the activity originated from the client app or the API. |
-| `path` | string | The path of the last activity. Starts with `jobs/...`. |
+| `path` | string | The path of the last activity. Always starts with `jobs/{job_id}/`; shape depends on the entity — see [Activity paths](users.md#activity-paths). |
 | `page` | `"map"` \| `"photos"` | Which page the activity occurred on. |
 
 Returns `404` (`not_found`) if `user_id` does not exist.
@@ -105,8 +105,11 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `path` | string | ✓ | The path to record as the user's last activity. Must start with `jobs/...`. |
+| `path` | string | ✓ | The path to record as the user's last activity. Always starts with `jobs/{job_id}/`; shape depends on the entity — see [Activity paths](users.md#activity-paths). |
 | `page` | `"map"` \| `"photos"` | ✓ | Which page the activity occurred on. |
+
+See [Activity paths](users.md#activity-paths) for the per-entity `path`
+templates (node, connection, section, photo, marker) and examples.
 
 Returns the new active state in the same shape as the GET response.
 
