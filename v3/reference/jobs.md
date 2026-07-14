@@ -51,7 +51,7 @@ Body fields:
 | `model` | string | ✓ | Model of the job (stored on `job_creator`). |
 | `map_styles` | string |  | Map style for the job (e.g. `default`). |
 | `metadata` | object |  | Flat map of job metadata. |
-| `sharing` | object |  | Flat map of sharing settings; owner company is added automatically. |
+| `sharing` | object |  | Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing). |
 
 ### Get a job (partial data)
 
@@ -97,7 +97,7 @@ Body fields:
 | `model` | string |  | Model of the job. |
 | `map_styles` | string |  | Map style for the job (e.g. `default`). |
 | `metadata` | object |  | Flat map of job metadata. |
-| `sharing` | object |  | Flat map of sharing settings. |
+| `sharing` | object |  | Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing). |
 
 ### Raw job write
 
@@ -157,6 +157,14 @@ Body fields:
 
 <!-- END GENERATED: Jobs -->
 
+## Job object
+
+`GET /jobs/{job_id}` returns **partial** job data — only the fields you request
+via the `paths` query parameter. For the complete structure of a job and
+everything it contains (nodes, connections, sections, photos and their markers,
+traces, and sharing), see the published JSON schema:
+[katapultpro.com/schema/job.json](https://katapultpro.com/schema/job.json).
+
 ## Listing & incremental updates
 
 `GET /jobs` returns entries ordered by `last_updated` (most recent first), each
@@ -168,3 +176,24 @@ through large result sets.
 
 Set `list=true` for lightweight list entries; `metadataFilter` does not apply in
 that mode. `includeArchived=true` includes archived jobs either way.
+
+## Sharing
+
+`sharing` controls which companies can access a job. It is a flat map of
+**company id** to permission level — either `read` or `write`. The owner
+company is added automatically, so list only the *other* companies you are
+sharing with. Omit `sharing` (or send `{}`) to share the job with the owner
+company only.
+
+```json
+{
+  "name": "Pole audit — Q3",
+  "model": "-OModelKey...",
+  "sharing": {
+    "-OAcmeCompanyId...": "write",
+    "-OBetaCompanyId...": "read"
+  }
+}
+```
+
+Any value other than `read` or `write` is invalid.
