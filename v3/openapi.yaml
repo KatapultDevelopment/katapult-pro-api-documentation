@@ -1491,6 +1491,13 @@ components:
       description: Flat map of attribute names to single values.
       additionalProperties: true
       example: { node_type: pole, scid: "001" }
+    SharingMap:
+      type: object
+      description: Flat map of company id to permission level (`read` or `write`). The owner company is added automatically.
+      additionalProperties:
+        type: string
+        enum: [read, write]
+      example: { "-OExampleCompanyId": write }
     PixelSelection:
       type: object
       properties:
@@ -1530,7 +1537,7 @@ components:
         model: { type: string, description: Model of the job (stored on `job_creator`). }
         map_styles: { type: string, description: Map style for the job (e.g. `default`). }
         metadata: { type: object, additionalProperties: true, description: Flat map of job metadata. }
-        sharing: { type: object, additionalProperties: true, description: Flat map of sharing settings; owner company is added automatically. }
+        sharing: { $ref: '#/components/schemas/SharingMap', description: 'Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing).' }
     UpdateJobBody:
       type: object
       properties:
@@ -1538,7 +1545,7 @@ components:
         model: { type: string, description: Model of the job. }
         map_styles: { type: string, description: Map style for the job (e.g. `default`). }
         metadata: { type: object, additionalProperties: true, description: Flat map of job metadata. }
-        sharing: { type: object, additionalProperties: true, description: Flat map of sharing settings. }
+        sharing: { $ref: '#/components/schemas/SharingMap', description: 'Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing).' }
 
     Node:
       type: object
