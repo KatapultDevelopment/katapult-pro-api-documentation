@@ -157,6 +157,14 @@ Body fields:
 
 <!-- END GENERATED: Jobs -->
 
+## Job object
+
+`GET /jobs/{job_id}` returns **partial** job data — only the fields you request
+via the `paths` query parameter. For the complete structure of a job and
+everything it contains (nodes, connections, sections, photos and their markers,
+traces, and sharing), see the published JSON schema:
+[katapultpro.com/schema/job.json](https://katapultpro.com/schema/job.json).
+
 ## Listing & incremental updates
 
 `GET /jobs` returns entries ordered by `last_updated` (most recent first), each

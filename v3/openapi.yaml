@@ -1520,6 +1520,10 @@ components:
     Job:
       type: object
       additionalProperties: true
+      description: A job and its contents. `GET /jobs/{job_id}` returns partial data; see the full job object schema at https://katapultpro.com/schema/job.json.
+      externalDocs:
+        description: Full job object JSON schema
+        url: https://katapultpro.com/schema/job.json
       properties:
         id: { type: string }
         name: { type: string }
