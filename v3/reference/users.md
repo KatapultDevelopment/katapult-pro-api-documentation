@@ -1,6 +1,7 @@
 # Users
 
-Read users in the caller's company.
+Read users in the caller's company. Listing users and reading another user's
+record require **company admin**; you can always read your own record.
 
 <!-- BEGIN GENERATED: Users -->
 <!-- Do not edit by hand. Generated from ../openapi.yaml by `npm run docs:gen:md`. -->
@@ -20,7 +21,7 @@ GET https://katapultpro.com/api/v3/users
 
 **Token cost:** 1
 
-Lists all users (including external users) in the caller's active company.
+Lists all users (including external users) in the caller's active company. Requires the caller to be a **company admin**.
 
 ### Get a user
 
@@ -30,7 +31,7 @@ GET https://katapultpro.com/api/v3/users/{user_id}
 
 **Token cost:** 1
 
-Returns a user's core fields plus their attributes (`metadata`).
+Returns a user's core fields plus their attributes (`metadata`). You can always read your **own** record; reading **another user's** record requires the caller to be a **company admin**.
 
 Path parameters:
 

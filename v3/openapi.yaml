@@ -1065,7 +1065,7 @@ paths:
       tags: [Users]
       operationId: listUsers
       summary: List all users
-      description: Lists all users (including external users) in the caller's active company.
+      description: Lists all users (including external users) in the caller's active company. Requires the caller to be a **company admin**.
       x-token-cost: 1
       responses:
         '200':
@@ -1088,7 +1088,7 @@ paths:
       tags: [Users]
       operationId: getUser
       summary: Get a user
-      description: Returns a user's core fields plus their attributes (`metadata`).
+      description: Returns a user's core fields plus their attributes (`metadata`). You can always read your **own** record; reading **another user's** record requires the caller to be a **company admin**.
       x-token-cost: 1
       responses:
         '200':
