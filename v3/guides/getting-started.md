@@ -38,7 +38,30 @@ responses, carry no `meta`):
 { "error": "INVALID API KEY" }
 ```
 
-## 3. Authenticate every request
+## 3. See which account your key belongs to
+
+The `GET /users/whoami` endpoint returns the identity behind your key — your
+user id, email, company user group, and root company. Use it to confirm a key
+maps to the account you expect. It costs **1 token**.
+
+```sh
+curl "https://katapultpro.com/api/v3/users/whoami?api_key=YOUR_API_KEY"
+```
+
+```json
+{
+  "status": "success",
+  "data": {
+    "uid": "-O_userAbc123",
+    "email": "you@example.com",
+    "user_group": "-O_companyXyz",
+    "root_company": "-O_rootCompany"
+  },
+  "meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
+}
+```
+
+## 4. Authenticate every request
 
 Every endpoint takes your key as the `api_key` query parameter. There are no
 headers or tokens to manage — just append `api_key` to the URL. For example, to
@@ -54,20 +77,20 @@ curl "https://katapultpro.com/api/v3/jobs?api_key=YOUR_API_KEY"
   "data": [
     { "id": "-O_jobAbc123", "status": "active", "metadata": { "city": "Buffalo" } }
   ],
-  "meta": { "token_count": 9999, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
 }
 ```
 
 Successful route responses follow the same envelope: a `status` of `success`,
 the payload under `data`, and a `meta` object.
 
-## 4. Read the token `meta` on every response
+## 5. Read the token `meta` on every response
 
 Every response from a route handler — both successes **and** errors — includes a
 `meta` object describing your token-bucket state:
 
 ```json
-"meta": { "token_count": 9999, "last_refill_time": 1718450000000 }
+"meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
 ```
 
 - `token_count` — tokens remaining **after** this request.

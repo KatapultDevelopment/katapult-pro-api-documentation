@@ -19,8 +19,8 @@ Full-model vs `paths` fetches differ in both behavior and cost — see
 
 | Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/models`](#get-model-options) | TBD | Get model options |
-| `GET` | [`/models/{modelKey}`](#get-model-data) | TBD | Get model data |
+| `GET` | [`/models`](#get-model-options) | 2 | Get model options |
+| `GET` | [`/models/{modelKey}`](#get-model-data) | 394 | Get model data |
 
 ### Get model options
 
@@ -28,7 +28,7 @@ Full-model vs `paths` fetches differ in both behavior and cost — see
 GET https://katapultpro.com/api/v3/models
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 2
 
 Returns the caller's available model keys/options.
 
@@ -38,7 +38,7 @@ Returns the caller's available model keys/options.
 GET https://katapultpro.com/api/v3/models/{modelKey}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 394
 
 Returns model data. With `paths`, only the requested sub-paths are returned (maximum 10 paths), so the request's cost scales with how much data those paths contain. With no `paths`, the full model is returned — this requires extended API access (otherwise 403 `extended_access_required`) and, since extended access is off in production, is unavailable on katapultpro.com; request `paths` instead. See `../rate-limits.md` and `../reference/restricted.md`.
 

@@ -78,7 +78,7 @@ POST https://katapultpro.com/api/v3/users/{user_id}/active_state
 
 ### GET — Get user active state
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Returns the active state of a specific user. The response `data` is `null` if
 no active state has been recorded, otherwise an object with:
@@ -94,7 +94,7 @@ Returns `404` (`not_found`) if `user_id` does not exist.
 
 ### POST — Set user active state
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Sets the active state for a specific user. `source` is always set to `"api"`
 and `last_updated` is set to the current server time.

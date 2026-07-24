@@ -7,12 +7,12 @@ Nodes within a job.
 
 | Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs/{job_id}/nodes`](#get-all-nodes) | TBD | Get all nodes |
-| `POST` | [`/jobs/{job_id}/nodes`](#create-a-node) | TBD | Create a node |
-| `GET` | [`/jobs/{job_id}/nodes/{node_id}`](#get-a-node) | TBD | Get a node |
-| `POST` | [`/jobs/{job_id}/nodes/{node_id}`](#update-a-node) | TBD | Update a node |
-| `DELETE` | [`/jobs/{job_id}/nodes/{node_id}`](#delete-a-node) | TBD | Delete a node |
-| `POST` | [`/jobs/{job_id}/nodes/{node_id}/photos`](#upload-a-photo-to-a-node) | TBD | Upload a photo to a node |
+| `GET` | [`/jobs/{job_id}/nodes`](#get-all-nodes) | 138 | Get all nodes |
+| `POST` | [`/jobs/{job_id}/nodes`](#create-a-node) | 15 | Create a node |
+| `GET` | [`/jobs/{job_id}/nodes/{node_id}`](#get-a-node) | 1 | Get a node |
+| `POST` | [`/jobs/{job_id}/nodes/{node_id}`](#update-a-node) | 40 | Update a node |
+| `DELETE` | [`/jobs/{job_id}/nodes/{node_id}`](#delete-a-node) | 4933 | Delete a node |
+| `POST` | [`/jobs/{job_id}/nodes/{node_id}/photos`](#upload-a-photo-to-a-node) | 5 | Upload a photo to a node |
 
 ### Get all nodes
 
@@ -20,7 +20,7 @@ Nodes within a job.
 GET https://katapultpro.com/api/v3/jobs/{job_id}/nodes
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 138
 
 Gets all nodes in the job. Results are ordered by `last_updated` descending (most recent first); each node includes a `last_updated` timestamp when one is available. Use `last_updated` to fetch only nodes changed since a given time, and `limit` to cap the result count.
 
@@ -43,7 +43,7 @@ Query parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/nodes
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 15
 
 Path parameters:
 
@@ -66,7 +66,7 @@ Body fields:
 GET https://katapultpro.com/api/v3/jobs/{job_id}/nodes/{node_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Path parameters:
 
@@ -81,7 +81,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/nodes/{node_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 40
 
 Updates the node. If the node does not exist, it is created with the specified id (must meet the resource ID requirements) unless `onlyIfExists=true`.
 
@@ -114,7 +114,7 @@ Body fields:
 DELETE https://katapultpro.com/api/v3/jobs/{job_id}/nodes/{node_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 4933
 
 Path parameters:
 
@@ -129,7 +129,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/nodes/{node_id}/photos
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 5
 
 Uploads a JPEG and associates it to the specified node.
 

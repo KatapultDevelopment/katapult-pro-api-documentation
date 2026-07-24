@@ -7,11 +7,11 @@ Connections (spans) between nodes.
 
 | Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs/{job_id}/connections`](#get-all-connections) | TBD | Get all connections |
-| `POST` | [`/jobs/{job_id}/connections`](#create-a-connection) | TBD | Create a connection |
-| `GET` | [`/jobs/{job_id}/connections/{connection_id}`](#get-a-connection) | TBD | Get a connection |
-| `POST` | [`/jobs/{job_id}/connections/{connection_id}`](#update-a-connection) | TBD | Update a connection |
-| `DELETE` | [`/jobs/{job_id}/connections/{connection_id}`](#delete-a-connection) | TBD | Delete a connection |
+| `GET` | [`/jobs/{job_id}/connections`](#get-all-connections) | 127 | Get all connections |
+| `POST` | [`/jobs/{job_id}/connections`](#create-a-connection) | 17 | Create a connection |
+| `GET` | [`/jobs/{job_id}/connections/{connection_id}`](#get-a-connection) | 1 | Get a connection |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}`](#update-a-connection) | 18 | Update a connection |
+| `DELETE` | [`/jobs/{job_id}/connections/{connection_id}`](#delete-a-connection) | 2566 | Delete a connection |
 
 ### Get all connections
 
@@ -19,7 +19,7 @@ Connections (spans) between nodes.
 GET https://katapultpro.com/api/v3/jobs/{job_id}/connections
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 127
 
 Gets all connections (and their sections) in the job.
 
@@ -35,7 +35,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/connections
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 17
 
 Path parameters:
 
@@ -59,7 +59,7 @@ Body fields:
 GET https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Gets the connection and its sections.
 
@@ -76,7 +76,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 18
 
 Path parameters:
 
@@ -108,7 +108,7 @@ Body fields:
 DELETE https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 2566
 
 Deletes the connection and all of its sections.
 

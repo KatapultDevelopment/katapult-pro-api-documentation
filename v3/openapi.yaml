@@ -79,7 +79,7 @@ paths:
         Returns a welcome message. Useful as a quick check that your API key
         authenticates successfully. This route is not charged tokens, but it is
         still subject to authentication and the general rate limit.
-      x-average-token-cost: TBD
+      x-average-token-cost: 0
       responses:
         '200':
           description: Welcome message.
@@ -104,7 +104,7 @@ paths:
         (most recent first); each entry includes a `last_updated` timestamp when
         one is available. Use `last_updated` to fetch only jobs changed since a
         given time, and `limit` to cap the result count.
-      x-average-token-cost: TBD
+      x-average-token-cost: 2014
       parameters:
         - name: includeArchived
           in: query
@@ -140,7 +140,7 @@ paths:
       tags: [Jobs]
       operationId: createJob
       summary: Create a job
-      x-average-token-cost: TBD
+      x-average-token-cost: 17
       requestBody:
         required: true
         content:
@@ -162,7 +162,7 @@ paths:
       operationId: getJob
       summary: Get a job (partial data)
       description: Gets partial job data for the specified job.
-      x-average-token-cost: TBD
+      x-average-token-cost: 3
       parameters:
         - name: paths
           in: query
@@ -183,7 +183,7 @@ paths:
       tags: [Jobs]
       operationId: updateJob
       summary: Update a job
-      x-average-token-cost: TBD
+      x-average-token-cost: 49
       requestBody:
         required: true
         content:
@@ -205,7 +205,7 @@ paths:
       operationId: writeRawJobData
       summary: Raw job write
       x-restricted: true
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       description: >
         **Restricted — requires extended API access, which is disabled in
         production.** Writes raw path/value data directly to a job. Body keys
@@ -245,7 +245,7 @@ paths:
       tags: [Jobs]
       operationId: getJobStatus
       summary: Get job status
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       responses:
         '200':
           description: The job status.
@@ -262,7 +262,7 @@ paths:
       operationId: updateJobStatus
       summary: Update job status
       description: Updates a job's status. Set `status` to `archived` to archive the job, or `active` to restore an archived job.
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       requestBody:
         required: true
         content:
@@ -296,7 +296,7 @@ paths:
         descending (most recent first); each node includes a `last_updated`
         timestamp when one is available. Use `last_updated` to fetch only nodes
         changed since a given time, and `limit` to cap the result count.
-      x-average-token-cost: TBD
+      x-average-token-cost: 138
       parameters:
         - $ref: '#/components/parameters/LastUpdated'
         - $ref: '#/components/parameters/ResultLimit'
@@ -317,7 +317,7 @@ paths:
       tags: [Nodes]
       operationId: createNode
       summary: Create a node
-      x-average-token-cost: TBD
+      x-average-token-cost: 15
       requestBody:
         required: true
         content:
@@ -339,7 +339,7 @@ paths:
       tags: [Nodes]
       operationId: getNode
       summary: Get a node
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       responses:
         '200':
           description: The node.
@@ -355,7 +355,7 @@ paths:
         Updates the node. If the node does not exist, it is created with the
         specified id (must meet the resource ID requirements) unless
         `onlyIfExists=true`.
-      x-average-token-cost: TBD
+      x-average-token-cost: 40
       parameters:
         - $ref: '#/components/parameters/OnlyIfExists'
       requestBody:
@@ -374,7 +374,7 @@ paths:
       tags: [Nodes]
       operationId: deleteNode
       summary: Delete a node
-      x-average-token-cost: TBD
+      x-average-token-cost: 4933
       responses:
         '200':
           description: The id of the deleted node.
@@ -392,7 +392,7 @@ paths:
       operationId: uploadPhotoToNode
       summary: Upload a photo to a node
       description: Uploads a JPEG and associates it to the specified node.
-      x-average-token-cost: TBD
+      x-average-token-cost: 5
       parameters:
         - $ref: '#/components/parameters/AssociationValueQuery'
       requestBody:
@@ -416,7 +416,7 @@ paths:
       operationId: listConnections
       summary: Get all connections
       description: Gets all connections (and their sections) in the job.
-      x-average-token-cost: TBD
+      x-average-token-cost: 127
       responses:
         '200':
           description: Array of connections.
@@ -434,7 +434,7 @@ paths:
       tags: [Connections]
       operationId: createConnection
       summary: Create a connection
-      x-average-token-cost: TBD
+      x-average-token-cost: 17
       requestBody:
         required: true
         content:
@@ -457,7 +457,7 @@ paths:
       operationId: getConnection
       summary: Get a connection
       description: Gets the connection and its sections.
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       responses:
         '200':
           description: The connection.
@@ -469,7 +469,7 @@ paths:
       tags: [Connections]
       operationId: updateConnection
       summary: Update a connection
-      x-average-token-cost: TBD
+      x-average-token-cost: 18
       parameters:
         - $ref: '#/components/parameters/OnlyIfExists'
       requestBody:
@@ -489,7 +489,7 @@ paths:
       operationId: deleteConnection
       summary: Delete a connection
       description: Deletes the connection and all of its sections.
-      x-average-token-cost: TBD
+      x-average-token-cost: 2566
       responses:
         '200':
           description: The id of the deleted connection.
@@ -506,7 +506,7 @@ paths:
       tags: [Sections]
       operationId: listSections
       summary: Get all sections on a connection
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       responses:
         '200':
           description: Array of sections.
@@ -524,7 +524,7 @@ paths:
       tags: [Sections]
       operationId: createSection
       summary: Create a section
-      x-average-token-cost: TBD
+      x-average-token-cost: 17
       requestBody:
         required: true
         content:
@@ -547,7 +547,7 @@ paths:
       tags: [Sections]
       operationId: getSection
       summary: Get a section
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       responses:
         '200':
           description: The section.
@@ -559,7 +559,7 @@ paths:
       tags: [Sections]
       operationId: updateSection
       summary: Update a section
-      x-average-token-cost: TBD
+      x-average-token-cost: 16
       parameters:
         - $ref: '#/components/parameters/OnlyIfExists'
       requestBody:
@@ -578,7 +578,7 @@ paths:
       tags: [Sections]
       operationId: deleteSection
       summary: Delete a section
-      x-average-token-cost: TBD
+      x-average-token-cost: 5920
       responses:
         '200':
           description: The id of the deleted section.
@@ -597,7 +597,7 @@ paths:
       operationId: uploadPhotoToSection
       summary: Upload a photo to a section
       description: Uploads a JPEG and associates it to the specified section.
-      x-average-token-cost: TBD
+      x-average-token-cost: 3
       parameters:
         - $ref: '#/components/parameters/AssociationValueQuery'
       requestBody:
@@ -620,7 +620,7 @@ paths:
       tags: [Photos]
       operationId: listPhotos
       summary: Get all photos
-      x-average-token-cost: TBD
+      x-average-token-cost: 1147
       responses:
         '200':
           description: Array of photo records.
@@ -639,7 +639,7 @@ paths:
       operationId: uploadPhoto
       summary: Upload a photo
       description: Uploads a JPEG to the job (without associating it to an item).
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       requestBody:
         required: true
         content:
@@ -662,7 +662,7 @@ paths:
       operationId: getPhoto
       summary: Get a photo
       description: Gets the photo record (metadata, not the image bytes — use the `/url` endpoint for a download link).
-      x-average-token-cost: TBD
+      x-average-token-cost: 2
       responses:
         '200':
           description: The photo record.
@@ -686,7 +686,7 @@ paths:
       description: >
         Returns a signed URL for downloading the photo image. The URL expires
         7 days after it is generated.
-      x-average-token-cost: TBD
+      x-average-token-cost: 4
       parameters:
         - name: file_size
           in: query
@@ -723,7 +723,7 @@ paths:
         Associates the photo to (or unassociates it from) a node or a section.
         Provide `node_id` for a node, or both `connection_id` and `section_id`
         for a section. Set `association_value` to `null` to unassociate.
-      x-average-token-cost: TBD
+      x-average-token-cost: 1286
       requestBody:
         required: true
         content:
@@ -745,7 +745,7 @@ paths:
       tags: [Photo Elements]
       operationId: listPhotoElements
       summary: Get all elements on a photo
-      x-average-token-cost: TBD
+      x-average-token-cost: 4
       responses:
         '200':
           description: Array of photo elements.
@@ -763,7 +763,7 @@ paths:
       tags: [Photo Elements]
       operationId: createPhotoElement
       summary: Create a photo element
-      x-average-token-cost: TBD
+      x-average-token-cost: 515
       requestBody:
         required: true
         content:
@@ -786,7 +786,7 @@ paths:
       tags: [Photo Elements]
       operationId: getPhotoElement
       summary: Get a photo element
-      x-average-token-cost: TBD
+      x-average-token-cost: 7
       responses:
         '200':
           description: The photo element.
@@ -801,7 +801,7 @@ paths:
       description: >
         Updates the element. If no element with the id exists, one is created
         (unless `onlyIfExists=true`). `element_type` may only be set on create.
-      x-average-token-cost: TBD
+      x-average-token-cost: 994
       parameters:
         - $ref: '#/components/parameters/OnlyIfExists'
       requestBody:
@@ -820,7 +820,7 @@ paths:
       tags: [Photo Elements]
       operationId: deletePhotoElement
       summary: Delete a photo element
-      x-average-token-cost: TBD
+      x-average-token-cost: 933
       responses:
         '200':
           description: The id of the deleted element.
@@ -837,7 +837,7 @@ paths:
       tags: [Calibration Anchors]
       operationId: listCalibrationAnchors
       summary: Get all calibration anchors on a photo
-      x-average-token-cost: TBD
+      x-average-token-cost: 4
       responses:
         '200':
           description: Array of calibration anchors.
@@ -859,7 +859,7 @@ paths:
         Adding or modifying anchor calibration points always un-calibrates the
         photo (removes `stick_align`). Viewing the photo in Katapult Pro
         recalibrates it from the updated points.
-      x-average-token-cost: TBD
+      x-average-token-cost: 435
       requestBody:
         required: true
         content:
@@ -882,7 +882,7 @@ paths:
       tags: [Calibration Anchors]
       operationId: getCalibrationAnchor
       summary: Get a calibration anchor
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       responses:
         '200':
           description: The calibration anchor.
@@ -894,7 +894,7 @@ paths:
       tags: [Calibration Anchors]
       operationId: updateCalibrationAnchor
       summary: Update a calibration anchor
-      x-average-token-cost: TBD
+      x-average-token-cost: 2691
       parameters:
         - $ref: '#/components/parameters/OnlyIfExists'
       requestBody:
@@ -913,7 +913,7 @@ paths:
       tags: [Calibration Anchors]
       operationId: deleteCalibrationAnchor
       summary: Delete a calibration anchor
-      x-average-token-cost: TBD
+      x-average-token-cost: 685
       responses:
         '200':
           description: The id of the deleted anchor.
@@ -933,7 +933,7 @@ paths:
       tags: [Traces]
       operationId: listTraces
       summary: Get all traces
-      x-average-token-cost: TBD
+      x-average-token-cost: 175
       responses:
         '200':
           description: Array of traces.
@@ -951,7 +951,7 @@ paths:
       tags: [Traces]
       operationId: createTrace
       summary: Create a trace
-      x-average-token-cost: TBD
+      x-average-token-cost: 5802
       requestBody:
         required: true
         content:
@@ -973,7 +973,7 @@ paths:
       tags: [Traces]
       operationId: getTrace
       summary: Get a trace
-      x-average-token-cost: TBD
+      x-average-token-cost: 2
       responses:
         '200':
           description: The trace.
@@ -985,7 +985,7 @@ paths:
       tags: [Traces]
       operationId: updateTrace
       summary: Update a trace
-      x-average-token-cost: TBD
+      x-average-token-cost: 7272
       parameters:
         - $ref: '#/components/parameters/OnlyIfExists'
       requestBody:
@@ -1004,7 +1004,7 @@ paths:
       tags: [Traces]
       operationId: deleteTrace
       summary: Delete a trace
-      x-average-token-cost: TBD
+      x-average-token-cost: 5902
       responses:
         '200':
           description: The id of the deleted trace.
@@ -1019,7 +1019,7 @@ paths:
       operationId: listModels
       summary: Get model options
       description: Returns the caller's available model keys/options.
-      x-average-token-cost: TBD
+      x-average-token-cost: 2
       responses:
         '200':
           description: Model options.
@@ -1047,7 +1047,7 @@ paths:
         `extended_access_required`) and, since extended access is off in
         production, is unavailable on katapultpro.com; request `paths` instead.
         See `../rate-limits.md` and `../reference/restricted.md`.
-      x-average-token-cost: TBD
+      x-average-token-cost: 394
       parameters:
         - name: paths
           in: query
@@ -1067,7 +1067,7 @@ paths:
       operationId: listUsers
       summary: List all users
       description: Lists all users (including external users) in the caller's active company. Requires the caller to be a **company admin**.
-      x-average-token-cost: TBD
+      x-average-token-cost: 186
       responses:
         '200':
           description: Array of users.
@@ -1082,6 +1082,25 @@ paths:
                         items: { $ref: '#/components/schemas/UserListItem' }
         default: { $ref: '#/components/responses/Error' }
 
+  /users/whoami:
+    get:
+      tags: [Users]
+      operationId: whoAmI
+      summary: Get current user
+      description: Returns the authenticated caller's own identity — the `uid`, `email`, `user_group` (the caller's active company), and `root_company` tied to the API key. Available to any authenticated caller; no admin required. Useful for confirming which account an API key belongs to.
+      x-average-token-cost: 1
+      responses:
+        '200':
+          description: The caller's identity.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data: { $ref: '#/components/schemas/WhoAmI' }
+        default: { $ref: '#/components/responses/Error' }
+
   /users/{user_id}:
     parameters:
       - $ref: '#/components/parameters/UserId'
@@ -1090,7 +1109,7 @@ paths:
       operationId: getUser
       summary: Get a user
       description: Returns a user's core fields plus their attributes (`metadata`). You can always read your **own** record; reading **another user's** record requires the caller to be a **company admin**.
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       responses:
         '200':
           description: The user.
@@ -1111,7 +1130,7 @@ paths:
       operationId: getUserActiveState
       summary: Get user active state
       x-restricted: true
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       description: >
         Returns the active state of a specific user, including their last
         updated timestamp, the source of activity (`client` or `api`), the
@@ -1137,7 +1156,7 @@ paths:
       operationId: setUserActiveState
       summary: Set user active state
       x-restricted: true
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       description: >
         Sets the active state for a specific user. Sets `source` to `api` and
         `last_updated` to the current server time. Returns the new active state.
@@ -1187,7 +1206,7 @@ paths:
         newest first (ordered by `timestamp` descending). All filters are
         optional and combine with AND. `action_id`/`action_name` come from the
         action models endpoint; `uid` is the User ID shown in the API Key widget.
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       parameters:
         - name: uid
           in: query
@@ -1246,7 +1265,7 @@ paths:
         Returns your company's action-tracking configuration: the action groups
         and the individual actions within each. Use the returned `action_id` /
         `action_name` values to filter the tracked actions endpoint.
-      x-average-token-cost: TBD
+      x-average-token-cost: 1
       responses:
         '200':
           description: Array of action groups.
@@ -1811,6 +1830,14 @@ components:
         - $ref: '#/components/schemas/UserListItem'
         - properties:
             metadata: { type: [object, 'null'], additionalProperties: true }
+    WhoAmI:
+      type: object
+      description: The authenticated caller's own identity, tied to their API key.
+      properties:
+        uid: { type: string, description: The caller's user id. }
+        email: { type: [string, 'null'] }
+        user_group: { type: string, description: The caller's company user group id. }
+        root_company: { type: [string, 'null'], description: The caller's root company id. }
 
   responses:
     Error:

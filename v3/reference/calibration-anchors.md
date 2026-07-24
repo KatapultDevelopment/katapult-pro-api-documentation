@@ -11,11 +11,11 @@ Photo calibration anchor points.
 
 | Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors`](#get-all-calibration-anchors-on-a-photo) | TBD | Get all calibration anchors on a photo |
-| `POST` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors`](#create-a-calibration-anchor) | TBD | Create a calibration anchor |
-| `GET` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](#get-a-calibration-anchor) | TBD | Get a calibration anchor |
-| `POST` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](#update-a-calibration-anchor) | TBD | Update a calibration anchor |
-| `DELETE` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](#delete-a-calibration-anchor) | TBD | Delete a calibration anchor |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors`](#get-all-calibration-anchors-on-a-photo) | 4 | Get all calibration anchors on a photo |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors`](#create-a-calibration-anchor) | 435 | Create a calibration anchor |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](#get-a-calibration-anchor) | 1 | Get a calibration anchor |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](#update-a-calibration-anchor) | 2691 | Update a calibration anchor |
+| `DELETE` | [`/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}`](#delete-a-calibration-anchor) | 685 | Delete a calibration anchor |
 
 ### Get all calibration anchors on a photo
 
@@ -23,7 +23,7 @@ Photo calibration anchor points.
 GET https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/calibration_anchors
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 4
 
 Path parameters:
 
@@ -38,7 +38,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/calibration_anchors
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 435
 
 Adding or modifying anchor calibration points always un-calibrates the photo (removes `stick_align`). Viewing the photo in Katapult Pro recalibrates it from the updated points.
 
@@ -62,7 +62,7 @@ Body fields:
 GET https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Path parameters:
 
@@ -78,7 +78,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 2691
 
 Path parameters:
 
@@ -107,7 +107,7 @@ Body fields:
 DELETE https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/calibration_anchors/{anchor_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 685
 
 Path parameters:
 

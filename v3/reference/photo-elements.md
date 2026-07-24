@@ -13,11 +13,11 @@ Element attributes are stored as a flat map directly on the element — see
 
 | Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements`](#get-all-elements-on-a-photo) | TBD | Get all elements on a photo |
-| `POST` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements`](#create-a-photo-element) | TBD | Create a photo element |
-| `GET` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](#get-a-photo-element) | TBD | Get a photo element |
-| `POST` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](#update-a-photo-element) | TBD | Update a photo element |
-| `DELETE` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](#delete-a-photo-element) | TBD | Delete a photo element |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements`](#get-all-elements-on-a-photo) | 4 | Get all elements on a photo |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements`](#create-a-photo-element) | 515 | Create a photo element |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](#get-a-photo-element) | 7 | Get a photo element |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](#update-a-photo-element) | 994 | Update a photo element |
+| `DELETE` | [`/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}`](#delete-a-photo-element) | 933 | Delete a photo element |
 
 ### Get all elements on a photo
 
@@ -25,7 +25,7 @@ Element attributes are stored as a flat map directly on the element — see
 GET https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/photo_elements
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 4
 
 Path parameters:
 
@@ -40,7 +40,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/photo_elements
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 515
 
 Path parameters:
 
@@ -66,7 +66,7 @@ Body fields:
 GET https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 7
 
 Path parameters:
 
@@ -82,7 +82,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 994
 
 Updates the element. If no element with the id exists, one is created (unless `onlyIfExists=true`). `element_type` may only be set on create.
 
@@ -117,7 +117,7 @@ Body fields:
 DELETE https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/photo_elements/{element_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 933
 
 Path parameters:
 

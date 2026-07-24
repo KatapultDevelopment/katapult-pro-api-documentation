@@ -13,12 +13,12 @@ a section — see [Complex & codependent parameters](../concepts/complex-paramet
 
 | Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs/{job_id}/connections/{connection_id}/sections`](#get-all-sections-on-a-connection) | TBD | Get all sections on a connection |
-| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections`](#create-a-section) | TBD | Create a section |
-| `GET` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](#get-a-section) | TBD | Get a section |
-| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](#update-a-section) | TBD | Update a section |
-| `DELETE` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](#delete-a-section) | TBD | Delete a section |
-| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}/photos`](#upload-a-photo-to-a-section) | TBD | Upload a photo to a section |
+| `GET` | [`/jobs/{job_id}/connections/{connection_id}/sections`](#get-all-sections-on-a-connection) | 1 | Get all sections on a connection |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections`](#create-a-section) | 17 | Create a section |
+| `GET` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](#get-a-section) | 1 | Get a section |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](#update-a-section) | 16 | Update a section |
+| `DELETE` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](#delete-a-section) | 5920 | Delete a section |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}/sections/{section_id}/photos`](#upload-a-photo-to-a-section) | 3 | Upload a photo to a section |
 
 ### Get all sections on a connection
 
@@ -26,7 +26,7 @@ a section — see [Complex & codependent parameters](../concepts/complex-paramet
 GET https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}/sections
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Path parameters:
 
@@ -41,7 +41,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}/sections
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 17
 
 Path parameters:
 
@@ -66,7 +66,7 @@ Body fields:
 GET https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}/sections/{section_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Path parameters:
 
@@ -82,7 +82,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}/sections/{section_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 16
 
 Path parameters:
 
@@ -114,7 +114,7 @@ Body fields:
 DELETE https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}/sections/{section_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 5920
 
 Path parameters:
 
@@ -130,7 +130,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}/sections/{section_id}/photos
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 3
 
 Uploads a JPEG and associates it to the specified section.
 

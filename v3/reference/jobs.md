@@ -7,13 +7,13 @@ Create, read, update, and archive jobs.
 
 | Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs`](#list-all-jobs) | TBD | List all jobs |
-| `POST` | [`/jobs`](#create-a-job) | TBD | Create a job |
-| `GET` | [`/jobs/{job_id}`](#get-a-job-partial-data) | TBD | Get a job (partial data) |
-| `POST` | [`/jobs/{job_id}`](#update-a-job) | TBD | Update a job |
-| `POST` | [`/jobs/{job_id}/raw`](#raw-job-write) 🔒 | TBD | Raw job write |
-| `GET` | [`/jobs/{job_id}/status`](#get-job-status) | TBD | Get job status |
-| `POST` | [`/jobs/{job_id}/status`](#update-job-status) | TBD | Update job status |
+| `GET` | [`/jobs`](#list-all-jobs) | 2014 | List all jobs |
+| `POST` | [`/jobs`](#create-a-job) | 17 | Create a job |
+| `GET` | [`/jobs/{job_id}`](#get-a-job-partial-data) | 3 | Get a job (partial data) |
+| `POST` | [`/jobs/{job_id}`](#update-a-job) | 49 | Update a job |
+| `POST` | [`/jobs/{job_id}/raw`](#raw-job-write) 🔒 | 1 | Raw job write |
+| `GET` | [`/jobs/{job_id}/status`](#get-job-status) | 1 | Get job status |
+| `POST` | [`/jobs/{job_id}/status`](#update-job-status) | 1 | Update job status |
 
 ### List all jobs
 
@@ -21,7 +21,7 @@ Create, read, update, and archive jobs.
 GET https://katapultpro.com/api/v3/jobs
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 2014
 
 Gets a list of jobs accessible to the requester. List entries do not contain full job data. Results are ordered by `last_updated` descending (most recent first); each entry includes a `last_updated` timestamp when one is available. Use `last_updated` to fetch only jobs changed since a given time, and `limit` to cap the result count.
 
@@ -41,7 +41,7 @@ Query parameters:
 POST https://katapultpro.com/api/v3/jobs
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 17
 
 Body fields:
 
@@ -59,7 +59,7 @@ Body fields:
 GET https://katapultpro.com/api/v3/jobs/{job_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 3
 
 Gets partial job data for the specified job.
 
@@ -81,7 +81,7 @@ Query parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 49
 
 Path parameters:
 
@@ -107,7 +107,7 @@ Body fields:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/raw
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 **Restricted — requires extended API access, which is disabled in production.** Writes raw path/value data directly to a job. Body keys are job-relative paths (e.g. `nodes/{node_id}` or `nodes` for a full replace); values are written as-is, with `null` deleting a path. Allowed top-level keys: `nodes`, `connections`, `photos`, `photo_summary`, `files`, `traces`, `compatible_units`, `warning_reports`. Reserved keys (`metadata`, `name`, `model`, `map_styles`, `sharing`) must use the non-raw update endpoint. See `../reference/restricted.md`.
 
@@ -125,7 +125,7 @@ Request body: free-form JSON object (see endpoint description).
 GET https://katapultpro.com/api/v3/jobs/{job_id}/status
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Path parameters:
 
@@ -139,7 +139,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/status
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 1
 
 Updates a job's status. Set `status` to `archived` to archive the job, or `active` to restore an archived job.
 

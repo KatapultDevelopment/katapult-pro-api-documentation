@@ -10,11 +10,11 @@ Trace attributes are stored as a flat map directly on the trace — see
 
 | Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs/{job_id}/traces`](#get-all-traces) | TBD | Get all traces |
-| `POST` | [`/jobs/{job_id}/traces`](#create-a-trace) | TBD | Create a trace |
-| `GET` | [`/jobs/{job_id}/traces/{trace_id}`](#get-a-trace) | TBD | Get a trace |
-| `POST` | [`/jobs/{job_id}/traces/{trace_id}`](#update-a-trace) | TBD | Update a trace |
-| `DELETE` | [`/jobs/{job_id}/traces/{trace_id}`](#delete-a-trace) | TBD | Delete a trace |
+| `GET` | [`/jobs/{job_id}/traces`](#get-all-traces) | 175 | Get all traces |
+| `POST` | [`/jobs/{job_id}/traces`](#create-a-trace) | 5802 | Create a trace |
+| `GET` | [`/jobs/{job_id}/traces/{trace_id}`](#get-a-trace) | 2 | Get a trace |
+| `POST` | [`/jobs/{job_id}/traces/{trace_id}`](#update-a-trace) | 7272 | Update a trace |
+| `DELETE` | [`/jobs/{job_id}/traces/{trace_id}`](#delete-a-trace) | 5902 | Delete a trace |
 
 ### Get all traces
 
@@ -22,7 +22,7 @@ Trace attributes are stored as a flat map directly on the trace — see
 GET https://katapultpro.com/api/v3/jobs/{job_id}/traces
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 175
 
 Path parameters:
 
@@ -36,7 +36,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/traces
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 5802
 
 Path parameters:
 
@@ -57,7 +57,7 @@ Body fields:
 GET https://katapultpro.com/api/v3/jobs/{job_id}/traces/{trace_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 2
 
 Path parameters:
 
@@ -72,7 +72,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/traces/{trace_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 7272
 
 Path parameters:
 
@@ -100,7 +100,7 @@ Body fields:
 DELETE https://katapultpro.com/api/v3/jobs/{job_id}/traces/{trace_id}
 ```
 
-**Average token cost:** TBD
+**Average token cost:** 5902
 
 Path parameters:
 

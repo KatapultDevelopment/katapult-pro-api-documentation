@@ -56,13 +56,11 @@ single fixed price per endpoint. Instead, each endpoint publishes an **average
 token cost** in its [endpoint reference](reference/) (the *Average token cost*
 column).
 
-> **Average costs are being finalized.** The reference tables currently show
-> `TBD` placeholders; real per-endpoint averages will be published here. Even
-> once published, **treat them as guidance, not guarantees** — a given call can
-> cost more or less than the average depending on how much data it moves, and
-> **costs and the bucket size are subject to change**. Read your remaining
-> balance from each response's `meta` instead of hardcoding numbers (see
-> [below](#reading-your-token-state)).
+> **Averages are guidance, not guarantees.** Each endpoint's published *Average
+> token cost* is a typical figure — a given call can cost more or less than the
+> average depending on how much data it moves, and **costs and the bucket size
+> are subject to change**. Read your remaining balance from each response's
+> `meta` instead of hardcoding numbers (see [below](#reading-your-token-state)).
 
 As a rule of thumb: reads that return more data, and writes that change more
 data, cost more. A broad list or a large write is far more expensive than a
