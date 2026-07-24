@@ -5,13 +5,13 @@ Connections (spans) between nodes.
 <!-- BEGIN GENERATED: Connections -->
 <!-- Do not edit by hand. Generated from ../openapi.yaml by `npm run docs:gen:md`. -->
 
-| Method | Endpoint | Token cost | Description |
+| Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs/{job_id}/connections`](#get-all-connections) | 1 | Get all connections |
-| `POST` | [`/jobs/{job_id}/connections`](#create-a-connection) | 10 | Create a connection |
-| `GET` | [`/jobs/{job_id}/connections/{connection_id}`](#get-a-connection) | 1 | Get a connection |
-| `POST` | [`/jobs/{job_id}/connections/{connection_id}`](#update-a-connection) | 10 | Update a connection |
-| `DELETE` | [`/jobs/{job_id}/connections/{connection_id}`](#delete-a-connection) | 10 | Delete a connection |
+| `GET` | [`/jobs/{job_id}/connections`](#get-all-connections) | TBD | Get all connections |
+| `POST` | [`/jobs/{job_id}/connections`](#create-a-connection) | TBD | Create a connection |
+| `GET` | [`/jobs/{job_id}/connections/{connection_id}`](#get-a-connection) | TBD | Get a connection |
+| `POST` | [`/jobs/{job_id}/connections/{connection_id}`](#update-a-connection) | TBD | Update a connection |
+| `DELETE` | [`/jobs/{job_id}/connections/{connection_id}`](#delete-a-connection) | TBD | Delete a connection |
 
 ### Get all connections
 
@@ -19,7 +19,7 @@ Connections (spans) between nodes.
 GET https://katapultpro.com/api/v3/jobs/{job_id}/connections
 ```
 
-**Token cost:** 1
+**Average token cost:** TBD
 
 Gets all connections (and their sections) in the job.
 
@@ -35,7 +35,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/connections
 ```
 
-**Token cost:** 10
+**Average token cost:** TBD
 
 Path parameters:
 
@@ -59,7 +59,7 @@ Body fields:
 GET https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}
 ```
 
-**Token cost:** 1
+**Average token cost:** TBD
 
 Gets the connection and its sections.
 
@@ -76,7 +76,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}
 ```
 
-**Token cost:** 10
+**Average token cost:** TBD
 
 Path parameters:
 
@@ -108,7 +108,7 @@ Body fields:
 DELETE https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}
 ```
 
-**Token cost:** 10
+**Average token cost:** TBD
 
 Deletes the connection and all of its sections.
 

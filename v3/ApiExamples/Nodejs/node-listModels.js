@@ -10,7 +10,7 @@ const axios = require('axios');
 const URL_PATH = 'https://katapultpro.com/api/v3';
 const API_KEY = '<<YOUR_API_KEY>>';
 
-// Token cost: 100 tokens per request.
+// Token cost scales with the data returned; see the average in the API reference.
 async function run() {
   try {
     const response = await axios({

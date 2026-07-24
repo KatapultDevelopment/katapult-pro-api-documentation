@@ -7,12 +7,10 @@ call them. Attempting to without extended access returns HTTP `403` with type
 
 ## Extended API access
 
-Extended API access exempts calls from token costs — instead of deducting the
-call's cost, the bucket is reset to full on every call, so it never depletes —
-and unlocks the raw write endpoint and full model fetches (see below). Every
-response's `meta.token_count` reports the fixed placeholder integer
-`9999999999` instead of a real remaining count for these callers. It is
-granted only when **both** are true:
+Extended API access exempts calls from token metering — these callers are
+**unthrottled** and their traffic is never limited — and unlocks the raw write
+endpoint and full model fetches (see below). Their `meta.token_count` is
+informational only. It is granted only when **both** are true:
 
 - The caller's company has the `can_grant_extended_api_access` feature enabled.
 - The caller's user has the `extended_api_access` role.
@@ -67,7 +65,7 @@ supported way to read model data.
 
 Because extended access is off in production, request `?paths=...` on
 `katapultpro.com`. See [Models](models.md) and
-[Rate limits & the token bucket](../rate-limits.md#token-costs).
+[Rate limits & the token bucket](../rate-limits.md#average-token-costs).
 
 ## User active state
 
@@ -80,7 +78,7 @@ POST https://katapultpro.com/api/v3/users/{user_id}/active_state
 
 ### GET — Get user active state
 
-**Token cost:** 1
+**Average token cost:** TBD
 
 Returns the active state of a specific user. The response `data` is `null` if
 no active state has been recorded, otherwise an object with:
@@ -96,7 +94,7 @@ Returns `404` (`not_found`) if `user_id` does not exist.
 
 ### POST — Set user active state
 
-**Token cost:** 10
+**Average token cost:** TBD
 
 Sets the active state for a specific user. `source` is always set to `"api"`
 and `last_updated` is set to the current server time.
