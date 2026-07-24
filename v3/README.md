@@ -143,6 +143,7 @@ in [Quick start](#quick-start) above.
 | Method | Endpoint | Token cost | Description |
 | --- | --- | --- | --- |
 | `GET` | [`/users`](reference/users.md#list-all-users) | 1 | List all users |
+| `GET` | [`/users/whoami`](reference/users.md#get-current-user) | 1 | Get current user |
 | `GET` | [`/users/{user_id}`](reference/users.md#get-a-user) | 1 | Get a user |
 | `GET` | [`/users/{user_id}/active_state`](reference/users.md#get-user-active-state) 🔒 | 1 | Get user active state |
 | `POST` | [`/users/{user_id}/active_state`](reference/users.md#set-user-active-state) 🔒 | 10 | Set user active state |

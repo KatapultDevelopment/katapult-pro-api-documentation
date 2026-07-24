@@ -9,6 +9,7 @@ record require **company admin**; you can always read your own record.
 | Method | Endpoint | Token cost | Description |
 | --- | --- | --- | --- |
 | `GET` | [`/users`](#list-all-users) | 1 | List all users |
+| `GET` | [`/users/whoami`](#get-current-user) | 1 | Get current user |
 | `GET` | [`/users/{user_id}`](#get-a-user) | 1 | Get a user |
 | `GET` | [`/users/{user_id}/active_state`](#get-user-active-state) 🔒 | 1 | Get user active state |
 | `POST` | [`/users/{user_id}/active_state`](#set-user-active-state) 🔒 | 10 | Set user active state |
@@ -22,6 +23,16 @@ GET https://katapultpro.com/api/v3/users
 **Token cost:** 1
 
 Lists all users (including external users) in the caller's active company. Requires the caller to be a **company admin**.
+
+### Get current user
+
+```sh
+GET https://katapultpro.com/api/v3/users/whoami
+```
+
+**Token cost:** 1
+
+Returns the authenticated caller's own identity — the `uid`, `email`, `user_group` (the caller's active company), and `root_company` tied to the API key. Available to any authenticated caller; no admin required. Useful for confirming which account an API key belongs to.
 
 ### Get a user
 
