@@ -13,7 +13,7 @@ const API_KEY = '<<YOUR_API_KEY>>';
 // Path placeholder — replace with the model key you want to fetch. Must not contain '/'.
 const MODEL_KEY = 'your-model-key';
 
-// Comma-separated list of sub-paths to return (maximum 10), 1000 tokens per path.
+// Comma-separated list of sub-paths to return (maximum 10). Cost scales with the data returned per path.
 // Use `paths` — this is the supported way to read model data. A full model fetch
 // (empty string here / omit `paths`) requires extended API access and returns a
 // 403 `extended_access_required` in production, where extended access is off.
