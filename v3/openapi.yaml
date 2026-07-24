@@ -1081,6 +1081,25 @@ paths:
                         items: { $ref: '#/components/schemas/UserListItem' }
         default: { $ref: '#/components/responses/Error' }
 
+  /users/whoami:
+    get:
+      tags: [Users]
+      operationId: whoAmI
+      summary: Get current user
+      description: Returns the authenticated caller's own identity — the `uid`, `email`, `user_group` (the caller's active company), and `root_company` tied to the API key. Available to any authenticated caller; no admin required. Useful for confirming which account an API key belongs to.
+      x-token-cost: 1
+      responses:
+        '200':
+          description: The caller's identity.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessEnvelope'
+                  - properties:
+                      data: { $ref: '#/components/schemas/WhoAmI' }
+        default: { $ref: '#/components/responses/Error' }
+
   /users/{user_id}:
     parameters:
       - $ref: '#/components/parameters/UserId'
@@ -1800,6 +1819,14 @@ components:
         - $ref: '#/components/schemas/UserListItem'
         - properties:
             metadata: { type: [object, 'null'], additionalProperties: true }
+    WhoAmI:
+      type: object
+      description: The authenticated caller's own identity, tied to their API key.
+      properties:
+        uid: { type: string, description: The caller's user id. }
+        email: { type: [string, 'null'] }
+        user_group: { type: string, description: The caller's company user group id. }
+        root_company: { type: [string, 'null'], description: The caller's root company id. }
 
   responses:
     Error:
