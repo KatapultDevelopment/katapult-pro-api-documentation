@@ -157,7 +157,7 @@ in [Quick start](#quick-start) above.
 
 <!-- END GENERATED: Endpoint Index -->
 
-**Other pages** (hand-maintained, not in the generated index):
+**Other pages**:
 
 - [Restricted endpoints](reference/restricted.md) — in the spec but disabled in production (the 🔒 rows above).
 

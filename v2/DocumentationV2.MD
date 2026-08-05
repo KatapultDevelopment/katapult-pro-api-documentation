@@ -58,6 +58,8 @@ Ex: If your URL for accessing Katapult Pro on your private server were company.k
 # GET Welcome Message
 ***Message:*** ***_katapultpro.com/api/v2?api_key={{api-key}}_***
 
+**Average token cost:** 1
+
 ***Welcome to the Katapult Pro API***
 
 This simple API GET request is provided to allow the user to test basic API access. This request can be used to test your basic starter application to ensure the subscription is active and your "Welcome Message" API request is working before moving on to more complex requests.
@@ -99,6 +101,9 @@ axios(config)
 
 # GET User List
 ***Message:*** ***_katapultpro.com/api/v2/users?api_key={{api-key}}_***  
+
+**Average token cost:** 39
+
 This GET request will return all of the users within your company.
 
 ***Query Params***
@@ -166,6 +171,9 @@ axios(config)
 
 # GET Job List
 ***Message:*** ***_katapultpro.com/api/v2/jobs?orderByChild={{status || name}}&equalTo={{archived || active || job_name}}&{{metadata_attribute_name}}={{metadata_value_for_filtering}}&api_key={{api-key}}_***  
+
+**Average token cost:** 1115
+
 This GET request will return a list of all jobs for your company.
 
 The orderByChild and equalTo query parameters can be used to filter the job list to only jobs that have a certain status or name.
@@ -217,6 +225,8 @@ axios(config)
 
 # GET Updated Jobs List
 ***Message:*** ***_katapultpro.com/api/v2/updatedjobslist?fromDate={{fromDate}}&toDate={{toDate}}&useToday={{true || false}}&api_key={{api-key}}_***
+
+**Average token cost:** 1
 
 This GET request uses a specified timeframe (the to and from dates) to return an object containing a list of Job IDs and their timestamps of when they were last updated. Jobs in this list are jobs that have been updated between the start and end dates. This request only includes jobs that are owned by your company, not jobs that are owned by another company and shared with you.
 
@@ -276,6 +286,8 @@ axios(config)
 
 # GET Updated Nodes List
 ***Message:*** ***_katapultpro.com/api/v2/updatednodeslist?fromDate={{fromDate}}&toDate={{toDate}}&useToday={{true || false}}&jobId={{jobId}}&attribute={{attribute_name}}&changed={{true || false}}&api_key={{api-key}}_***
+
+**Average token cost:** 23
 
 This GET request uses a specified timeframe (to and from dates) and a Job ID to get a list of nodes whose specified attribute has been changed in that job during that timeframe. The GET returns an object with each node listed, including the Node ID and the timestamp for when the node's specified attribute changed.  
 
@@ -353,6 +365,8 @@ axios(config)
 ```
 # GET Attribute Tracking List
 ***Message:*** ***_katapultpro.com/api/v2/attributeTracking/:jobId?api_key={{api-key}}_***
+
+**Average token cost:** 1
 
 This GET request will return the latest attribute tracking data for that job. (Make sure to replace the path variable `:jobId` with the job's valid Job ID.)
 
@@ -435,6 +449,8 @@ axios(config)
 ```
 # GET Job Data
  ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId?api_key={{api-key}}_***
+
+**Average token cost:** 1757
 
 This GET request will return the data for the job specified. (Make sure to replace `:jobId` with the job's valid Job ID.)
  Currently, the layer data has been omitted from the JSON data returned in the API response. The layer data can be too large for the response body.
@@ -668,6 +684,17 @@ axios.request(config)
 # GET Partial Job Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/:paths?api_key={{api-key}}_***
 
+**Average token cost:** 115
+
+Average token cost by common path:
+
+| Path | Average token cost |
+| --- | --- |
+| nodes | 184 |
+| photos | 1360 |
+| nodes/:nodeId | 1 |
+| photos/:photoId | 1 |
+
 This GET request returns the data at the specified paths for that job. You can include one path or up to 10 paths, separated by commas. Each path can have multiple path components, each separated with a forward slash.
 
 For example, to fetch all nodes in a job, your path after the Job ID should be "nodes". To fetch data for a specific node, your path should be "nodes/`{{node_id}}`" where `{{node_id}}` is the valid ID of the node of interest. To fetch data for a specific node _and_ the job name, your path list should be "node/`{{node_id}}`,name".
@@ -797,6 +824,8 @@ axios(config)
 # GET Photo URL
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photoURL/:photoId?file_size={{full || extra_large || large || small || tiny}}&file_type={{webp || jpg}}&api_key={{api-key}}_***
 
+**Average token cost:** 2
+
 This GET request will return a URL you can use to download the photo with a matching Photo ID contained on the server. This requires that a previous request to the job has been made to obtain the photo ID to be used. Anything other than a valid photo ID for that job will be rejected. You can specify the size of the photo to fetch. If you don't specify, the full size will be used. You can also specify the type of photo to fetch. If you don't specify, webp will be used. 
 
 
@@ -848,6 +877,8 @@ axios(config)
 
 # GET Pages
 ***Message:*** ***_katapultpro.com/api/v2/company-data/pages?&api_key={{api-key}}_***
+
+**Average token cost:** TBD
 
 This GET request will request the pages from the user's company. This allows the user to include the links to each of their company's pages, both standard and custom, in the nine-dot menu of their custom extensions.
 
@@ -1028,6 +1059,8 @@ axios(config)
 # POST Create Node
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/nodes?api_key={{api-key}}_***
 
+**Average token cost:** 197
+
 This POST request creates a new node within a job. The job must be existing, and its Job ID needs to be passed along as a path variable. The payload body needs a latitude/longitude at a minimum, but it can take an array of objects, denoting attributes to include on the newly created node. Please note that the request can add a single node or multiple nodes. The body is setup for an array of objects. If a total of more than 100 nodes are passed in the body, the request will be rejected. If this occurs, you can repeat the request multiple times to complete a larger node count. An example body is shown after the query params and path variables.
   
 Visit this link to see the structure for job data (inside which is the structure for node data): https://katapultpro.com/schema/job.json
@@ -1153,6 +1186,8 @@ Note: The return payload from this request will provide a list of push ID's for 
 # POST Create Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs?api_key={{api-key}}_***
 
+**Average token cost:** 16
+
 This POST request creates a new job. The payload body needs a job name, the map styles, and model name. Please note that the request can add a single job or multiple jobs. The body is setup for an array of objects. If a total of more than 100 jobs are passed in the body, the request will be rejected. If this occurs, you can repeat the request multiple times to complete a larger jobs count. An example body is shown after the query params.
 
 
@@ -1212,6 +1247,8 @@ Note: The return payload from this request will provide the Job Id for the newly
 
 # PATCH Update Node on Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/nodes/:nodeid?api_key={{api-key}}_***
+
+**Average token cost:** TBD
 
 This PATCH request updates an existing node within a job. The request requires a vaild Job ID and Node ID. The payload body can have a latitude/longitude and an array of objects, denoting which attributes to update.
 
@@ -1302,6 +1339,8 @@ Note: The return payload from this request will provide a confirmation and JSON 
 # PUT Upload Photo To Node
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/nodes/:nodeid/photos?api_key={{api-key}}_***
 
+**Average token cost:** 2
+
 This PUT request uploads a photo to a specific node. The request requires a vaild Job ID and Node ID. The payload body should be the image that will be added to the node.
 
 
@@ -1353,6 +1392,8 @@ Note: The return payload from this request will provide a confirmation of the ch
 ```
 # PUT Upload Photo To Section
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/connections/:connectionId/sections/:sectionId/photos?api_key={{api-key}}_***
+
+**Average token cost:** 2
 
 This PUT request uploads a photo on a specific section. The request requires a vaild Job ID, Connection ID, and Section ID. The payload body should be the image that will be added to the node.
 
@@ -1411,6 +1452,8 @@ Note: The return payload from this request will provide a confirmation of the ch
 
 # POST Upload Photo Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}&marker_type={{marker_type}}_***
+
+**Average token cost:** 93
 
 This POST request will create markers (whether height annotations or photo chips) on the photo with the corresponding photo ID. 
 
@@ -1483,6 +1526,8 @@ axios(config)
 
 # PATCH Replace Photo Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}&marker_type={{marker_type}}&marker_key={{marker_key}}_***
+
+**Average token cost:** TBD
 
 This PATCH request will update the photo marker on the photo with the corresponding photo ID.
 
@@ -1558,6 +1603,8 @@ axios(config)
 # DELETE Delete Photo Data
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/photos/:photoId?api_key={{api-key}}&marker_type={{marker_type}}&marker_key={{marker_key}}_***
 
+**Average token cost:** TBD
+
 This DELETE request will remove the photo marker with the corresponding photo ID from the photo.
 
 You do not need to provide a payload body for this call.  Only the `"marker_type"` and `"marker_key"` properties are required as query parameters.
@@ -1620,6 +1667,8 @@ axios(config)
 # PUT Archive a Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/archive?api_key={{api-key}}_***
 
+**Average token cost:** 1
+
 This PUT request will change the specified job's status from 'active' to 'archived.' The job ID is required to complete this request.
 
 
@@ -1662,6 +1711,8 @@ axios(config)
 # PUT Un-Archive a Job
 ***Message:*** ***_katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{api-key}}_***
 
+**Average token cost:** TBD
+
 This PUT request will change the job's status from 'archived' to 'active.' The job ID is required to complete this request.
 
 
@@ -1703,6 +1754,8 @@ axios(config)
 ```
 # GET App Buttons
 ***Message:*** ***_workflow-management.katapultpro.com/api/v2/application/getAllowedActionButtons/:appId?api_key={{api-key}}_***
+
+**Average token cost:** TBD
 
 This GET request will return all the buttons that would appear on the application (that matches the provided App ID) given its status at the time of the request. The response is a list containing the ID and Name of each button on the application. 
 
@@ -1752,6 +1805,8 @@ This GET request will return all the buttons that would appear on the applicatio
 
 # GET App Prompts
 ***Message:*** ***_workflow-management.katapultpro.com/api/v2/application/getAppPrompts/:appId?button_id={{button-id}}&api_key={{api-key}}_***
+
+**Average token cost:** TBD
 
 This GET App Prompts request will return the prompt that the button (matching the provided button ID) triggers. For the ‘button_id’ query parameter, use the ID of the desired button from the response to the GET App Buttons request.
 
@@ -1829,6 +1884,8 @@ var config = {
 
 # PATCH Update App Status
 ***Message:*** ***_workflow-management.katapultpro.com/api/v2/application/takeAppAction/:jobId?api_key={{api-key}}_***
+
+**Average token cost:** TBD
 
 This PATCH Update App Status request allows you to essentially “click” an action button, “fill out” any prompt that may pop up, and move the application along in its process. For the payload body, essentially you’ll want to take the response from the GET App Prompts request and modify some of the values to suit your needs.
 
