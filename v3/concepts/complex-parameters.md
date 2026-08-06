@@ -136,17 +136,18 @@ differently based on `paths`:
 
 - **No `paths`** → returns the **full** model. This **requires extended API
   access** (otherwise `403 extended_access_required`) and, because extended
-  access is off in production, is **unavailable on `katapultpro.com`**. When
-  permitted, it costs **9,900 tokens** (nearly the entire default bucket).
-- **With `paths`** (comma-separated, **max 10**) → returns only those sub-paths
-  and costs **1,000 tokens per path**. Open to all callers — the supported route
-  for most integrations.
+  access is off in production, is **unavailable on `katapultpro.com`**. A full
+  model is large, so when permitted it is the most expensive way to read model
+  data.
+- **With `paths`** (comma-separated, **max 10**) → returns only those sub-paths,
+  so it costs far less than a full fetch. Open to all callers — the supported
+  route for most integrations.
 
 Prefer `paths` whenever you need only part of a model. See
-[Rate limits & the token bucket](../rate-limits.md#token-costs).
+[Rate limits & the token bucket](../rate-limits.md#average-token-costs).
 
 ```sh
-# 2 paths -> 2,000 tokens, instead of 9,900 for the whole model:
+# Fetch only the sub-paths you need, instead of the whole model:
 curl "https://katapultpro.com/api/v3/models/MODEL_KEY?api_key=KEY&paths=attributes,button_groups"
 ```
 

@@ -10,12 +10,14 @@ Substitute your own `YOUR_API_KEY` and ids throughout. The ids below
 (`-O_jobAbc123`, `-O_nodeA1`, `-O_connXY`, `-O_sectionM`) carry over from the
 [Building a job](building-a-job.md) walkthrough.
 
-> **Token costs.** Photo uploads and other writes (`POST`/`DELETE`) cost **10
-> tokens**; reads (`GET`), including the signed-URL endpoint, cost **1**. Read
+> **Token costs.** Each call deducts tokens from your bucket, and the cost
+> **scales with how much data it reads or writes** — a photo upload moves far
+> more data than a small read, so it costs more. Metering is currently advisory
+> (a depleted bucket is not blocked; `meta` carries a `token_warning`). Read
 > `meta.token_count` on each response and see
 > [Rate limits & the token bucket](../rate-limits.md) for pacing.
 
-## 1. Upload a photo to a node — 10 tokens
+## 1. Upload a photo to a node
 
 `POST /jobs/{job_id}/nodes/{node_id}/photos` uploads the **raw JPEG bytes** with
 `Content-Type: image/jpeg` and associates the photo to the node in one call. The
@@ -32,14 +34,14 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/nodes/-O_nodeA1/p
 {
   "status": "success",
   "data": { "id": "-O_photo01" },
-  "meta": { "token_count": 9990, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99961, "last_refill_time": 1718450000000 }
 }
 ```
 
 The upload returns the new photo id (`-O_photo01`). The response is just the id —
 the image bytes are stored separately and retrieved via the URL endpoint below.
 
-## 2. Get a download URL (7-day signed) — 1 token
+## 2. Get a download URL (7-day signed)
 
 `GET /jobs/{job_id}/photos/{photo_id}/url` returns a signed URL for downloading
 the image. **The URL expires 7 days after it is generated**, so fetch it when
@@ -56,11 +58,11 @@ curl "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01/url?api
   "data": {
     "url": "https://storage.googleapis.com/katapultpro-photos/...&Expires=1719054800&Signature=..."
   },
-  "meta": { "token_count": 9989, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99959, "last_refill_time": 1718450000000 }
 }
 ```
 
-## 3. Add a photo element — 10 tokens
+## 3. Add a photo element
 
 Photo elements are annotations placed on a photo (an attachment, a measurement,
 a marked point, …). `POST /jobs/{job_id}/photos/{photo_id}/photo_elements`
@@ -82,14 +84,14 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 {
   "status": "success",
   "data": { "id": "-O_elem01" },
-  "meta": { "token_count": 9979, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99934, "last_refill_time": 1718450000000 }
 }
 ```
 
 > `element_type` can only be set when the element is created. Later updates via
 > `POST .../photo_elements/{element_id}` cannot change it.
 
-## 4. Add a calibration anchor — 10 tokens
+## 4. Add a calibration anchor
 
 Calibration anchors are reference points (a pixel location plus a known height)
 that let Katapult Pro scale measurements on a photo. `POST
@@ -109,7 +111,7 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 {
   "status": "success",
   "data": { "id": "-O_anchor01" },
-  "meta": { "token_count": 9969, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99911, "last_refill_time": 1718450000000 }
 }
 ```
 
@@ -119,7 +121,7 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 > Pro** — calibration does not recompute over the API. Plan for photos to read
 > as uncalibrated between an anchor write and the next in-app view.
 
-## 5. Associate and unassociate a photo — 10 tokens each
+## 5. Associate and unassociate a photo
 
 A photo can be uploaded to the job on its own (`POST /jobs/{job_id}/photos`) and
 later attached to an item, or moved between items, with `POST
@@ -145,7 +147,7 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 {
   "status": "success",
   "data": {},
-  "meta": { "token_count": 9959, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99888, "last_refill_time": 1718450000000 }
 }
 ```
 
@@ -165,7 +167,7 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 {
   "status": "success",
   "data": {},
-  "meta": { "token_count": 9949, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99865, "last_refill_time": 1718450000000 }
 }
 ```
 
@@ -184,5 +186,5 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
   endpoint contracts.
 - [Building a job](building-a-job.md) — create the job, nodes, connection, and
   section these photos attach to.
-- [Rate limits & the token bucket](../rate-limits.md) — uploads cost 10 tokens
-  each; pace bulk photo imports accordingly.
+- [Rate limits & the token bucket](../rate-limits.md) — photo uploads are among
+  the most data-heavy calls, so pace bulk photo imports accordingly.

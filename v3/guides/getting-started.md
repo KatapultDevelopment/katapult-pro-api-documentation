@@ -20,7 +20,7 @@ key.
 ## 2. Make the welcome call
 
 The welcome endpoint (`GET /`) is the quickest way to confirm a key
-authenticates. It costs **0 tokens**, so you can call it freely.
+authenticates. It is not charged against your token bucket, so you can call it freely.
 
 ```sh
 curl "https://katapultpro.com/api/v3?api_key=YOUR_API_KEY"
@@ -57,7 +57,7 @@ curl "https://katapultpro.com/api/v3/users/whoami?api_key=YOUR_API_KEY"
     "user_group": "-O_companyXyz",
     "root_company": "-O_rootCompany"
   },
-  "meta": { "token_count": 9999, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
 }
 ```
 
@@ -77,7 +77,7 @@ curl "https://katapultpro.com/api/v3/jobs?api_key=YOUR_API_KEY"
   "data": [
     { "id": "-O_jobAbc123", "status": "active", "metadata": { "city": "Buffalo" } }
   ],
-  "meta": { "token_count": 9999, "last_refill_time": 1718450000000 }
+  "meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
 }
 ```
 
@@ -90,7 +90,7 @@ Every response from a route handler — both successes **and** errors — includ
 `meta` object describing your token-bucket state:
 
 ```json
-"meta": { "token_count": 9999, "last_refill_time": 1718450000000 }
+"meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
 ```
 
 - `token_count` — tokens remaining **after** this request.
@@ -98,9 +98,11 @@ Every response from a route handler — both successes **and** errors — includ
   bucket refills 60 seconds later, at `last_refill_time + 60000`.
 
 Read `meta` on every response and let it drive your client's pacing rather than
-hardcoding limits. Token costs and the bucket size are current values and are
-subject to change. If you exhaust the bucket you receive HTTP `429` with
-`type: "token_rate_limit_exceeded"`; compute how long to wait from `meta`:
+hardcoding limits. Per-call costs scale with how much data a call reads or
+writes, and both costs and the bucket size are subject to change. Token metering
+is currently advisory — if you exhaust the bucket the request is still served
+but `meta` carries a `token_warning`; compute how long to wait for a refill from
+`meta`:
 
 ```
 wait_ms = max(0, (last_refill_time + 60000) - now)
@@ -110,8 +112,8 @@ The only response shape that omits `meta` is a middleware-level failure (a bad
 key, or the general rate limit — at most 1 call per 50 ms), because those are
 rejected before a route handler runs.
 
-See [Rate limits & the token bucket](../rate-limits.md) for the full token-cost
-table, refill behavior, and client guidance.
+See [Rate limits & the token bucket](../rate-limits.md) for average token costs,
+refill behavior, and client guidance.
 
 ## Where to go next
 

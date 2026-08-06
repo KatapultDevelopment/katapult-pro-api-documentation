@@ -10,7 +10,7 @@ import requests
 URL_PATH = 'https://katapultpro.com/api/v3'
 API_KEY = '<<YOUR_API_KEY>>'
 
-# Token cost: 100 tokens per request.
+# Token cost scales with the data returned; see the average in the API reference.
 try:
     resp = requests.get(f'{URL_PATH}/models', params={'api_key': API_KEY})
     print('Status:', resp.status_code)

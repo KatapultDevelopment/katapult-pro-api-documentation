@@ -121,7 +121,7 @@ function collectOps(tagName) {
  * "reference/jobs.md#anchor" (cross-page, used in the README index).
  */
 function summaryRow(p, method, op, hrefBase = '') {
-  const cost = op['x-token-cost'];
+  const cost = op['x-average-token-cost'];
   const restricted = op['x-restricted'] ? ' 🔒' : '';
   const href = `${hrefBase}#${anchor(op.summary)}`;
   return `| \`${method.toUpperCase()}\` | [\`${p}\`](${href})${restricted} | ${esc(cost)} | ${esc(op.summary)} |`;
@@ -135,7 +135,7 @@ function buildTagMarkdown(tagName) {
   const lines = [];
 
   // Summary table
-  lines.push('| Method | Endpoint | Token cost | Description |');
+  lines.push('| Method | Endpoint | Average token cost | Description |');
   lines.push('| --- | --- | --- | --- |');
   for (const { p, method, op } of ops) {
     lines.push(summaryRow(p, method, op));
@@ -156,7 +156,7 @@ function buildTagMarkdown(tagName) {
     lines.push(`${method.toUpperCase()} ${BASE_URL}${p}`);
     lines.push('```');
     lines.push('');
-    lines.push(`**Token cost:** ${esc(op['x-token-cost'])}`);
+    lines.push(`**Average token cost:** ${esc(op['x-average-token-cost'])}`);
     lines.push('');
     if (op.description) {
       lines.push(esc(op.description));
@@ -225,7 +225,7 @@ function buildEndpointIndex() {
     if (ops.length === 0) continue;
     lines.push(`### [${tagName}](reference/${slug}.md)`);
     lines.push('');
-    lines.push('| Method | Endpoint | Token cost | Description |');
+    lines.push('| Method | Endpoint | Average token cost | Description |');
     lines.push('| --- | --- | --- | --- |');
     for (const { p, method, op } of ops) {
       lines.push(summaryRow(p, method, op, `reference/${slug}.md`));

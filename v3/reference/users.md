@@ -6,13 +6,13 @@ record require **company admin**; you can always read your own record.
 <!-- BEGIN GENERATED: Users -->
 <!-- Do not edit by hand. Generated from ../openapi.yaml by `npm run docs:gen:md`. -->
 
-| Method | Endpoint | Token cost | Description |
+| Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/users`](#list-all-users) | 1 | List all users |
+| `GET` | [`/users`](#list-all-users) | 186 | List all users |
 | `GET` | [`/users/whoami`](#get-current-user) | 1 | Get current user |
 | `GET` | [`/users/{user_id}`](#get-a-user) | 1 | Get a user |
 | `GET` | [`/users/{user_id}/active_state`](#get-user-active-state) 🔒 | 1 | Get user active state |
-| `POST` | [`/users/{user_id}/active_state`](#set-user-active-state) 🔒 | 10 | Set user active state |
+| `POST` | [`/users/{user_id}/active_state`](#set-user-active-state) 🔒 | 1 | Set user active state |
 
 ### List all users
 
@@ -20,7 +20,7 @@ record require **company admin**; you can always read your own record.
 GET https://katapultpro.com/api/v3/users
 ```
 
-**Token cost:** 1
+**Average token cost:** 186
 
 Lists all users (including external users) in the caller's active company. Requires the caller to be a **company admin**.
 
@@ -30,7 +30,7 @@ Lists all users (including external users) in the caller's active company. Requi
 GET https://katapultpro.com/api/v3/users/whoami
 ```
 
-**Token cost:** 1
+**Average token cost:** 1
 
 Returns the authenticated caller's own identity — the `uid`, `email`, `user_group` (the caller's active company), and `root_company` tied to the API key. Available to any authenticated caller; no admin required. Useful for confirming which account an API key belongs to.
 
@@ -40,7 +40,7 @@ Returns the authenticated caller's own identity — the `uid`, `email`, `user_gr
 GET https://katapultpro.com/api/v3/users/{user_id}
 ```
 
-**Token cost:** 1
+**Average token cost:** 1
 
 Returns a user's core fields plus their attributes (`metadata`). You can always read your **own** record; reading **another user's** record requires the caller to be a **company admin**.
 
@@ -58,7 +58,7 @@ Path parameters:
 GET https://katapultpro.com/api/v3/users/{user_id}/active_state
 ```
 
-**Token cost:** 1
+**Average token cost:** 1
 
 Returns the active state of a specific user, including their last updated timestamp, the source of activity (`client` or `api`), the path of the last activity, and the page (`map` or `photos`). Returns `null` if no active state has been recorded. Requires extended API access and the `enable_api_user_state_calls` feature flag.
 
@@ -76,7 +76,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/users/{user_id}/active_state
 ```
 
-**Token cost:** 10
+**Average token cost:** 1
 
 Sets the active state for a specific user. Sets `source` to `api` and `last_updated` to the current server time. Returns the new active state. Requires extended API access and the `enable_api_user_state_calls` feature flag. The caller must either be the user being updated or a company admin (otherwise 403 `forbidden`); the target user must exist (otherwise 404 `not_found`). Note that the target user's client only visually applies the new state if they have opted in to `allow_api_active_state` in their account settings — the first API-driven change prompts them to accept or deny.
 

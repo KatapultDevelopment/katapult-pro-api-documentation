@@ -31,7 +31,7 @@ records that predate source tracking.
 <!-- BEGIN GENERATED: Companies -->
 <!-- Do not edit by hand. Generated from ../openapi.yaml by `npm run docs:gen:md`. -->
 
-| Method | Endpoint | Token cost | Description |
+| Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
 | `GET` | [`/companies/{company_id}/tracked_actions`](#list-tracked-actions) | 1 | List tracked actions |
 | `GET` | [`/companies/{company_id}/action_models`](#list-action-models) | 1 | List action models |
@@ -42,7 +42,7 @@ records that predate source tracking.
 GET https://katapultpro.com/api/v3/companies/{company_id}/tracked_actions
 ```
 
-**Token cost:** 1
+**Average token cost:** 1
 
 Returns a paginated list of tracked-action records for your company, newest first (ordered by `timestamp` descending). All filters are optional and combine with AND. `action_id`/`action_name` come from the action models endpoint; `uid` is the User ID shown in the API Key widget.
 
@@ -71,7 +71,7 @@ Query parameters:
 GET https://katapultpro.com/api/v3/companies/{company_id}/action_models
 ```
 
-**Token cost:** 1
+**Average token cost:** 1
 
 Returns your company's action-tracking configuration: the action groups and the individual actions within each. Use the returned `action_id` / `action_name` values to filter the tracked actions endpoint.
 

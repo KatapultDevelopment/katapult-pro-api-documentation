@@ -17,15 +17,17 @@ type EntityResponse = {
     // ...other resource fields
   },
   meta: {
-    token_count: number,      // Tokens remaining after the request
-    last_refill_time: number, // Epoch ms of the last token refill
+    token_count: number,       // Tokens remaining after the request
+    last_refill_time: number,  // Epoch ms of the last token refill
+    token_warning?: string,    // Present only when the bucket is depleted
   }
 }
 ```
 
-> For callers with [extended API access](../reference/restricted.md#extended-api-access),
-> `token_count` is always the fixed placeholder integer `9999999999` instead of
-> a real remaining count.
+> Callers with [extended API access](../reference/restricted.md#extended-api-access)
+> are unthrottled, so their `token_count` is informational only. Token metering
+> is currently **advisory**: a depleted bucket is **not** blocked — the request
+> is still served and `meta` carries a `token_warning`.
 
 For a list, `data` is an array of resources:
 
@@ -33,7 +35,7 @@ For a list, `data` is an array of resources:
 type ListResponse = {
   status: "success",
   data: Array<{ id: string, /* ...fields */ }>,
-  meta: { token_count: number, last_refill_time: number }
+  meta: { token_count: number, last_refill_time: number, token_warning?: string }
 }
 ```
 
@@ -49,7 +51,7 @@ type ErrorResponse = {
   status: "error",
   message: string, // Human-readable message
   type: string,    // Machine-readable type (see table below)
-  meta: { token_count: number, last_refill_time: number }
+  meta: { token_count: number, last_refill_time: number, token_warning?: string }
 }
 ```
 
@@ -66,7 +68,8 @@ type ErrorResponse = {
 | 403 | `extended_access_required` | The endpoint requires extended API access. |
 | 403 | `forbidden` | Requested a company that is not your own. |
 | 404 | `not_found` | The requested resource does not exist. |
-| 429 | `token_rate_limit_exceeded` | The token bucket was depleted. See [rate limits](../rate-limits.md). |
+| 429 | `server_busy` | The API is shedding load during high database pressure. Retry after the `Retry-After` interval. |
+| 429 | `token_rate_limit_exceeded` | The token bucket was depleted. Metering is currently **advisory** — depletion returns a `token_warning` in `meta` (HTTP `200`) instead; this error will be returned once enforcement is enabled. See [rate limits](../rate-limits.md). |
 | 500 | `internal_error` | Unexpected server error. |
 
 ## Authentication & middleware errors

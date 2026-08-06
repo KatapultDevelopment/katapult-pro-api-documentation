@@ -13,13 +13,13 @@ section; accepted `association_value`s) — see
 <!-- BEGIN GENERATED: Photos -->
 <!-- Do not edit by hand. Generated from ../openapi.yaml by `npm run docs:gen:md`. -->
 
-| Method | Endpoint | Token cost | Description |
+| Method | Endpoint | Average token cost | Description |
 | --- | --- | --- | --- |
-| `GET` | [`/jobs/{job_id}/photos`](#get-all-photos) | 1 | Get all photos |
-| `POST` | [`/jobs/{job_id}/photos`](#upload-a-photo) | 10 | Upload a photo |
-| `GET` | [`/jobs/{job_id}/photos/{photo_id}`](#get-a-photo) | 1 | Get a photo |
-| `GET` | [`/jobs/{job_id}/photos/{photo_id}/url`](#get-a-photo-download-url) | 1 | Get a photo download URL |
-| `POST` | [`/jobs/{job_id}/photos/{photo_id}/associate`](#associate-a-photo-to-an-item) | 10 | Associate a photo to an item |
+| `GET` | [`/jobs/{job_id}/photos`](#get-all-photos) | 1147 | Get all photos |
+| `POST` | [`/jobs/{job_id}/photos`](#upload-a-photo) | 1 | Upload a photo |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}`](#get-a-photo) | 2 | Get a photo |
+| `GET` | [`/jobs/{job_id}/photos/{photo_id}/url`](#get-a-photo-download-url) | 4 | Get a photo download URL |
+| `POST` | [`/jobs/{job_id}/photos/{photo_id}/associate`](#associate-a-photo-to-an-item) | 1286 | Associate a photo to an item |
 
 ### Get all photos
 
@@ -27,7 +27,7 @@ section; accepted `association_value`s) — see
 GET https://katapultpro.com/api/v3/jobs/{job_id}/photos
 ```
 
-**Token cost:** 1
+**Average token cost:** 1147
 
 Path parameters:
 
@@ -41,7 +41,7 @@ Path parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/photos
 ```
 
-**Token cost:** 10
+**Average token cost:** 1
 
 Uploads a JPEG to the job (without associating it to an item).
 
@@ -59,7 +59,7 @@ Request body: raw `image/jpeg` bytes.
 GET https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}
 ```
 
-**Token cost:** 1
+**Average token cost:** 2
 
 Gets the photo record (metadata, not the image bytes — use the `/url` endpoint for a download link).
 
@@ -76,7 +76,7 @@ Path parameters:
 GET https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/url
 ```
 
-**Token cost:** 1
+**Average token cost:** 4
 
 Returns a signed URL for downloading the photo image. The URL expires 7 days after it is generated.
 
@@ -100,7 +100,7 @@ Query parameters:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/associate
 ```
 
-**Token cost:** 10
+**Average token cost:** 1286
 
 Associates the photo to (or unassociates it from) a node or a section. Provide `node_id` for a node, or both `connection_id` and `section_id` for a section. Set `association_value` to `null` to unassociate.
 
