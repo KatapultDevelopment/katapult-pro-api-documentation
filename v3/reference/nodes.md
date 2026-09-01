@@ -36,6 +36,8 @@ Query parameters:
 | --- | --- | --- |
 | `last_updated` | string | ISO-8601 date/time. Returns only records updated **strictly after** this time. Results are ordered by `last_updated` descending (most recent first). Invalid values return `invalid_request`. |
 | `limit` | integer | Maximum number of records to return (positive integer; no upper cap). Invalid values return `invalid_request`. |
+| `include_mr_directives` | `true` \| `false` | If `"true"`, add an `mr_directives` object to each returned node/section holding a single combined make ready summary string (`{ "make_ready_notes": "..." }`). Mutually exclusive with `include_mr_directives_by_company` — sending both `"true"` returns `invalid_request`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
+| `include_mr_directives_by_company` | `true` \| `false` | If `"true"`, add an `mr_directives` object keyed by company name: make ready notes bucketed per company (notes with no company under `Unassigned`), plus a `proposed_attachment` key for proposed-attachment notes when any apply. Mutually exclusive with `include_mr_directives`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
 
 ### Create a node
 
@@ -74,6 +76,13 @@ Path parameters:
 | --- | --- | --- |
 | `job_id` | string | Id of the job. |
 | `node_id` | string | Id of the node. |
+
+Query parameters:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `include_mr_directives` | `true` \| `false` | If `"true"`, add an `mr_directives` object to each returned node/section holding a single combined make ready summary string (`{ "make_ready_notes": "..." }`). Mutually exclusive with `include_mr_directives_by_company` — sending both `"true"` returns `invalid_request`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
+| `include_mr_directives_by_company` | `true` \| `false` | If `"true"`, add an `mr_directives` object keyed by company name: make ready notes bucketed per company (notes with no company under `Unassigned`), plus a `proposed_attachment` key for proposed-attachment notes when any apply. Mutually exclusive with `include_mr_directives`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
 
 ### Update a node
 
@@ -158,3 +167,19 @@ incrementally, pass the newest `last_updated` you have seen back as the
 `last_updated` query parameter (ISO-8601) to receive only nodes changed **after**
 that time — the bound is exclusive. Use `limit` to cap the number of nodes
 returned.
+
+## Make ready directives
+
+`GET /jobs/{job_id}/nodes` and `GET /jobs/{job_id}/nodes/{node_id}` can attach
+computed make ready directives to each node via two mutually exclusive query
+parameters:
+
+- `include_mr_directives=true` — adds `mr_directives` as a single combined
+  summary: `{ "make_ready_notes": "..." }`.
+- `include_mr_directives_by_company=true` — adds `mr_directives` keyed by company
+  name (unassigned notes under `Unassigned`, proposed-attachment notes under
+  `proposed_attachment`).
+
+Send only one; sending both returns `400 invalid_request`. Sending neither omits
+the field. Full details, response shapes, and examples:
+[Make ready directives](../concepts/complex-parameters.md#make-ready-directives).

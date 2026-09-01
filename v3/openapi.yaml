@@ -300,6 +300,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/LastUpdated'
         - $ref: '#/components/parameters/ResultLimit'
+        - $ref: '#/components/parameters/IncludeMrDirectives'
+        - $ref: '#/components/parameters/IncludeMrDirectivesByCompany'
       responses:
         '200':
           description: Array of nodes.
@@ -340,6 +342,9 @@ paths:
       operationId: getNode
       summary: Get a node
       x-average-token-cost: 1
+      parameters:
+        - $ref: '#/components/parameters/IncludeMrDirectives'
+        - $ref: '#/components/parameters/IncludeMrDirectivesByCompany'
       responses:
         '200':
           description: The node.
@@ -507,6 +512,9 @@ paths:
       operationId: listSections
       summary: Get all sections on a connection
       x-average-token-cost: 1
+      parameters:
+        - $ref: '#/components/parameters/IncludeMrDirectives'
+        - $ref: '#/components/parameters/IncludeMrDirectivesByCompany'
       responses:
         '200':
           description: Array of sections.
@@ -548,6 +556,9 @@ paths:
       operationId: getSection
       summary: Get a section
       x-average-token-cost: 1
+      parameters:
+        - $ref: '#/components/parameters/IncludeMrDirectives'
+        - $ref: '#/components/parameters/IncludeMrDirectivesByCompany'
       responses:
         '200':
           description: The section.
@@ -1372,6 +1383,28 @@ components:
       in: query
       description: Maximum number of records to return (positive integer; no upper cap). Invalid values return `invalid_request`.
       schema: { type: integer, minimum: 1 }
+    IncludeMrDirectives:
+      name: include_mr_directives
+      in: query
+      description: >
+        If `"true"`, add an `mr_directives` object to each returned node/section
+        holding a single combined make ready summary string
+        (`{ "make_ready_notes": "..." }`). Mutually exclusive with
+        `include_mr_directives_by_company` — sending both `"true"` returns
+        `invalid_request`. See
+        [Make ready directives](../concepts/complex-parameters.md#make-ready-directives).
+      schema: { type: string, enum: ['true', 'false'] }
+    IncludeMrDirectivesByCompany:
+      name: include_mr_directives_by_company
+      in: query
+      description: >
+        If `"true"`, add an `mr_directives` object keyed by company name:
+        make ready notes bucketed per company (notes with no company under
+        `Unassigned`), plus a `proposed_attachment` key for proposed-attachment
+        notes when any apply. Mutually exclusive with `include_mr_directives`.
+        See
+        [Make ready directives](../concepts/complex-parameters.md#make-ready-directives).
+      schema: { type: string, enum: ['true', 'false'] }
 
   schemas:
     Meta:
@@ -1581,6 +1614,36 @@ components:
         metadata: { type: object, additionalProperties: true, description: Flat map of job metadata. }
         sharing: { $ref: '#/components/schemas/SharingMap', description: 'Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing).' }
 
+    MrDirectives:
+      description: >
+        Applied make ready directives for the entity. Present only when the
+        request sets `include_mr_directives=true` **or**
+        `include_mr_directives_by_company=true` (never both). The shape depends
+        on which parameter was used. Directive **content** depends on the job's
+        model configuration (a configurable directive module when the
+        `configurable_mr_directives` feature is enabled for your company,
+        otherwise the legacy make ready details); the response shape does not.
+        See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives).
+      oneOf:
+        - type: object
+          title: Single-column summary
+          description: Returned for `include_mr_directives=true`.
+          properties:
+            make_ready_notes:
+              type: string
+              description: All applied make ready directives joined into one string.
+        - type: object
+          title: By company
+          description: >
+            Returned for `include_mr_directives_by_company=true`. Keys are
+            company names (notes with no company are bucketed under
+            `Unassigned`); each value is that company's make ready notes. `{}`
+            when no directives apply.
+          additionalProperties: { type: string }
+          properties:
+            proposed_attachment:
+              type: string
+              description: Combined notes for proposed (not-yet-installed) attachments; present only when non-empty.
     Node:
       type: object
       additionalProperties: true
@@ -1590,6 +1653,7 @@ components:
         longitude: { type: number }
         attributes: { $ref: '#/components/schemas/EntityAttributeList' }
         last_updated: { type: string, format: date-time, description: When the node was last updated (present when available). }
+        mr_directives: { $ref: '#/components/schemas/MrDirectives' }
     NodeResponse:
       allOf:
         - $ref: '#/components/schemas/SuccessEnvelope'
@@ -1673,6 +1737,7 @@ components:
         id: { type: string }
         latitude: { type: number }
         longitude: { type: number }
+        mr_directives: { $ref: '#/components/schemas/MrDirectives' }
     SectionResponse:
       allOf:
         - $ref: '#/components/schemas/SuccessEnvelope'

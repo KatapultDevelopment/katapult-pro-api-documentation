@@ -157,3 +157,64 @@ When creating a [photo element](../reference/photo-elements.md), `parent_id`
 nests it under another element, and `trace_id` adds it to a trace. On update,
 set `parent_id` to `null` to de-nest. `pixel_selection` may only be set on
 top-level (un-nested) elements.
+
+## Make ready directives
+
+The node and section read endpoints can attach computed **make ready
+directives** to each returned entity via two **mutually exclusive** query
+parameters. You choose **either** a single combined summary **or** a per-company
+breakdown — never both:
+
+- **`include_mr_directives=true`** — adds `mr_directives` as a single-column
+  summary: `{ "make_ready_notes": "<combined string>" }`. The `make_ready_notes`
+  key is always present (empty string when nothing applies).
+- **`include_mr_directives_by_company=true`** — adds `mr_directives` as an object
+  keyed by company name. Each value is that company's make ready notes; notes
+  with no company are bucketed under `Unassigned`, and proposed-attachment notes
+  are combined under `proposed_attachment` (present only when non-empty). `{}`
+  when no directives apply.
+
+Sending **neither** omits `mr_directives` entirely. Available on:
+
+- [`GET /jobs/{job_id}/nodes`](../reference/nodes.md#get-all-nodes)
+- [`GET /jobs/{job_id}/nodes/{node_id}`](../reference/nodes.md#get-a-node)
+- [`GET /jobs/{job_id}/connections/{connection_id}/sections`](../reference/sections.md#get-all-sections-on-a-connection)
+- [`GET /jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](../reference/sections.md#get-a-section)
+
+Single-column summary (`?include_mr_directives=true`):
+
+```json
+{
+  "mr_directives": {
+    "make_ready_notes": "Lower comm to 18ft. Transfer power drop to new pole."
+  }
+}
+```
+
+By company (`?include_mr_directives_by_company=true`):
+
+```json
+{
+  "mr_directives": {
+    "Electric Co": "Transfer power drop to new pole.",
+    "Cable Co": "Lower comm to 18ft.",
+    "Unassigned": "Remove abandoned attachment.",
+    "proposed_attachment": "Install proposed fiber at 20ft."
+  }
+}
+```
+
+Invalid — both modes at once:
+
+```sh
+curl "https://katapultpro.com/api/v3/jobs/JOB/nodes?api_key=KEY&include_mr_directives=true&include_mr_directives_by_company=true"
+```
+
+> Returns `400 invalid_request`: `include_mr_directives` and
+> `include_mr_directives_by_company` are mutually exclusive.
+
+> **Note:** These parameters control the response **shape** only. Directive
+> **content** depends on the job's model configuration — a configurable
+> directive module when the `configurable_mr_directives` feature is enabled for
+> your company, otherwise the legacy make ready details. The shape of
+> `mr_directives` is the same either way.

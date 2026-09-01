@@ -35,6 +35,13 @@ Path parameters:
 | `job_id` | string | Id of the job. |
 | `connection_id` | string | Id of the connection. |
 
+Query parameters:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `include_mr_directives` | `true` \| `false` | If `"true"`, add an `mr_directives` object to each returned node/section holding a single combined make ready summary string (`{ "make_ready_notes": "..." }`). Mutually exclusive with `include_mr_directives_by_company` — sending both `"true"` returns `invalid_request`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
+| `include_mr_directives_by_company` | `true` \| `false` | If `"true"`, add an `mr_directives` object keyed by company name: make ready notes bucketed per company (notes with no company under `Unassigned`), plus a `proposed_attachment` key for proposed-attachment notes when any apply. Mutually exclusive with `include_mr_directives`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
+
 ### Create a section
 
 ```sh
@@ -75,6 +82,13 @@ Path parameters:
 | `job_id` | string | Id of the job. |
 | `connection_id` | string | Id of the connection. |
 | `section_id` | string | Id of the section. |
+
+Query parameters:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `include_mr_directives` | `true` \| `false` | If `"true"`, add an `mr_directives` object to each returned node/section holding a single combined make ready summary string (`{ "make_ready_notes": "..." }`). Mutually exclusive with `include_mr_directives_by_company` — sending both `"true"` returns `invalid_request`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
+| `include_mr_directives_by_company` | `true` \| `false` | If `"true"`, add an `mr_directives` object keyed by company name: make ready notes bucketed per company (notes with no company under `Unassigned`), plus a `proposed_attachment` key for proposed-attachment notes when any apply. Mutually exclusive with `include_mr_directives`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
 
 ### Update a section
 
@@ -151,3 +165,20 @@ Query parameters:
 Request body: raw `image/jpeg` bytes.
 
 <!-- END GENERATED: Sections -->
+
+## Make ready directives
+
+`GET /jobs/{job_id}/connections/{connection_id}/sections` and
+`GET /jobs/{job_id}/connections/{connection_id}/sections/{section_id}` can attach
+computed make ready directives to each section via two mutually exclusive query
+parameters:
+
+- `include_mr_directives=true` — adds `mr_directives` as a single combined
+  summary: `{ "make_ready_notes": "..." }`.
+- `include_mr_directives_by_company=true` — adds `mr_directives` keyed by company
+  name (unassigned notes under `Unassigned`, proposed-attachment notes under
+  `proposed_attachment`).
+
+Send only one; sending both returns `400 invalid_request`. Sending neither omits
+the field. Full details, response shapes, and examples:
+[Make ready directives](../concepts/complex-parameters.md#make-ready-directives).
