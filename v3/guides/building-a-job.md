@@ -18,7 +18,12 @@ step into the next.
 ## 1. Create a job
 
 `POST /jobs` requires a `name` and a `model`. You can attach flat `metadata` at
-creation time.
+creation time, and a `project_folder` to file the job somewhere other than your
+company root.
+
+The name must be unique within your company — a name already in use returns
+`400` `duplicate_job_name`. Pick a fresh name each time you run through this
+walkthrough.
 
 ```sh
 curl -X POST "https://katapultpro.com/api/v3/jobs?api_key=YOUR_API_KEY" \

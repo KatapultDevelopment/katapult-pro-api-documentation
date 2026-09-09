@@ -13,10 +13,12 @@ const API_KEY = '<<YOUR_API_KEY>>';
 // Path placeholder — fill in the id of the job to update.
 const JOB_ID = '<<YOUR_JOB_ID>>';
 
-// Body: include any of name, model, map_styles, metadata, sharing.
+// Body: include any of name, model, map_styles, metadata, sharing, project_folder.
+// project_folder must start with the job owner company id, and only that company may change it.
 const body = {
   name: 'API Example Job (updated)',
   metadata: { status: 'done' },
+  project_folder: 'your_company/Region/2026',
 };
 
 async function run() {

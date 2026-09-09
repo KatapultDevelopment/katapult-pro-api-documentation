@@ -746,6 +746,8 @@ paths:
       operationId: listPhotoElements
       summary: Get all elements on a photo
       x-average-token-cost: 4
+      parameters:
+        - $ref: '#/components/parameters/IncludeMrViolations'
       responses:
         '200':
           description: Array of photo elements.
@@ -787,6 +789,8 @@ paths:
       operationId: getPhotoElement
       summary: Get a photo element
       x-average-token-cost: 7
+      parameters:
+        - $ref: '#/components/parameters/IncludeMrViolations'
       responses:
         '200':
           description: The photo element.
@@ -1348,6 +1352,15 @@ components:
       in: query
       description: If `"true"`, the resource is only updated if it exists (no creation).
       schema: { type: string, enum: ['true', 'false'] }
+    IncludeMrViolations:
+      name: include_mr_violations
+      in: query
+      description: >
+        If `"true"`, each photo element includes an `mr_violations` object with
+        the element's make ready clearance violations. This runs the make ready
+        clearance calculation for the whole photo, so it reads additional job and
+        model data and costs more tokens than the same request without the flag.
+      schema: { type: string, enum: ['true', 'false'] }
     AssociationValueQuery:
       name: association_value
       in: query
@@ -1394,6 +1407,19 @@ components:
             Present only when the token bucket is depleted. Advises that usage
             should be reduced. Because accounting is currently advisory, the
             request was still served rather than rejected.
+        bucket_size:
+          type: integer
+          description: >-
+            Capacity the bucket was refilled to for the current window. Plan the
+            window against this rather than an assumed default, since the size
+            can be reduced while server load is high.
+        throttle_warning:
+          type: string
+          description: >-
+            Present only when the current window's refill was reduced because
+            server load is high, i.e. `bucket_size` is below this key's normal
+            capacity. Advises reducing work this minute; capacity returns on a
+            later refill as load drops.
         last_refill_time:
           type: integer
           description: Epoch milliseconds of the last token-bucket refill.
@@ -1444,8 +1470,10 @@ components:
             - invalid_request
             - invalid_timestamp
             - invalid_limit
+            - duplicate_job_name
             - not_found
             - forbidden
+            - job_owner_required
             - token_rate_limit_exceeded
             - server_busy
             - extended_access_required
@@ -1567,19 +1595,21 @@ components:
       type: object
       required: [name, model]
       properties:
-        name: { type: string, description: Name of the job. }
+        name: { type: string, description: 'Name of the job. Must be unique within your company, otherwise the request fails with `400` `duplicate_job_name`. Leading and trailing whitespace is trimmed, and a name that is blank once trimmed fails with `400` `invalid_request`.' }
         model: { type: string, description: Model of the job (stored on `job_creator`). }
         map_styles: { type: string, description: Map style for the job (e.g. `default`). }
         metadata: { type: object, additionalProperties: true, description: Flat map of job metadata. }
         sharing: { $ref: '#/components/schemas/SharingMap', description: 'Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing).' }
+        project_folder: { type: string, description: 'Project folder to place the job in. The first segment must be your company id exactly (e.g. `my_company/Region/2026`) and no segment may be empty (no `//` and no trailing `/`), otherwise the request fails with `400` `invalid_request`. Defaults to your company root, and is ignored in favor of the owning company when the model belongs to another company.' }
     UpdateJobBody:
       type: object
       properties:
-        name: { type: string, description: Name of the job. }
+        name: { type: string, description: 'Name of the job. Must be unique within the job owner company, otherwise the request fails with `400` `duplicate_job_name`. A name that is blank once trimmed fails with `400` `invalid_request`. Only the job owner company may rename a job.' }
         model: { type: string, description: Model of the job. }
         map_styles: { type: string, description: Map style for the job (e.g. `default`). }
         metadata: { type: object, additionalProperties: true, description: Flat map of job metadata. }
         sharing: { $ref: '#/components/schemas/SharingMap', description: 'Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing).' }
+        project_folder: { type: string, description: 'Project folder to move the job to. The first segment must be the job owner company id exactly (e.g. `my_company/Region/2026`) and no segment may be empty (no `//` and no trailing `/`), otherwise the request fails with `400` `invalid_request`. Only the job owner company may change this; other companies get a `403` `job_owner_required`.' }
 
     Node:
       type: object
@@ -1723,11 +1753,44 @@ components:
             - { type: boolean, enum: [true] }
             - { type: 'null' }
 
+    MRViolationGroup:
+      type: object
+      properties:
+        element_id: { type: string, description: 'Id of the photo element these violations belong to.' }
+        shorthand: { type: ['string', 'null'], description: 'Make ready shorthand of that photo element.' }
+        heading:
+          type: string
+          description: >
+            Heading shown above the violations, e.g. `Comms must be:`. The name is left
+            out (`" must be:"`) when the make ready rule has no shorthand.
+        violations:
+          type: array
+          description: 'The violations as displayed, e.g. `40" below Neutral`.'
+          items: { type: string }
+        exceptions:
+          type: array
+          description: "Exceptions listed on the element's make ready model. Empty if there are none."
+          items: { type: string }
+    MRViolations:
+      type: object
+      description: >
+        Make ready clearance violations for a photo element, matching the text shown
+        when the element's move handle info panel is expanded in Make Ready View. The
+        panel covers the element and its child elements. Only returned when
+        `include_mr_violations=true`.
+      properties:
+        groups:
+          type: array
+          description: >
+            One entry per element (the element itself, then its children in photo order)
+            that has current violations. Empty if nothing is in violation.
+          items: { $ref: '#/components/schemas/MRViolationGroup' }
     PhotoElement:
       type: object
       additionalProperties: true
       properties:
         id: { type: string }
+        mr_violations: { $ref: '#/components/schemas/MRViolations' }
     PhotoElementResponse:
       allOf:
         - $ref: '#/components/schemas/SuccessEnvelope'

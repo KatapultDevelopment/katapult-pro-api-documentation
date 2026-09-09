@@ -19,7 +19,8 @@ async function run() {
   try {
     const response = await axios({
       method: 'get',
-      url: `${URL_PATH}/jobs/${JOB_ID}/photos/${PHOTO_ID}/photo_elements/${ELEMENT_ID}?api_key=${API_KEY}`,
+      // Drop include_mr_violations to skip the make ready clearance calculation (and its extra token cost).
+      url: `${URL_PATH}/jobs/${JOB_ID}/photos/${PHOTO_ID}/photo_elements/${ELEMENT_ID}?api_key=${API_KEY}&include_mr_violations=true`,
     });
     console.log('Status:', response.status);
     console.log(JSON.stringify(response.data, null, 2));

@@ -10,12 +10,14 @@ import requests
 URL_PATH = 'https://katapultpro.com/api/v3'
 API_KEY = '<<YOUR_API_KEY>>'
 
-# Body: name and model are required; map_styles, metadata, and sharing are optional.
+# Body: name and model are required; map_styles, metadata, sharing, and project_folder are optional.
+# project_folder must start with your company id exactly; omit it to create the job in the company root.
 body = {
     'name': 'API Example Job',
     'model': 'your-model-name',
     'metadata': {'city': 'Buffalo', 'status': 'in_progress'},
     'sharing': {},
+    'project_folder': 'your_company/Region/2026',
 }
 
 try:
