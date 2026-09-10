@@ -17,7 +17,8 @@ ELEMENT_ID = '<<YOUR_ELEMENT_ID>>'
 
 resp = requests.get(
     f'{URL_PATH}/jobs/{JOB_ID}/photos/{PHOTO_ID}/photo_elements/{ELEMENT_ID}',
-    params={'api_key': API_KEY},
+    # Drop include_mr_violations to skip the make ready clearance calculation (and its extra token cost).
+    params={'api_key': API_KEY, 'include_mr_violations': 'true'},
 )
 print('Status:', resp.status_code)
 print(resp.json())

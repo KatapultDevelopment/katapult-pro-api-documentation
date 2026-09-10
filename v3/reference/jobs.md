@@ -47,11 +47,12 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `name` | string | ✓ | Name of the job. |
+| `name` | string | ✓ | Name of the job. Must be unique within your company, otherwise the request fails with `400` `duplicate_job_name`. Leading and trailing whitespace is trimmed, and a name that is blank once trimmed fails with `400` `invalid_request`. |
 | `model` | string | ✓ | Model of the job (stored on `job_creator`). |
 | `map_styles` | string |  | Map style for the job (e.g. `default`). |
 | `metadata` | object |  | Flat map of job metadata. |
 | `sharing` | object |  | Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing). |
+| `project_folder` | string |  | Project folder to place the job in. The first segment must be your company id exactly (e.g. `my_company/Region/2026`) and no segment may be empty (no `//` and no trailing `/`), otherwise the request fails with `400` `invalid_request`. Defaults to your company root, and is ignored in favor of the owning company when the model belongs to another company. |
 
 ### Get a job (partial data)
 
@@ -93,11 +94,12 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `name` | string |  | Name of the job. |
+| `name` | string |  | Name of the job. Must be unique within the job owner company, otherwise the request fails with `400` `duplicate_job_name`. A name that is blank once trimmed fails with `400` `invalid_request`. Only the job owner company may rename a job. |
 | `model` | string |  | Model of the job. |
 | `map_styles` | string |  | Map style for the job (e.g. `default`). |
 | `metadata` | object |  | Flat map of job metadata. |
 | `sharing` | object |  | Flat map of company id to permission (`read` or `write`); the owner company is added automatically. See [Sharing](#sharing). |
+| `project_folder` | string |  | Project folder to move the job to. The first segment must be the job owner company id exactly (e.g. `my_company/Region/2026`) and no segment may be empty (no `//` and no trailing `/`), otherwise the request fails with `400` `invalid_request`. Only the job owner company may change this; other companies get a `403` `job_owner_required`. |
 
 ### Raw job write
 

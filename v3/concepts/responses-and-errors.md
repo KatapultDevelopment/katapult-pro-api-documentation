@@ -65,7 +65,9 @@ type ErrorResponse = {
 | 400 | `invalid_request` | Generic request validation failure. |
 | 400 | `invalid_timestamp` | A `start_time`/`end_time` was not valid ISO-8601 or Unix seconds. |
 | 400 | `invalid_limit` | A `limit` query parameter was not a positive number. |
+| 400 | `duplicate_job_name` | A job with the requested name already exists in the company. |
 | 403 | `extended_access_required` | The endpoint requires extended API access. |
+| 403 | `job_owner_required` | Only the job owner company may change the requested field. |
 | 403 | `forbidden` | Requested a company that is not your own. |
 | 404 | `not_found` | The requested resource does not exist. |
 | 429 | `server_busy` | The API is shedding load during high database pressure. Retry after the `Retry-After` interval. |

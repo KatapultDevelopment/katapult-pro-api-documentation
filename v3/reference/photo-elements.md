@@ -34,6 +34,12 @@ Path parameters:
 | `job_id` | string | Id of the job. |
 | `photo_id` | string | Id of the photo. |
 
+Query parameters:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `include_mr_violations` | `true` \| `false` | If `"true"`, each photo element includes an `mr_violations` object with the element's make ready clearance violations. This runs the make ready clearance calculation for the whole photo, so it reads additional job and model data and costs more tokens than the same request without the flag. |
+
 ### Create a photo element
 
 ```sh
@@ -75,6 +81,12 @@ Path parameters:
 | `job_id` | string | Id of the job. |
 | `photo_id` | string | Id of the photo. |
 | `element_id` | string | Id of the photo element. |
+
+Query parameters:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `include_mr_violations` | `true` \| `false` | If `"true"`, each photo element includes an `mr_violations` object with the element's make ready clearance violations. This runs the make ready clearance calculation for the whole photo, so it reads additional job and model data and costs more tokens than the same request without the flag. |
 
 ### Update a photo element
 
@@ -128,3 +140,44 @@ Path parameters:
 | `element_id` | string | Id of the photo element. |
 
 <!-- END GENERATED: Photo Elements -->
+
+## Make ready violations
+
+Add `include_mr_violations=true` to either GET endpoint to include an
+`mr_violations` object on each returned element. These are the same violations
+shown when you expand an element's move handle info panel in Make Ready View.
+
+```json
+"mr_violations": {
+  "groups": [
+    {
+      "element_id": "-OZOsZRC4nOZaKObdcy2",
+      "shorthand": "Comms",
+      "heading": "Comms must be:",
+      "violations": ["12\" below Proposed Fiber", "40\" below Neutral", "40\" below Primary"],
+      "exceptions": ["Except when guarded"]
+    }
+  ]
+}
+```
+
+The panel covers the element **and its child elements**, so `mr_violations` does
+too.
+
+- `groups` — one entry per element that has current (proposed, post move)
+  violations: the element itself first, then its children in photo order. Empty
+  if nothing is in violation.
+  - `heading` and `violations` are the lines the panel renders. A violation line
+    reads `<clearance>" <direction> <shorthand>`, meaning the element must be
+    that many inches above/below/away from an element with that make ready
+    shorthand.
+  - `exceptions` — exceptions listed on that element's make ready model (the
+    panel shows these in yellow, flagged with `*`). Empty if there are none.
+
+An element with no violations — including one with no matching make ready model —
+returns `{ "groups": [] }`.
+
+The flag runs the make ready clearance calculation for the entire photo, which
+reads the photo's associated node or section, the job's traces, and the job
+model's make ready configuration. Requests that use it cost more tokens than the
+same request without it.
