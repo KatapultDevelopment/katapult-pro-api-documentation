@@ -11,7 +11,7 @@ Create, read, update, and archive jobs.
 | `POST` | [`/jobs`](#create-a-job) | 17 | Create a job |
 | `GET` | [`/jobs/{job_id}`](#get-a-job-partial-data) | 3 | Get a job (partial data) |
 | `POST` | [`/jobs/{job_id}`](#update-a-job) | 49 | Update a job |
-| `POST` | [`/jobs/{job_id}/raw`](#raw-job-write) 🔒 | 1 | Raw job write |
+| `POST` | [`/jobs/{job_id}/raw`](#raw-job-write) 🔒 | Variable | Raw job write |
 | `GET` | [`/jobs/{job_id}/status`](#get-job-status) | 1 | Get job status |
 | `POST` | [`/jobs/{job_id}/status`](#update-job-status) | 1 | Update job status |
 
@@ -109,9 +109,9 @@ Body fields:
 POST https://katapultpro.com/api/v3/jobs/{job_id}/raw
 ```
 
-**Average token cost:** 1
+**Average token cost:** Variable
 
-**Restricted — requires extended API access, which is disabled in production.** Writes raw path/value data directly to a job. Body keys are job-relative paths (e.g. `nodes/{node_id}` or `nodes` for a full replace); values are written as-is, with `null` deleting a path. Allowed top-level keys: `nodes`, `connections`, `photos`, `photo_summary`, `files`, `traces`, `compatible_units`, `warning_reports`. Reserved keys (`metadata`, `name`, `model`, `map_styles`, `sharing`) must use the non-raw update endpoint. See `../reference/restricted.md`.
+**Restricted — requires extended API access, which is disabled in production.** Writes raw path/value data directly to a job. The token cost varies with how much data is written. **Warning:** data is written as-is; you are responsible for ensuring it is correct and preserves data integrity. The only automatic guarantee is that map styles are updated to reflect the new data. Body keys are job-relative paths (e.g. `nodes/{node_id}` or `nodes` for a full replace); values are written as-is, with `null` deleting a path. Allowed top-level keys: `nodes`, `connections`, `photos`, `photo_summary`, `files`, `traces`, `compatible_units`, `warning_reports`. Reserved keys (`metadata`, `name`, `model`, `map_styles`, `sharing`) must use the non-raw update endpoint. See `../reference/restricted.md`.
 
 Path parameters:
 
