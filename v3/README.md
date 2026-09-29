@@ -55,7 +55,7 @@ in [Quick start](#quick-start) above.
 | `POST` | [`/jobs`](reference/jobs.md#create-a-job) | 17 | Create a job |
 | `GET` | [`/jobs/{job_id}`](reference/jobs.md#get-a-job-partial-data) | 3 | Get a job (partial data) |
 | `POST` | [`/jobs/{job_id}`](reference/jobs.md#update-a-job) | 49 | Update a job |
-| `POST` | [`/jobs/{job_id}/raw`](reference/jobs.md#raw-job-write) 🔒 | 1 | Raw job write |
+| `POST` | [`/jobs/{job_id}/raw`](reference/jobs.md#raw-job-write) 🔒 | Variable | Raw job write |
 | `GET` | [`/jobs/{job_id}/status`](reference/jobs.md#get-job-status) | 1 | Get job status |
 | `POST` | [`/jobs/{job_id}/status`](reference/jobs.md#update-job-status) | 1 | Update job status |
 
