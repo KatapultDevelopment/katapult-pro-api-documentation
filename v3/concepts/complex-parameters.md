@@ -158,6 +158,22 @@ nests it under another element, and `trace_id` adds it to a trace. On update,
 set `parent_id` to `null` to de-nest. `pixel_selection` may only be set on
 top-level (un-nested) elements.
 
+`parent_id` must name another element on the same photo. An id that matches no
+element returns `404 not_found`, and nesting an element under itself or one of
+its own children returns `400 invalid_request`.
+
+Nested elements take their height from their top-level parent:
+
+- Nesting an element removes its own `pixel_selection` and `manual_height`.
+- A nested point element does not need a `pixel_selection`.
+- A top-level point element always needs one. Creating it without
+  `pixel_selection`, or moving a nested point element to the top level
+  (`parent_id: null`) without one in the same request, returns
+  `400 invalid_request`.
+
+Chip elements never take `pixel_selection` or `manual_height`, nested or not.
+Whether an element type is a point or a chip comes from the job's model.
+
 ## Make ready directives
 
 The node and section read endpoints can attach computed **make ready
