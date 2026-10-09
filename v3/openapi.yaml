@@ -780,6 +780,13 @@ paths:
       tags: [Photo Elements]
       operationId: createPhotoElement
       summary: Create a photo element
+      description: >
+        A top-level point element (a type the job model defines as a point
+        marker) requires `pixel_selection`; a chip element cannot have
+        `pixel_selection` or `manual_height`. Breaking either rule returns
+        `400 invalid_request`. A `parent_id` that names no element on the photo
+        returns `404 not_found`. See
+        [nesting photo elements](../concepts/complex-parameters.md#nesting-photo-elements-parent_id-and-trace_id).
       x-average-token-cost: 515
       requestBody:
         required: true
@@ -820,6 +827,11 @@ paths:
       description: >
         Updates the element. If no element with the id exists, one is created
         (unless `onlyIfExists=true`). `element_type` may only be set on create.
+        A `parent_id` that names no element on the photo returns `404 not_found`,
+        and one that names this element or one of its children returns
+        `400 invalid_request`. Moving a point element to the top level
+        (`parent_id: null`) requires `pixel_selection` in the same request. See
+        [nesting photo elements](../concepts/complex-parameters.md#nesting-photo-elements-parent_id-and-trace_id).
       x-average-token-cost: 994
       parameters:
         - $ref: '#/components/parameters/OnlyIfExists'
@@ -839,6 +851,9 @@ paths:
       tags: [Photo Elements]
       operationId: deletePhotoElement
       summary: Delete a photo element
+      description: >
+        Deletes the element and any elements nested under it. Returns
+        `404 not_found` if no element with the id exists on the photo.
       x-average-token-cost: 933
       responses:
         '200':

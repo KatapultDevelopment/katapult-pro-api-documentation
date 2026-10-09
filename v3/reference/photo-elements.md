@@ -48,6 +48,8 @@ POST https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/photo_elemen
 
 **Average token cost:** 515
 
+A top-level point element (a type the job model defines as a point marker) requires `pixel_selection`; a chip element cannot have `pixel_selection` or `manual_height`. Breaking either rule returns `400 invalid_request`. A `parent_id` that names no element on the photo returns `404 not_found`. See [nesting photo elements](../concepts/complex-parameters.md#nesting-photo-elements-parent_id-and-trace_id).
+
 Path parameters:
 
 | Parameter | Type | Description |
@@ -96,7 +98,7 @@ POST https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/photo_elemen
 
 **Average token cost:** 994
 
-Updates the element. If no element with the id exists, one is created (unless `onlyIfExists=true`). `element_type` may only be set on create.
+Updates the element. If no element with the id exists, one is created (unless `onlyIfExists=true`). `element_type` may only be set on create. A `parent_id` that names no element on the photo returns `404 not_found`, and one that names this element or one of its children returns `400 invalid_request`. Moving a point element to the top level (`parent_id: null`) requires `pixel_selection` in the same request. See [nesting photo elements](../concepts/complex-parameters.md#nesting-photo-elements-parent_id-and-trace_id).
 
 Path parameters:
 
@@ -130,6 +132,8 @@ DELETE https://katapultpro.com/api/v3/jobs/{job_id}/photos/{photo_id}/photo_elem
 ```
 
 **Average token cost:** 933
+
+Deletes the element and any elements nested under it. Returns `404 not_found` if no element with the id exists on the photo.
 
 Path parameters:
 
