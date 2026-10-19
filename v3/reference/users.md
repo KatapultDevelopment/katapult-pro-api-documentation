@@ -78,7 +78,7 @@ POST https://katapultpro.com/api/v3/users/{user_id}/active_state
 
 **Average token cost:** 1
 
-Sets the active state for a specific user. Sets `source` to `api` and `last_updated` to the current server time. Returns the new active state. Requires extended API access and the `enable_api_user_state_calls` feature flag. The caller must either be the user being updated or a company admin (otherwise 403 `forbidden`); the target user must exist (otherwise 404 `not_found`). Note that the target user's client only visually applies the new state if they have opted in to `allow_api_active_state` in their account settings — the first API-driven change prompts them to accept or deny.
+Sets the active state for a specific user. Sets `source` to `api` and `last_updated` to the current server time. Returns the new active state. Requires extended API access and the `enable_api_user_state_calls` feature flag. The caller must either be the user being updated or a company admin (otherwise 403 `forbidden`); the target user must exist (otherwise 404 `not_found`). Note that the target user's client only visually applies the new state if they have opted in to `allow_api_active_state` in their account settings — the first API-driven change that would move their view prompts them to accept or deny. A job `path` (`jobs/{job_id}`) switches every open tab on `page` to that job; add `current_job_id` to switch only the tabs that have that job open.
 
 Path parameters:
 
@@ -90,21 +90,24 @@ Body fields:
 
 | Field | Type | Required | Description |
 | --- | --- | :---: | --- |
-| `path` | string | ✓ | The path to record as the user's last activity. Always starts with `jobs/{job_id}/`; the exact shape depends on the entity. See [Activity paths](#activity-paths). |
+| `path` | string | ✓ | The path to record as the user's last activity. Always starts with `jobs/{job_id}`; the exact shape depends on the entity. See [Activity paths](#activity-paths). |
 | `page` | `map` \| `photos` | ✓ | The page to apply the user state change to. |
+| `current_job_id` | string |  | Only allowed with a job `path` (`jobs/{job_id}`). Only tabs that have this job open switch to the job in `path`. |
 
 <!-- END GENERATED: Users -->
 
 ## Activity paths
 
 The `path` field records **where** in a job the user is working. It always
-starts with `jobs/{job_id}/`, and for every entity except a marker it mirrors
+starts with `jobs/{job_id}`, and for every entity except a marker it mirrors
 that resource's REST endpoint with the leading slash removed. Pair `path` with
 the `page` the entity is shown on: `map` for map entities (nodes, connections,
-sections) and `photos` for photo entities (photos and markers).
+sections) and `photos` for photo entities (photos and markers). A job can be
+sent with either page.
 
 | Entity | `path` template | `page` |
 | --- | --- | --- |
+| Job | `jobs/{job_id}` | `map` or `photos` |
 | Node | `jobs/{job_id}/nodes/{node_id}` | `map` |
 | Connection | `jobs/{job_id}/connections/{connection_id}` | `map` |
 | Section | `jobs/{job_id}/connections/{connection_id}/sections/{section_id}` | `map` |
@@ -112,14 +115,40 @@ sections) and `photos` for photo entities (photos and markers).
 | Marker | `jobs/{job_id}/photos/{photo_id}/photofirst_data/{marker_type}/{marker_path}/{marker_id}` | `photos` |
 
 Every template except **Marker** is a REST resource path with the leading `/`
-dropped — see [Nodes](nodes.md), [Connections](connections.md),
+dropped — see [Jobs](jobs.md), [Nodes](nodes.md), [Connections](connections.md),
 [Sections](sections.md), and [Photos](photos.md). A **marker** is a PhotoFirst
 annotation stored under a photo's `photofirst_data`; it has no REST endpoint, so
 its path is built from the photo path plus the marker's internal location:
 `{marker_type}` is the annotation category, `{marker_path}` locates it within
 that category, and `{marker_id}` is the marker's id.
 
+### Switching jobs
+
+A job `path` switches the user's open tabs on `page` to that job. Every other
+entity only applies in a tab that already has its job open, so switch the job
+first, then send the entity.
+
+To switch only the tabs that have a specific job open, add `current_job_id`.
+Tabs on any other job ignore the change. `current_job_id` is only allowed with
+a job `path`; with any other `path` the request is rejected with `400`
+[`invalid_request`](../concepts/responses-and-errors.md).
+
+A tab that will not change (it already has the job open, or `current_job_id`
+does not match) never shows the user the consent prompt.
+
 ### Examples
+
+Switch every open map tab to a job:
+
+```json
+{ "path": "jobs/-O_jobAbc123", "page": "map" }
+```
+
+Switch only the photos tabs that have `-O_jobXyz789` open:
+
+```json
+{ "path": "jobs/-O_jobAbc123", "page": "photos", "current_job_id": "-O_jobXyz789" }
+```
 
 Node on the map:
 

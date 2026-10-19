@@ -1200,7 +1200,10 @@ paths:
         (otherwise 404 `not_found`). Note that the target user's client only
         visually applies the new state if they have opted in to
         `allow_api_active_state` in their account settings — the first
-        API-driven change prompts them to accept or deny.
+        API-driven change that would move their view prompts them to accept or
+        deny. A job `path` (`jobs/{job_id}`) switches every open tab on `page`
+        to that job; add `current_job_id` to switch only the tabs that have
+        that job open.
       requestBody:
         required: true
         content:
@@ -1211,11 +1214,14 @@ paths:
               properties:
                 path:
                   type: string
-                  description: 'The path to record as the user''s last activity. Always starts with `jobs/{job_id}/`; the exact shape depends on the entity. See [Activity paths](#activity-paths).'
+                  description: 'The path to record as the user''s last activity. Always starts with `jobs/{job_id}`; the exact shape depends on the entity. See [Activity paths](#activity-paths).'
                 page:
                   type: string
                   enum: [map, photos]
                   description: The page to apply the user state change to.
+                current_job_id:
+                  type: string
+                  description: 'Only allowed with a job `path` (`jobs/{job_id}`). Only tabs that have this job open switch to the job in `path`.'
       responses:
         '200':
           description: The updated active state.
@@ -1963,6 +1969,9 @@ components:
           type: string
           enum: [map, photos]
           description: Which page the activity occurred on.
+        current_job_id:
+          type: [string, 'null']
+          description: The `current_job_id` sent with an API job change, otherwise `null` or absent.
 
     UserListItem:
       type: object
