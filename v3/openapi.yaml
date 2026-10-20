@@ -1170,7 +1170,7 @@ paths:
         updated timestamp, the source of activity (`client` or `api`), the
         path of the last activity, and the page (`map` or `photos`). Returns
         `null` if no active state has been recorded. Requires extended API
-        access and the **Enable API User State Calls** feature flag.
+        access and a feature flag.
       responses:
         '200':
           description: The user's active state, or `null` if none exists.
@@ -1194,7 +1194,7 @@ paths:
       description: >
         Sets the active state for a specific user. Sets `source` to `api` and
         `last_updated` to the current server time. Returns the new active state.
-        Requires extended API access and the **Enable API User State Calls**
+        Requires extended API access and a
         feature flag. The caller must either be the user being updated or a
         company admin (otherwise 403 `forbidden`); the target user must exist
         (otherwise 404 `not_found`). Note that the target user's client only
@@ -1676,7 +1676,7 @@ components:
         `include_mr_directives_by_company=true` (never both). The shape depends
         on which parameter was used. Directive **content** depends on the job's
         model configuration (a configurable directive module when the
-        **Configurable MR Directives** feature is enabled for your company,
+        relevant feature flag is enabled for your company,
         otherwise the legacy make ready details); the response shape does not.
         See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives).
       oneOf:

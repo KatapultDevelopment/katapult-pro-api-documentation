@@ -2,7 +2,7 @@
 //* Name: node-setUserActiveState.js
 //* Description: Katapult Pro API v3 — Set a user's active state (move their view to a path/page).
 //* RESTRICTED:  This endpoint requires extended API access, which is DISABLED IN PRODUCTION, and
-//*              the 'Enable API User State Calls' feature flag enabled for your company.
+//*              a feature flag enabled for your company.
 //*              Calling it without extended access returns an 'extended_access_required' error.
 //*              Note: the target user's client only *visually* moves if they've opted in to
 //*              API state changes (they're prompted to accept/deny the first time this
