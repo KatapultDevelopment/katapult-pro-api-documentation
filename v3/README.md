@@ -8,7 +8,7 @@ traces), plus models and users.
 - **Authentication:** API key, passed as the `api_key` query parameter.
 - **Machine-readable spec:** [`openapi.yaml`](openapi.yaml) (OpenAPI 3.1) is the
   canonical contract. The endpoint tables in [`reference/`](reference/) are
-  generated from it — see [Maintaining these docs](#maintaining-these-docs).
+  generated from it.
 
 > **For AI agents:** [`openapi.yaml`](openapi.yaml) is the single source of
 > truth for every endpoint, parameter, schema, and average token cost (encoded
@@ -175,21 +175,21 @@ in [Quick start](#quick-start) above.
 - [Guides](guides/) — end-to-end workflows.
 - [Code examples](ApiExamples/) — Node.js and Python.
 
-## Maintaining these docs
+<!--
+MAINTAINING THESE DOCS
 
-`openapi.yaml` is the only hand-edited source for endpoint contracts. After
+openapi.yaml is the only hand-edited source for endpoint contracts. After
 changing it, regenerate the derived artifacts from the repository root:
 
-```sh
-npm install      # first time only
-npm run docs:validate   # lint the spec
-npm run docs:gen        # regenerate reference tables
-```
+    npm install             # first time only
+    npm run docs:validate   # lint the spec
+    npm run docs:gen        # regenerate reference tables
 
-The generated endpoint tables live between `<!-- BEGIN GENERATED -->` /
-`<!-- END GENERATED -->` markers on each reference page, and the consolidated
-[Endpoint reference](#endpoint-reference) index on this page lives between
-`<!-- BEGIN GENERATED: Endpoint Index -->` / `<!-- END GENERATED: Endpoint Index -->`.
-`npm run docs:gen` regenerates all of them. Prose outside those markers — including
-the **Other pages** list above and the Quick start welcome example — is preserved
-and hand-maintained, as are the code examples in `ApiExamples/`.
+The generated endpoint tables live between the BEGIN GENERATED / END GENERATED
+marker comments on each reference page, and the consolidated Endpoint reference
+index on this page lives between the BEGIN GENERATED: Endpoint Index /
+END GENERATED: Endpoint Index marker comments. npm run docs:gen regenerates all
+of them. Prose outside those markers (including the Other pages list above and
+the Quick start welcome example) is preserved and hand-maintained, as are the
+code examples in ApiExamples/.
+-->
