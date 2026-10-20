@@ -12,7 +12,7 @@ Extended API access exempts calls from token metering — these callers are
 endpoint and full model fetches (see below). Their `meta.token_count` is
 informational only. It is granted only when **both** are true:
 
-- The caller's company has the `can_grant_extended_api_access` feature enabled.
+- The caller's company has the **Can Grant Extended API Access** feature enabled.
 - The caller's user has the `extended_api_access` role.
 
 It is always off in the production environment (`katapultpro.com`).
@@ -74,7 +74,7 @@ GET  https://katapultpro.com/api/v3/users/{user_id}/active_state
 POST https://katapultpro.com/api/v3/users/{user_id}/active_state
 ```
 
-**Requires extended API access** · **Requires `enable_api_user_state_calls` feature flag**
+**Requires extended API access** · **Requires the Enable API User State Calls feature flag**
 
 ### GET — Get user active state
 

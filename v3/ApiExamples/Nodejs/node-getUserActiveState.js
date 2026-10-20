@@ -2,7 +2,7 @@
 //* Name: node-getUserActiveState.js
 //* Description: Katapult Pro API v3 — Get a user's active state (their last known path/page).
 //* RESTRICTED:  This endpoint requires extended API access, which is DISABLED IN PRODUCTION, and
-//*              the 'enable_api_user_state_calls' feature flag enabled for your company.
+//*              the 'Enable API User State Calls' feature flag enabled for your company.
 //*              Calling it without extended access returns an 'extended_access_required' error.
 //* Disclaimer: Katapult Engineering assumes no responsibility or liability for any errors
 //*             or omissions in the content of this Katapult API Example.

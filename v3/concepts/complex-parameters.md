@@ -231,6 +231,6 @@ curl "https://katapultpro.com/api/v3/jobs/JOB/nodes?api_key=KEY&include_mr_direc
 
 > **Note:** These parameters control the response **shape** only. Directive
 > **content** depends on the job's model configuration — a configurable
-> directive module when the `configurable_mr_directives` feature is enabled for
+> directive module when the **Configurable MR Directives** feature is enabled for
 > your company, otherwise the legacy make ready details. The shape of
 > `mr_directives` is the same either way.
