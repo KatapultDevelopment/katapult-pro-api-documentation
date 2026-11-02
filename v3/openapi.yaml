@@ -78,7 +78,7 @@ paths:
       description: >
         Returns a welcome message. Useful as a quick check that your API key
         authenticates successfully. This route is not charged tokens, but it is
-        still subject to authentication and the general rate limit.
+        still subject to authentication.
       x-average-token-cost: 0
       responses:
         '200':
@@ -1551,7 +1551,6 @@ components:
             - INVALID API KEY
             - INVALID USER
             - PERMISSION DENIED
-            - GENERAL RATE LIMIT EXCEEDED
             - INTERNAL ERROR
 
     TrackedActionRecord:

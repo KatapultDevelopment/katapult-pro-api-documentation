@@ -11,8 +11,8 @@ find out where to go next.
 ## 1. Generate an API key
 
 Generate a key from the **API Key** widget on the Katapult Pro home page. Each
-key has its own token bucket and rate limit, so treat it like a password — keep
-it out of source control and out of shared logs.
+key has its own token bucket, so treat it like a password — keep it out of
+source control and out of shared logs.
 
 The examples below use `YOUR_API_KEY` as a placeholder; substitute your real
 key.
@@ -108,9 +108,9 @@ but `meta` carries a `token_warning`; compute how long to wait for a refill from
 wait_ms = max(0, (last_refill_time + 60000) - now)
 ```
 
-The only response shape that omits `meta` is a middleware-level failure (a bad
-key, or the general rate limit — at most 1 call per 50 ms), because those are
-rejected before a route handler runs.
+The only response shape that omits `meta` is a middleware-level failure (such
+as a bad key or permission failure), because those are rejected before a route
+handler runs.
 
 See [Rate limits & the token bucket](../rate-limits.md) for average token costs,
 refill behavior, and client guidance.

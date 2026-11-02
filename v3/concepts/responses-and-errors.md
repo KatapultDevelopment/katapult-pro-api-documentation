@@ -76,9 +76,9 @@ type ErrorResponse = {
 
 ## Authentication & middleware errors
 
-Failures that occur **before** your request reaches a route handler (bad/missing
-API key, permission denied, the general rate limit) use a simpler shape with
-only an `error` field and **no `meta`**:
+Failures that occur **before** your request reaches a route handler (such as a
+bad/missing API key or permission denied) use a simpler shape with only an
+`error` field and **no `meta`**:
 
 ```json
 { "error": "INVALID API KEY" }
@@ -90,7 +90,6 @@ only an `error` field and **no `meta`**:
 | 401 | `INVALID API KEY` | The API key was not found. |
 | 403 | `INVALID USER` | The user for the key was deleted or not found. |
 | 403 | `PERMISSION DENIED` | The user lacks the `api_access` permission. |
-| 429 | `GENERAL RATE LIMIT EXCEEDED` | Calls arrived faster than 1 per 50 ms. |
 | 500 | `INTERNAL ERROR` | Server could not initialize. |
 
 ## Not implemented

@@ -1,32 +1,14 @@
 # Rate Limits & the Token Bucket
 
-All REST APIs employ rate limits to ensure fair use and prevent abuse. v3 uses
-two independent strategies. If you send too many requests, or run out of
-tokens, you receive a response with HTTP status `429`.
-
-1. [General rate limit](#general-rate-limit) — caps how *frequently* you can call.
-2. [Token system](#token-system) — caps how *much* you can do per minute.
+v3 tracks API usage with a per-key token bucket. Token costs scale with the data
+each call uses, and the bucket refills over time. Bucket refill amounts may be dependent on current database load. During high database load, the API may also return HTTP `429`
+with `server_busy`.
 
 > **Running a large or long-running script?** Token capacity can be **smaller
 > during busy/peak hours**, so schedule bulk and batch jobs for **off-peak /
 > overnight** windows, and write them to **adapt to the balance they actually
 > receive**. See [Peak hours & overnight batch jobs](#peak-hours--overnight-batch-jobs)
 > and [Handling a smaller-than-expected refill](#handling-a-smaller-than-expected-refill).
-
-## General rate limit
-
-Each API key may make **at most 1 call per 50 milliseconds** (~20 calls/second).
-Calls that arrive too quickly are rejected with HTTP `429` and the body:
-
-```json
-{ "error": "GENERAL RATE LIMIT EXCEEDED" }
-```
-
-> Note: this error is produced before your request reaches a route handler, so
-> it uses the short `{ "error": ... }` shape and does **not** include a `meta`
-> object. See [Responses & errors](concepts/responses-and-errors.md).
-
-Keep a small delay (≥ 50 ms) between sequential calls.
 
 ## Token system
 
@@ -137,9 +119,7 @@ than assuming fixed numbers:
    `token_rate_limit_exceeded`), sleep until the next refill
    (`last_refill_time + 60000`), then continue. Use exponential backoff **with
    jitter** as a fallback if you don't have a fresh `meta`.
-4. **Respect the general limit too.** Keep ≥ 50 ms between calls regardless of
-   token balance.
-5. **Spread big jobs across minutes.** With a bucket that refills each minute,
+4. **Spread big jobs across minutes.** With a bucket that refills each minute,
    size each minute's work to the balance you observe in `meta` — do fewer, or
    smaller, operations per window rather than draining the bucket in a burst.
 
