@@ -24,7 +24,7 @@
 // {
 //     class Program
 //     {
-//         public static string my_api_key = "api_key=sJ3zygFJN_ZU81-3I8w0VLZvFUst_5L-2uuVzXubYbFeAP7vr52VRc1BMlIOQ0bHks1EfMSe8rBYhNHfoec9kBjj9wsYJPXseA8gb1cOhBC6Ne8MVceNs4kz5wiNDuHtECn0tM41pYlMYJ8eSKe75F_Ct4GfWO15sVg2sRGvw5kMfmfnbUEmYd6Cx_a6lAPXcaxW4ZdkRgRajYqKA-58oXYOIKpP9Buna74ZgzYPdAXVTmtE3oKkpUzLUQaLdKtgLzn7JaTkRo_RnFpe54Pwt7GVn8mxtCAAA3nDCqX-FmTi9PcIqwU-Lxoxqm6aUy4Mu4rvSj9adVYRR8qUVwEtog";
+//         public static string my_api_key = "api_key={{API_KEY}}";
 //         public static string base_url = "https://training.katapultpro.com/api/v2";
 //         public static string base_url_users = "https://katapultpro.com/api/v2/users";
 //         public static string base_url_jobs = "https://training.katapultpro.com/api/v2/jobs";
