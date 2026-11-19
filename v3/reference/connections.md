@@ -61,7 +61,7 @@ GET https://katapultpro.com/api/v3/jobs/{job_id}/connections/{connection_id}
 
 **Average token cost:** 1
 
-Gets the connection and its sections.
+Gets the connection and its sections. Pass `include_mr_directives` or `include_mr_directives_by_company` to add `mr_directives` to each section.
 
 Path parameters:
 
@@ -69,6 +69,13 @@ Path parameters:
 | --- | --- | --- |
 | `job_id` | string | Id of the job. |
 | `connection_id` | string | Id of the connection. |
+
+Query parameters:
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `include_mr_directives` | `true` \| `false` | If `"true"`, add an `mr_directives` object to each returned node/section holding a single combined make ready summary string (`{ "make_ready_notes": "..." }`). Mutually exclusive with `include_mr_directives_by_company` — sending both `"true"` returns `invalid_request`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
+| `include_mr_directives_by_company` | `true` \| `false` | If `"true"`, add an `mr_directives` object keyed by company name: make ready notes bucketed per company (notes with no company under `Unassigned`), plus a `proposed_attachment` key for proposed-attachment notes when any apply. Mutually exclusive with `include_mr_directives`. See [Make ready directives](../concepts/complex-parameters.md#make-ready-directives). |
 
 ### Update a connection
 
@@ -150,3 +157,20 @@ Create vs. update semantics:
   its breakpoints.
 
 A connection that has breakpoints returns them on `GET`.
+
+## Make ready directives
+
+`GET /jobs/{job_id}/connections/{connection_id}` can attach computed make ready
+directives to each section in the connection's `sections` map, so you don't need
+a separate call per section. It uses the same two mutually exclusive query
+parameters as the section endpoints:
+
+- `include_mr_directives=true` — adds `mr_directives` to each section as a single
+  combined summary: `{ "make_ready_notes": "..." }`.
+- `include_mr_directives_by_company=true` — adds `mr_directives` to each section
+  keyed by company name (unassigned notes under `Unassigned`, proposed-attachment
+  notes under `proposed_attachment`).
+
+Send only one; sending both returns `400 invalid_request`. Sending neither omits
+the field. Full details, response shapes, and examples:
+[Make ready directives](../concepts/complex-parameters.md#make-ready-directives).

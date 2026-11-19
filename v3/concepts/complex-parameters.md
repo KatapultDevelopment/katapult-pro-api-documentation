@@ -194,6 +194,7 @@ Sending **neither** omits `mr_directives` entirely. Available on:
 
 - [`GET /jobs/{job_id}/nodes`](../reference/nodes.md#get-all-nodes)
 - [`GET /jobs/{job_id}/nodes/{node_id}`](../reference/nodes.md#get-a-node)
+- [`GET /jobs/{job_id}/connections/{connection_id}`](../reference/connections.md#get-a-connection) (on each of the connection's `sections`)
 - [`GET /jobs/{job_id}/connections/{connection_id}/sections`](../reference/sections.md#get-all-sections-on-a-connection)
 - [`GET /jobs/{job_id}/connections/{connection_id}/sections/{section_id}`](../reference/sections.md#get-a-section)
 
