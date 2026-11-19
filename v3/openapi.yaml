@@ -465,8 +465,11 @@ paths:
       tags: [Connections]
       operationId: getConnection
       summary: Get a connection
-      description: Gets the connection and its sections.
+      description: Gets the connection and its sections. Pass `include_mr_directives` or `include_mr_directives_by_company` to add `mr_directives` to each section.
       x-average-token-cost: 1
+      parameters:
+        - $ref: '#/components/parameters/IncludeMrDirectives'
+        - $ref: '#/components/parameters/IncludeMrDirectivesByCompany'
       responses:
         '200':
           description: The connection.
@@ -1752,7 +1755,7 @@ components:
         breakpoints:
           $ref: '#/components/schemas/Breakpoints'
           description: 'Polyline geometry (present when set): array of [latitude, longitude] pairs.'
-        sections: { type: object, additionalProperties: true }
+        sections: { type: object, additionalProperties: { $ref: '#/components/schemas/Section' } }
     ConnectionResponse:
       allOf:
         - $ref: '#/components/schemas/SuccessEnvelope'
