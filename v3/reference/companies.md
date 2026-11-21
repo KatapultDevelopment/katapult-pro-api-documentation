@@ -22,7 +22,7 @@ How the two endpoints fit together:
 `start_time` and `end_time` accept either an ISO-8601 string
 (e.g. `2026-06-01T00:00:00Z`) or Unix seconds; both bounds are inclusive. Token
 costs and the per-minute bucket are described in
-[Rate limits & the token bucket](../rate-limits.md).
+[Rate Limits & Tokens](../rate-limits.md).
 
 Each tracked-action record may include a `source` field (`desktop`, `mobile`,
 or `api`) identifying which client recorded the action. It is absent on older

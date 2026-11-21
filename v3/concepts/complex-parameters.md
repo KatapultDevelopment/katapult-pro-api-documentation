@@ -144,7 +144,7 @@ differently based on `paths`:
   route for most integrations.
 
 Prefer `paths` whenever you need only part of a model. See
-[Rate limits & the token bucket](../rate-limits.md#average-token-costs).
+[Rate Limits & Tokens](../rate-limits.md#token-costs).
 
 ```sh
 # Fetch only the sub-paths you need, instead of the whole model:

@@ -9,7 +9,7 @@ Read model options and model data.
 > fetch is **unavailable on `katapultpro.com`**. Request specific `paths`
 > (max 10) instead — this is how most integrations read model data. A full fetch
 > returns the entire model, so it costs far more than a path-scoped fetch. See
-> [Rate limits & the token bucket](../rate-limits.md#average-token-costs).
+> [Rate Limits & Tokens](../rate-limits.md#token-costs).
 
 Full-model vs `paths` fetches differ in both behavior and cost — see
 [Complex & codependent parameters](../concepts/complex-parameters.md#fetching-model-data-full-vs-paths).

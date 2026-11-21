@@ -51,4 +51,4 @@ Authoring conventions for these files are documented in [`STYLE.md`](STYLE.md).
   named `sample.jpg` in the example directory before running those.
 - Every example prints the HTTP status and the response body, so the token
   `meta` and any error `type` are visible. See
-  [Rate limits & the token bucket](../rate-limits.md).
+  [Rate Limits & Tokens](../rate-limits.md).

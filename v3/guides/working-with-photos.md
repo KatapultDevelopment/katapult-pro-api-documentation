@@ -10,12 +10,12 @@ Substitute your own `YOUR_API_KEY` and ids throughout. The ids below
 (`-O_jobAbc123`, `-O_nodeA1`, `-O_connXY`, `-O_sectionM`) carry over from the
 [Building a job](building-a-job.md) walkthrough.
 
-> **Token costs.** Each call deducts tokens from your bucket, and the cost
-> **scales with how much data it reads or writes** — a photo upload moves far
-> more data than a small read, so it costs more. Metering is currently advisory
-> (a depleted bucket is not blocked; `meta` carries a `token_warning`). Read
-> `meta.token_count` on each response and see
-> [Rate limits & the token bucket](../rate-limits.md) for pacing.
+> **Token costs and limits.** Each call deducts tokens, and the cost **scales
+> with how much data it reads or writes** — a photo upload moves far more data
+> than a small read, so it costs more. The per-minute bucket is advisory (a
+> depleted bucket is not blocked; `meta` carries a `token_warning`), but the
+> monthly company limit is enforced. Read `meta` on each response to track both
+> balances and see [Rate Limits & Tokens](../rate-limits.md) for pacing guidance.
 
 ## 1. Upload a photo to a node
 
@@ -34,7 +34,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/nodes/-O_nodeA1/p
 {
   "status": "success",
   "data": { "id": "-O_photo01" },
-  "meta": { "token_count": 99961, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99961,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873120
+  }
 }
 ```
 
@@ -58,7 +62,11 @@ curl "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01/url?api
   "data": {
     "url": "https://storage.googleapis.com/katapultpro-photos/...&Expires=1719054800&Signature=..."
   },
-  "meta": { "token_count": 99959, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99959,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873118
+  }
 }
 ```
 
@@ -84,7 +92,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 {
   "status": "success",
   "data": { "id": "-O_elem01" },
-  "meta": { "token_count": 99934, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99934,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873093
+  }
 }
 ```
 
@@ -111,7 +123,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 {
   "status": "success",
   "data": { "id": "-O_anchor01" },
-  "meta": { "token_count": 99911, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99911,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873070
+  }
 }
 ```
 
@@ -147,7 +163,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 {
   "status": "success",
   "data": {},
-  "meta": { "token_count": 99888, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99888,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873047
+  }
 }
 ```
 
@@ -167,7 +187,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
 {
   "status": "success",
   "data": {},
-  "meta": { "token_count": 99865, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99865,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873024
+  }
 }
 ```
 
@@ -186,5 +210,5 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/photos/-O_photo01
   endpoint contracts.
 - [Building a job](building-a-job.md) — create the job, nodes, connection, and
   section these photos attach to.
-- [Rate limits & the token bucket](../rate-limits.md) — photo uploads are among
+- [Rate Limits & Tokens](../rate-limits.md) — photo uploads are among
   the most data-heavy calls, so pace bulk photo imports accordingly.

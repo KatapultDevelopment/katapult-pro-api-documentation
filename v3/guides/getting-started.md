@@ -57,7 +57,11 @@ curl "https://katapultpro.com/api/v3/users/whoami?api_key=YOUR_API_KEY"
     "user_group": "-O_companyXyz",
     "root_company": "-O_rootCompany"
   },
-  "meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99999,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873120
+  }
 }
 ```
 
@@ -77,7 +81,11 @@ curl "https://katapultpro.com/api/v3/jobs?api_key=YOUR_API_KEY"
   "data": [
     { "id": "-O_jobAbc123", "status": "active", "metadata": { "city": "Buffalo" } }
   ],
-  "meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99999,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873120
+  }
 }
 ```
 
@@ -86,33 +94,39 @@ the payload under `data`, and a `meta` object.
 
 ## 5. Read the token `meta` on every response
 
-Every response from a route handler — both successes **and** errors — includes a
-`meta` object describing your token-bucket state:
+Route-handler responses include a `meta` object with token state. For example:
 
 ```json
-"meta": { "token_count": 99999, "last_refill_time": 1718450000000 }
+"meta": {
+  "token_count": 99999,
+  "last_refill_time": 1718450000000,
+  "company_tokens_remaining": 4873120
+}
 ```
 
 - `token_count` — tokens remaining **after** this request.
 - `last_refill_time` — epoch milliseconds of the bucket's last refill. Your
   bucket refills 60 seconds later, at `last_refill_time + 60000`.
+- `company_tokens_remaining` — tokens your company has left for the month,
+  shared across its API keys.
 
 Read `meta` on every response and let it drive your client's pacing rather than
 hardcoding limits. Per-call costs scale with how much data a call reads or
-writes, and both costs and the bucket size are subject to change. Token metering
-is currently advisory — if you exhaust the bucket the request is still served
-but `meta` carries a `token_warning`; compute how long to wait for a refill from
+writes, and both costs and limits are subject to change. The per-minute bucket
+is currently advisory — if you exhaust it, the request is still served but
+`meta` carries a `token_warning`; compute how long to wait for a refill from
 `meta`:
 
 ```
 wait_ms = max(0, (last_refill_time + 60000) - now)
 ```
 
-The only response shape that omits `meta` is a middleware-level failure (such
-as a bad key or permission failure), because those are rejected before a route
-handler runs.
+The monthly company token limit is enforced; check `company_tokens_remaining`
+before large jobs. Some errors rejected before normal route handling, such as
+authentication failures, may omit token metadata. The monthly-limit error
+includes the relevant company balance and limit details.
 
-See [Rate limits & the token bucket](../rate-limits.md) for average token costs,
+See [Rate Limits & Tokens](../rate-limits.md) for average token costs,
 refill behavior, and client guidance.
 
 ## Where to go next
@@ -124,7 +138,7 @@ refill behavior, and client guidance.
   photos.
 - [Jobs reference](../reference/jobs.md) — the full set of job endpoints,
   parameters, and token costs.
-- [Rate limits & the token bucket](../rate-limits.md) — how to pace heavy or
+- [Rate Limits & Tokens](../rate-limits.md) — how to pace heavy or
   token-intensive scripts.
 - [Code examples](../ApiExamples/) — runnable Node.js and Python examples
   for every endpoint.
