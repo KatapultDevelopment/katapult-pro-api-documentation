@@ -25,7 +25,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "qAgRiXGKu7wrvsgoUIaZFAfXMDmdtN3F05EPVt6if1Ol84oUiUiSgC9JNL_FhlSHLte5MH-ymaKaQ3ctye687DmE0JqPZw2xMLoH2wlGyKlqMVmhjxoqdzRYBJMHw7CYwsLQ63_2W57ksY3PZQ4IVclnk4lP6Kug6s-0o5xDStrtpBdAmysnejSKEhZkHTdkg5oOYrcQ6EItF95dkCdOVms8acN_xl6i4C-nqzXU5LDSHIcVv6soOJGMpvCWQ7swIJabsJRNnHgt-cBy1WdMUlAp0s9HSOhVHdIBJWGKPPkk9DMWHuvfOEszVdepnC-7OdwwLUMybY3a21HkfPHv5g"
+							"value": "{{API_KEY}}"
 						}
 					]
 				}
@@ -56,7 +56,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "qAgRiXGKu7wrvsgoUIaZFAfXMDmdtN3F05EPVt6if1Ol84oUiUiSgC9JNL_FhlSHLte5MH-ymaKaQ3ctye687DmE0JqPZw2xMLoH2wlGyKlqMVmhjxoqdzRYBJMHw7CYwsLQ63_2W57ksY3PZQ4IVclnk4lP6Kug6s-0o5xDStrtpBdAmysnejSKEhZkHTdkg5oOYrcQ6EItF95dkCdOVms8acN_xl6i4C-nqzXU5LDSHIcVv6soOJGMpvCWQ7swIJabsJRNnHgt-cBy1WdMUlAp0s9HSOhVHdIBJWGKPPkk9DMWHuvfOEszVdepnC-7OdwwLUMybY3a21HkfPHv5g"
+							"value": "{{API_KEY}}"
 						}
 					]
 				}
@@ -83,7 +83,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "jAnpK0PWTCpLlkOSciUL_lkpeyi0cICoca1Ahnfl0SEkWRxi7cduwS8CqmraoipG8yvcrSvbxggkqPqMd-uQqyw932JTfnYNhU14_P4J_AfBMP6c6o8tcEIrmTxzYAFlBuYVWZX5MgbjrheiomyX1ewk5r7o9d8sKC5STThO9nxmuwxXDNEE3VsGSQnu4_Tillo5m_bwKVyA3bYN5S_FkSc_yTHO0NuIuEkfRfulNo2X29tYTjbMxwcihvRw_HDbLEsZ7oDbTT_etK2NBiNmXmmASH1LOk8NT8nQOEQlvW2ogpi8sPiqgeqwNSHjQlV75edVS0grDINHfmb-9j-bgA"
+							"value": "{{API_KEY}}"
 						}
 					]
 				}
@@ -110,7 +110,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "qAgRiXGKu7wrvsgoUIaZFAfXMDmdtN3F05EPVt6if1Ol84oUiUiSgC9JNL_FhlSHLte5MH-ymaKaQ3ctye687DmE0JqPZw2xMLoH2wlGyKlqMVmhjxoqdzRYBJMHw7CYwsLQ63_2W57ksY3PZQ4IVclnk4lP6Kug6s-0o5xDStrtpBdAmysnejSKEhZkHTdkg5oOYrcQ6EItF95dkCdOVms8acN_xl6i4C-nqzXU5LDSHIcVv6soOJGMpvCWQ7swIJabsJRNnHgt-cBy1WdMUlAp0s9HSOhVHdIBJWGKPPkk9DMWHuvfOEszVdepnC-7OdwwLUMybY3a21HkfPHv5g"
+							"value": "{{API_KEY}}"
 						}
 					]
 				}
@@ -141,7 +141,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "jAnpK0PWTCpLlkOSciUL_lkpeyi0cICoca1Ahnfl0SEkWRxi7cduwS8CqmraoipG8yvcrSvbxggkqPqMd-uQqyw932JTfnYNhU14_P4J_AfBMP6c6o8tcEIrmTxzYAFlBuYVWZX5MgbjrheiomyX1ewk5r7o9d8sKC5STThO9nxmuwxXDNEE3VsGSQnu4_Tillo5m_bwKVyA3bYN5S_FkSc_yTHO0NuIuEkfRfulNo2X29tYTjbMxwcihvRw_HDbLEsZ7oDbTT_etK2NBiNmXmmASH1LOk8NT8nQOEQlvW2ogpi8sPiqgeqwNSHjQlV75edVS0grDINHfmb-9j-bgB"
+							"value": "{{API_KEY}}"
 						}
 					]
 				}
@@ -169,7 +169,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "jAnpK0PWTCpLlkOSciUL_lkpeyi0cICoca1Ahnfl0SEkWRxi7cduwS8CqmraoipG8yvcrSvbxggkqPqMd-uQqyw932JTfnYNhU14_P4J_AfBMP6c6o8tcEIrmTxzYAFlBuYVWZX5MgbjrheiomyX1ewk5r7o9d8sKC5STThO9nxmuwxXDNEE3VsGSQnu4_Tillo5m_bwKVyA3bYN5S_FkSc_yTHO0NuIuEkfRfulNo2X29tYTjbMxwcihvRw_HDbLEsZ7oDbTT_etK2NBiNmXmmASH1LOk8NT8nQOEQlvW2ogpi8sPiqgeqwNSHjQlV75edVS0grDINHfmb-9j-bgA"
+							"value": "{{API_KEY}}"
 						}
 					]
 				}
@@ -197,7 +197,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "jAnpK0PWTCpLlkOSciUL_lkpeyi0cICoca1Ahnfl0SEkWRxi7cduwS8CqmraoipG8yvcrSvbxggkqPqMd-uQqyw932JTfnYNhU14_P4J_AfBMP6c6o8tcEIrmTxzYAFlBuYVWZX5MgbjrheiomyX1ewk5r7o9d8sKC5STThO9nxmuwxXDNEE3VsGSQnu4_Tillo5m_bwKVyA3bYN5S_FkSc_yTHO0NuIuEkfRfulNo2X29tYTjbMxwcihvRw_HDbLEsZ7oDbTT_etK2NBiNmXmmASH1LOk8NT8nQOEQlvW2ogpi8sPiqgeqwNSHjQlV75edVS0grDINHfmb-9j-bgA"
+							"value": "{{API_KEY}}"
 						}
 					]
 				}
@@ -226,7 +226,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "jAnpK0PWTCpLlkOSciUL_lkpeyi0cICoca1Ahnfl0SEkWRxi7cduwS8CqmraoipG8yvcrSvbxggkqPqMd-uQqyw932JTfnYNhU14_P4J_AfBMP6c6o8tcEIrmTxzYAFlBuYVWZX5MgbjrheiomyX1ewk5r7o9d8sKC5STThO9nxmuwxXDNEE3VsGSQnu4_Tillo5m_bwKVyA3bYN5S_FkSc_yTHO0NuIuEkfRfulNo2X29tYTjbMxwcihvRw_HDbLEsZ7oDbTT_etK2NBiNmXmmASH1LOk8NT8nQOEQlvW2ogpi8sPiqgeqwNSHjQlV75edVS0grDINHfmb-9j-bgA"
+							"value": "{{API_KEY}}"
 						}
 					],
 					"variable": [
@@ -284,7 +284,7 @@
 					"query": [
 						{
 							"key": "api_key",
-							"value": "jAnpK0PWTCpLlkOSciUL_lkpeyi0cICoca1Ahnfl0SEkWRxi7cduwS8CqmraoipG8yvcrSvbxggkqPqMd-uQqyw932JTfnYNhU14_P4J_AfBMP6c6o8tcEIrmTxzYAFlBuYVWZX5MgbjrheiomyX1ewk5r7o9d8sKC5STThO9nxmuwxXDNEE3VsGSQnu4_Tillo5m_bwKVyA3bYN5S_FkSc_yTHO0NuIuEkfRfulNo2X29tYTjbMxwcihvRw_HDbLEsZ7oDbTT_etK2NBiNmXmmASH1LOk8NT8nQOEQlvW2ogpi8sPiqgeqwNSHjQlV75edVS0grDINHfmb-9j-bgA"
+							"value": "{{API_KEY}}"
 						}
 					],
 					"variable": [
