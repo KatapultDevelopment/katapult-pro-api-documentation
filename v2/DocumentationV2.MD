@@ -46,7 +46,7 @@ If the API Key area appears blank, then it is the first time that a key is to be
 
 
 ## Rate limit
-V2 uses the same per-call token charges as V3 and shares the enforced company monthly token limit, but does not have V3’s per-minute token-bucket limit. See [Rate Limits & Tokens](../v3/rate-limits.md) for per-call costs and token-limit details.
+V2 uses the same per-call token charges as V3 and shares both of V3’s token limits: the enforced company monthly token limit and the per-minute token bucket (currently advisory). If you use the same API key with both V2 and V3, both draw from the same bucket. See [Rate Limits & Tokens](../v3/rate-limits.md) for per-call costs and token-limit details.
 
 V2 also incorporates a throttling mechanism which limits the user’s back-to-back calls to the API. Currently, the default timeout has been set to two seconds. What this means is that after the first call to the API, the user must wait two seconds before executing the next call. Currently, the time base for this setting is in seconds with a low end to be equal to one.
 
