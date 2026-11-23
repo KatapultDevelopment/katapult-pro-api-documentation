@@ -20,12 +20,11 @@ info:
 
 
     All requests are authenticated with an API key passed as the `api_key`
-    query parameter. Every response from a route handler includes a `meta`
-    object describing the caller's token-bucket state. See the rate-limits and
-    concepts docs for details:
+    query parameter. Responses include a `meta` object with token state and
+    balances. See the rate-limits and concepts docs for details:
 
 
-    - Rate limits & token bucket: `../rate-limits.md`
+    - Rate Limits & Tokens: `../rate-limits.md`
 
     - Working with attributes: `../concepts/attributes.md`
 
@@ -1451,39 +1450,37 @@ components:
     Meta:
       type: object
       description: >-
-        Token-bucket state after the request. Token accounting is currently
-        advisory: a depleted bucket is not blocked (the request is still
-        served), so treat these values as guidance rather than a hard limit.
+        Token state and balances after the request. The per-minute bucket is
+        currently advisory, but the monthly company token limit is enforced.
       properties:
+        company_tokens_remaining:
+          type: integer
+          description: Tokens the company has left this month, shared across its API keys.
+        company_monthly_token_usage:
+          type: integer
+          description: Company's monthly token usage, included in monthly-limit errors.
+        company_monthly_token_limit:
+          type: integer
+          description: Company's monthly token limit, included in monthly-limit errors.
         token_count:
           type: integer
           description: >-
             Tokens remaining after the request. When the bucket is depleted
             this is `0` and the response also carries `token_warning`, but the
-            request is still served. Extended-access callers are unthrottled,
-            so their count is informational only.
+            request is still served. Extended-access callers skip the bucket's
+            upfront check but their calls are still charged. This field is
+            absent from monthly-limit errors.
         token_warning:
           type: string
           description: >-
             Present only when the token bucket is depleted. Advises that usage
             should be reduced. Because accounting is currently advisory, the
             request was still served rather than rejected.
-        bucket_size:
-          type: integer
-          description: >-
-            Capacity the bucket was refilled to for the current window. Plan the
-            window against this rather than an assumed default, since the size
-            can be reduced while server load is high.
-        throttle_warning:
-          type: string
-          description: >-
-            Present only when the current window's refill was reduced because
-            server load is high, i.e. `bucket_size` is below this key's normal
-            capacity. Advises reducing work this minute; capacity returns on a
-            later refill as load drops.
         last_refill_time:
           type: integer
-          description: Epoch milliseconds of the last token-bucket refill.
+          description: >-
+            Epoch milliseconds of the last token-bucket refill. This field is
+            absent from monthly-limit errors.
     SuccessEnvelope:
       type: object
       required: [status, data, meta]
@@ -1536,6 +1533,7 @@ components:
             - forbidden
             - job_owner_required
             - token_rate_limit_exceeded
+            - company_monthly_token_limit_exceeded
             - server_busy
             - extended_access_required
             - internal_error

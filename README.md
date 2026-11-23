@@ -7,8 +7,9 @@ Welcome to the Katapult Pro API!
 - [Katapult Pro API v2](v2/DocumentationV2.MD) — legacy (supported)
 - [Katapult Pro API v1](https://documenter.getpostman.com/view/9081167/SVtVV93W) — legacy
 
-New integrations should use **v3**. It adds a token-based rate limit with
-published per-call costs, consistent response/error envelopes, granular
+New integrations should use **v3**. It adds a per-minute token bucket and
+publishes per-call costs; v2 and v3 share token charges and the enforced company
+monthly limit. v3 also adds consistent response/error envelopes, granular
 per-entity endpoints, new resources (photo elements, calibration anchors,
 traces, models, users), and a machine-readable OpenAPI spec. See the
 [v3 docs](v3/README.md).
@@ -62,7 +63,7 @@ Responses from the API will be in JSON format and contain information about how 
 | 400 | Bad Request - The request was invalid or malformed. |
 | 401 | Unauthorized - The request did not include a valid API key or the API key is invalid. |
 | 404 | Not Found - The requested resource was not found. |
-| 429 | Rate Limit Exceeded - The API key used for the request has exceeded the rate limit for the API. Increase the delay between your requests to avoid this error. |
+| 429 | Too Many Requests - Inspect the error type. In v2/v3, `server_busy` includes a `Retry-After` interval; `company_monthly_token_limit_exceeded` means stop until the monthly limit resets. Per-minute token-bucket depletion is currently advisory. |
 | 500 | Internal Server Error - An error occurred on the server while processing the request. |
 
 ### Getting IDs from Katapult Pro

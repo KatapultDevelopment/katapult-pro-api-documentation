@@ -6,9 +6,10 @@
 > v2 remains supported as a legacy version but is no longer receiving new
 > features. Compared with v2, v3 adds:
 >
-> - A **token-bucket rate limit** with published per-call costs and a token
->   balance (`meta`) on every response — instead of v2's fixed throttle — so you
->   can budget and pace your requests. See [Rate limits & the token bucket](../v3/rate-limits.md).
+> - A **per-minute token bucket** with a token balance (`meta`) — instead of
+>   v2's fixed throttle. Both versions use the same per-call token charges and
+>   share the enforced company monthly token limit. See
+>   [Rate Limits & Tokens](../v3/rate-limits.md).
 > - **Consistent success/error envelopes** (`status` / `data` / `meta`, with
 >   typed error `type`s) that are easier and more reliable to parse.
 > - **Granular per-entity REST endpoints** for nodes, connections, sections, and
@@ -45,7 +46,9 @@ If the API Key area appears blank, then it is the first time that a key is to be
 
 
 ## Rate limit
-The Katapult Pro API V2 incorporates a throttling mechanism which limits the user’s back-to-back calls to the API. Currently, the default timeout has been set to two seconds. What this means is that after the first call to the API, the user must wait two seconds before executing the next call. Currently, the time base for this setting is in seconds with a low end to be equal to one. 
+V2 uses the same per-call token charges as V3 and shares both of V3’s token limits: the enforced company monthly token limit and the per-minute token bucket (currently advisory). If you use the same API key with both V2 and V3, both draw from the same bucket. See [Rate Limits & Tokens](../v3/rate-limits.md) for per-call costs and token-limit details.
+
+V2 also incorporates a throttling mechanism which limits the user’s back-to-back calls to the API. Currently, the default timeout has been set to two seconds. What this means is that after the first call to the API, the user must wait two seconds before executing the next call. Currently, the time base for this setting is in seconds with a low end to be equal to one.
 
 
 ## Baseline Url
@@ -78,7 +81,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2?api_key={{API_KEY}}',
   headers: { },
   data : data
 };
@@ -118,7 +121,7 @@ var axios = require('axios');
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/users?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/users?api_key={{API_KEY}}',
   headers: { }
 };
 
@@ -198,7 +201,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs?orderByChild=name&equalTo=Test Job&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc7096789b515c2a03e4abc2174e-89Ee5cd5d4a656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c91d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54decaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a61e8d1-b01a53b44a389643f408b93333d79afbb4a-f1e944ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs?orderByChild=name&equalTo=Test Job&api_key={{API_KEY}}',
   headers: { },
   data : data
 };
@@ -250,7 +253,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/updatedjobslist?fromDate=11/28/23&useToday=true&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/updatedjobslist?fromDate=11/28/23&useToday=true&api_key={{API_KEY}}',
   headers: { },
   data : data
 };
@@ -314,7 +317,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/updatednodeslist?fromDate=11/28/23&useToday=true&jobId=-OKRkT1ZRf9rSiF8qiwL&attribute=field_completed&changed=true&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/updatednodeslist?fromDate=11/28/23&useToday=true&jobId=-OKRkT1ZRf9rSiF8qiwL&attribute=field_completed&changed=true&api_key={{API_KEY}}',
   headers: { },
   data : data
 };
@@ -395,7 +398,7 @@ var data = '';
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'https://katapultpro.com/api/v2/attributeTracking/-NbLE2N_uhApTcVotF4X?fromDate=11/28/23&toDate=12/23/24&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'https://katapultpro.com/api/v2/attributeTracking/-NbLE2N_uhApTcVotF4X?fromDate=11/28/23&toDate=12/23/24&api_key={{API_KEY}}',
   headers: { },
   data : data
 };
@@ -493,7 +496,7 @@ const axios = require('axios');
 let config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6?api_key={{API_KEY}}',
   headers: { }
 };
 
@@ -722,7 +725,7 @@ var axios = require('axios');
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6/nodes?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-N9lrzHqQm7pvCJoj5w6/nodes?api_key={{API_KEY}}',
   headers: { }
 };
 
@@ -854,7 +857,7 @@ var axios = require('axios');
 var config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NgVTYY_sWEyFzpLHXWT/photoURL/015eb1ba-e8c9-4824-a721-904785q205vs?file_size=extra_large&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NgVTYY_sWEyFzpLHXWT/photoURL/015eb1ba-e8c9-4824-a721-904785q205vs?file_size=extra_large&api_key={{API_KEY}}',
   headers: { }
 };
 
@@ -897,7 +900,7 @@ var axios = require("axios");
 var config = {
   method: "get",
   maxBodyLength: Infinity,
-  url: "katapultpro.com/api/v2/company-data/pages?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc7096789b515c2a03e4abc2174e-89Ee5cd5d4a656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c91d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54decaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a61e8d1-b01a53b44a389643f408b93333d79afbb4a-f1e944ab98312ce836a1a3a3",
+  url: "katapultpro.com/api/v2/company-data/pages?api_key={{API_KEY}}",
   headers: {}
 };
 
@@ -1123,7 +1126,7 @@ var data = JSON.stringify({
 var config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes?api_key={{API_KEY}}',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -1219,7 +1222,7 @@ var data = JSON.stringify({
 var config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'katapultpro.com/api/v2/jobs?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+    url: 'katapultpro.com/api/v2/jobs?api_key={{API_KEY}}',
     headers: { 
           'Content-Type': 'application/json'
     },
@@ -1296,7 +1299,7 @@ var data = JSON.stringify({
 var config = {
   method: 'patch',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes/-NEa1Q0IXKB2N5x_UZvL?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/nodes/-NEa1Q0IXKB2N5x_UZvL?api_key={{API_KEY}}',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -1424,7 +1427,7 @@ var data = 'image.jpg'
 var config = {
         method: 'put',
         maxBodyLength: Infinity,
-        url: 'katapultpro.com/api/v2/jobs/-OKRkT1ZRf9rSiF8qiwL/connections/-OKRkZFYIO3L8x7rftqm/sections/midpoint_section/photos?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+        url: 'katapultpro.com/api/v2/jobs/-OKRkT1ZRf9rSiF8qiwL/connections/-OKRkZFYIO3L8x7rftqm/sections/midpoint_section/photos?api_key={{API_KEY}}',
         headers: { 
           'Content-Type': 'image/jpeg'
         },
@@ -1502,7 +1505,7 @@ var data = JSON.stringify({
 var config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&api_key={{API_KEY}}',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -1578,7 +1581,7 @@ var data = JSON.stringify({
 var config = {
   method: 'patch',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&marker_key=-M2coEssj_C2cVRKilDl&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&marker_key=-M2coEssj_C2cVRKilDl&api_key={{API_KEY}}',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -1632,7 +1635,7 @@ var axios = require('axios');
 var config = {
   method: 'delete',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&marker_key=-M2coEssj_C2cVRKilDl&api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-NEHqS0tfoLCECdgOAh-/photos/4720d250-ebef-45d4-bb07-d64420e34435?marker_type=wire&marker_key=-M2coEssj_C2cVRKilDl&api_key={{API_KEY}}',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -1690,7 +1693,7 @@ var axios = require('axios');
 var config = {
   method: 'put',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/-N_9o3H3_PmKWs88JDfz/archive?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/-N_9o3H3_PmKWs88JDfz/archive?api_key={{API_KEY}}',
   headers: { }
 };
 
@@ -1734,7 +1737,7 @@ var axios = require('axios');
 var config = {
   method: 'put',
   maxBodyLength: Infinity,
-  url: 'katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+  url: 'katapultpro.com/api/v2/jobs/:jobId/unarchive?api_key={{API_KEY}}',
   headers: { }
 };
 
@@ -1829,7 +1832,7 @@ var axios = require(‘axios’);
 var config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: 'workflow-management.katapultpro.com/api/v2/application/getAppPrompts/-OwmIsbn3idk2IkOksLs?api_key=a234a28d_C6745ee8ca951127ceb398d089c151e041c4414babc709b5152a03e4abc2174e-89Ee5cd5da656eb225C-85F1738344453a155727c21-699fc93072d608a3f4a248cB9e5faa621c1d8e0b7d52497e4f6da73d22ff46c20ef8deb00b47796b4926a6d09zC28cd7367fde69452acfa54ecaf-053caa95_3f9b1bd_4198da7d4248bfdc825ac3_0a618d1-b01a53b44a389643f408b93333d79afbb4a-f1e4ab98312ce836a1a3a3',
+        url: 'workflow-management.katapultpro.com/api/v2/application/getAppPrompts/-OwmIsbn3idk2IkOksLs?api_key={{API_KEY}}',
         headers: { 
           'Content-Type': ‘application/json'
         },

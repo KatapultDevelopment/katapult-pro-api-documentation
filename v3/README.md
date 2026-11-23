@@ -163,7 +163,7 @@ in [Quick start](#quick-start) above.
 
 ## Concepts
 
-- [Rate limits & the token bucket](rate-limits.md) — average token costs, refills, and
+- [Rate Limits & Tokens](rate-limits.md) — token costs, limits, refills, and
   best practices for heavy scripts.
 - [Working with attributes](concepts/attributes.md)
 - [Complex & codependent parameters](concepts/complex-parameters.md) — worked examples for tricky field combinations (photo association, the attribute trio, `make_midpoint`, `onlyIfExists`, model `paths`).

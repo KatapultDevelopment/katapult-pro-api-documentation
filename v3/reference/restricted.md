@@ -7,10 +7,11 @@ call them. Attempting to without extended access returns HTTP `403` with type
 
 ## Extended API access
 
-Extended API access exempts calls from token metering — these callers are
-**unthrottled** and their traffic is never limited — and unlocks the raw write
-endpoint and full model fetches (see below). Their `meta.token_count` is
-informational only. It is granted only when **both** are true:
+Extended API access skips the per-minute bucket's upfront check, so these
+callers do not receive a bucket warning. Calls are still charged and remain
+subject to the monthly company token limit and `server_busy`. Extended API
+access also unlocks the raw write endpoint and full model fetches (see below).
+It is granted only when **both** are true:
 
 - The caller's company has the required feature flag enabled.
 - The caller's user has the `extended_api_access` role.
@@ -65,7 +66,7 @@ supported way to read model data.
 
 Because extended access is off in production, request `?paths=...` on
 `katapultpro.com`. See [Models](models.md) and
-[Rate limits & the token bucket](../rate-limits.md#average-token-costs).
+[Rate Limits & Tokens](../rate-limits.md#token-costs).
 
 ## User active state
 

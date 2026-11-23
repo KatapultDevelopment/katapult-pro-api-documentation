@@ -30,10 +30,10 @@ languages, and the [guides](../../guides/) for end-to-end workflows.
    ```
 
 Each example prints the HTTP status and the full response body, so you can see
-the returned `data` and the token `meta` (your remaining `token_count` and
-`last_refill_time`). On an error it prints the HTTP status and the error body so
-the error `type` is visible. See
-[Rate limits & the token bucket](../../rate-limits.md).
+the returned `data` and token `meta` (`token_count`, `last_refill_time`, and
+`company_tokens_remaining` when present). On an error it prints the HTTP status
+and the error body so the error `type` is visible. See
+[Rate Limits & Tokens](../../rate-limits.md).
 
 ## Photo upload examples need `sample.jpg`
 

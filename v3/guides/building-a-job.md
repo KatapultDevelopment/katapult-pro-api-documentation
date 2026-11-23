@@ -8,12 +8,14 @@ response is trimmed to the fields that matter.
 Throughout, substitute your own `YOUR_API_KEY` and copy the ids returned by each
 step into the next.
 
-> **Token costs.** Each call deducts tokens from your bucket, and the cost
-> **scales with how much data it reads or writes** — writes and broad reads cost
-> more than a small single read. Metering is currently advisory (a depleted
-> bucket is not blocked; `meta` carries a `token_warning`). Read
-> `meta.token_count` on each response to track your balance, and see
-> [Rate limits & the token bucket](../rate-limits.md) for pacing guidance.
+> **Token costs and limits.** Each call deducts tokens, and the cost **scales
+> with how much data it reads or writes** — writes and broad reads cost more
+> than a small single read. The per-minute bucket is currently advisory: a
+> depleted bucket does not block the call, but `meta` carries a
+> `token_warning`. The monthly company limit is enforced, so these successful
+> examples assume your company has tokens remaining. Read `meta` on each
+> response to track both balances. See [Rate Limits & Tokens](../rate-limits.md)
+> for details.
 
 ## 1. Create a job
 
@@ -39,7 +41,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs?api_key=YOUR_API_KEY" \
 {
   "status": "success",
   "data": { "id": "-O_jobAbc123", "name": "API Walkthrough Job" },
-  "meta": { "token_count": 99974, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99974,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873120
+  }
 }
 ```
 
@@ -67,7 +73,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/nodes?api_key=YOU
 {
   "status": "success",
   "data": { "id": "-O_nodeA1", "latitude": 42.8864, "longitude": -78.8784 },
-  "meta": { "token_count": 99949, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99949,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873095
+  }
 }
 ```
 
@@ -87,7 +97,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/nodes?api_key=YOU
 {
   "status": "success",
   "data": { "id": "-O_nodeB2", "latitude": 42.8870, "longitude": -78.8770 },
-  "meta": { "token_count": 99926, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99926,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873072
+  }
 }
 ```
 
@@ -116,7 +130,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/connections?api_k
     "node_id_1": "-O_nodeA1",
     "node_id_2": "-O_nodeB2"
   },
-  "meta": { "token_count": 99903, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99903,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873049
+  }
 }
 ```
 
@@ -144,7 +162,11 @@ curl -X POST "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/connections/-O_co
 {
   "status": "success",
   "data": { "id": "-O_sectionM", "latitude": 42.8867, "longitude": -78.8777 },
-  "meta": { "token_count": 99882, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99882,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873028
+  }
 }
 ```
 
@@ -165,7 +187,11 @@ curl "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/nodes?api_key=YOUR_API_KE
     { "id": "-O_nodeA1", "latitude": 42.8864, "longitude": -78.8784 },
     { "id": "-O_nodeB2", "latitude": 42.8870, "longitude": -78.8770 }
   ],
-  "meta": { "token_count": 99880, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99880,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873026
+  }
 }
 ```
 
@@ -189,7 +215,11 @@ curl "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/connections/-O_connXY?api
       "-O_sectionM": { "latitude": 42.8867, "longitude": -78.8777 }
     }
   },
-  "meta": { "token_count": 99878, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99878,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873024
+  }
 }
 ```
 
@@ -205,7 +235,11 @@ curl "https://katapultpro.com/api/v3/jobs/-O_jobAbc123/connections/-O_connXY/sec
   "data": [
     { "id": "-O_sectionM", "latitude": 42.8867, "longitude": -78.8777 }
   ],
-  "meta": { "token_count": 99877, "last_refill_time": 1718450000000 }
+  "meta": {
+    "token_count": 99877,
+    "last_refill_time": 1718450000000,
+    "company_tokens_remaining": 4873023
+  }
 }
 ```
 
@@ -221,5 +255,5 @@ section on that span — all created and verified through the API.
 - [Jobs reference](../reference/jobs.md), plus
   [Nodes](../reference/nodes.md), [Connections](../reference/connections.md),
   and [Sections](../reference/sections.md) for the full endpoint contracts.
-- [Rate limits & the token bucket](../rate-limits.md) — pace bulk writes so a
-  large build stays within the per-minute budget.
+- [Rate Limits & Tokens](../rate-limits.md) — pace bulk writes to work within
+  the per-minute bucket and check the company monthly balance before large jobs.

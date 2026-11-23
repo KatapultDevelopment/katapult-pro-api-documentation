@@ -19,15 +19,19 @@ type EntityResponse = {
   meta: {
     token_count: number,       // Tokens remaining after the request
     last_refill_time: number,  // Epoch ms of the last token refill
+    company_tokens_remaining?: number, // Company's remaining monthly tokens
     token_warning?: string,    // Present only when the bucket is depleted
   }
 }
 ```
 
 > Callers with [extended API access](../reference/restricted.md#extended-api-access)
-> are unthrottled, so their `token_count` is informational only. Token metering
-> is currently **advisory**: a depleted bucket is **not** blocked — the request
-> is still served and `meta` carries a `token_warning`.
+> skip the per-minute bucket's upfront check and do not receive a
+> `token_warning`, but their calls are still charged and subject to the monthly
+> company token limit and `server_busy`.
+
+`company_tokens_remaining` is shared across the company's API keys. The monthly
+company token limit is enforced; the per-minute bucket is currently advisory.
 
 For a list, `data` is an array of resources:
 
@@ -35,7 +39,12 @@ For a list, `data` is an array of resources:
 type ListResponse = {
   status: "success",
   data: Array<{ id: string, /* ...fields */ }>,
-  meta: { token_count: number, last_refill_time: number, token_warning?: string }
+  meta: {
+    token_count: number,
+    last_refill_time: number,
+    company_tokens_remaining?: number,
+    token_warning?: string
+  }
 }
 ```
 
@@ -44,16 +53,27 @@ empty `data` object.
 
 ## Error
 
-Errors thrown inside a route handler use the standard error envelope:
+Standard API errors use the standard error envelope:
 
 ```ts
 type ErrorResponse = {
   status: "error",
   message: string, // Human-readable message
   type: string,    // Machine-readable type (see table below)
-  meta: { token_count: number, last_refill_time: number, token_warning?: string }
+  meta: {
+    token_count?: number,
+    last_refill_time?: number,
+    company_tokens_remaining?: number,
+    company_monthly_token_usage?: number,
+    company_monthly_token_limit?: number,
+    token_warning?: string
+  }
 }
 ```
+
+The `company_monthly_token_limit_exceeded` error uses this envelope, but its
+`meta` contains the company usage, limit, and remaining-token fields rather than
+the per-minute `token_count` and `last_refill_time`.
 
 | HTTP | `type` | Cause |
 | --- | --- | --- |
@@ -72,6 +92,7 @@ type ErrorResponse = {
 | 404 | `not_found` | The requested resource does not exist. |
 | 429 | `server_busy` | The API is shedding load during high database pressure. Retry after the `Retry-After` interval. |
 | 429 | `token_rate_limit_exceeded` | The token bucket was depleted. Metering is currently **advisory** — depletion returns a `token_warning` in `meta` (HTTP `200`) instead; this error will be returned once enforcement is enabled. See [rate limits](../rate-limits.md). |
+| 429 | `company_monthly_token_limit_exceeded` | The company's monthly token limit has been reached. Do not retry until the limit resets on the 1st of the month; its `meta` contains monthly usage fields, not per-minute bucket state. See [monthly token limit](../rate-limits.md#monthly-token-limit). |
 | 500 | `internal_error` | Unexpected server error. |
 
 ## Authentication & middleware errors
