@@ -155,16 +155,22 @@ Key rules:
 
 ## Monthly token limit
 
-Each company has a monthly token limit of **1,000,000 tokens per license**:
+Each company has a free allocation of 5,000,000 tokens each month. Usage beyond this free tier is subject to future usage-based pricing, coming in 2027.
 
-- The limit is **shared by all of your company's API keys**, across v2 and v3.
+- A company's monthly token limit is **shared by all of your company's API keys**, across v2 and v3.
 - Usage **resets on the 1st of each month** (midnight Eastern Time).
 - Usage and limits are tracked **separately on each server**, based on your company's license count
   on that server.
 - Every charged response reports your remaining balance in
   [`company_tokens_remaining`](#reading-your-token-state).
 
-Company admins are emailed when usage reaches **75%, 90%, and 100%** of the limit.
+### Usage alert emails
+
+Your company's admins, and every user in your company with API access, are emailed when your
+company's usage:
+
+- passes the **5,000,000-token free tier**, and
+- reaches **90%** and **100%** of the monthly token limit.
 
 ### When the monthly limit is reached
 
@@ -176,8 +182,8 @@ Once your company's usage reaches its limit, **requests are rejected** until the
   "message": "Your company's monthly API token limit has been reached. The limit resets at the start of next month (Eastern Time).",
   "type": "company_monthly_token_limit_exceeded",
   "meta": {
-    "company_monthly_token_usage": 2000431,
-    "company_monthly_token_limit": 2000000,
+    "company_monthly_token_usage": 12000431,
+    "company_monthly_token_limit": 12000000,
     "company_tokens_remaining": 0
   }
 }
